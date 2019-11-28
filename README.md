@@ -4,13 +4,19 @@
 
 - #### [欢迎关注我的 CSDN 博客](https://blog.csdn.net/tefuirnever)
 
-## C++ Primer Plus 6th answers【C++ Primer Plus(第六版)编程练习答案】
+---
+
+## C++ Primer Plus 6th 源代码
+
+---
+
+## C++ Primer Plus 6th 课后题
 
 ## 全部本人所写，仅供参考
 
 ## 目录
 
-- [第三章 - 处理数据](https://github.com/TeFuirnever/Cpp-Primer-Plus/tree/master/Ch03-%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE)
+- [第三章 - 处理数据](https://github.com/TeFuirnever/Cpp-Primer-Plus/tree/master/C%2B%2Bprimer-plus%E8%AF%BE%E5%90%8E%E9%A2%98/Ch03-%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE)
 - 第四章 - 复合类型
 - 第五章 - 循环和关系表达式
 - 第六章 - 分支语句和逻辑运算符
