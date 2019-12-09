@@ -12,7 +12,7 @@
 
 ## C++ Primer Plus 6th 复习题
 
-- [源代码](https://github.com/TeFuirnever/Cpp-Primer-Plus/blob/master/C%2B%2BPrimerPlus%E7%AC%AC%E5%85%AD%E7%89%88%E5%A4%8D%E4%B9%A0%E9%A2%98.pdf)
+- [pdf 文档](https://github.com/TeFuirnever/Cpp-Primer-Plus/blob/master/C%2B%2BPrimerPlus%E7%AC%AC%E5%85%AD%E7%89%88%E5%A4%8D%E4%B9%A0%E9%A2%98.pdf)
 
 ---
 
