@@ -1,0 +1,586 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《C++ Primer》学习笔记（二）：变量和基本类型</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="Chttpsblogcsdnnettefuirneverarticlecategory9342309_0"></a><a href="https://blog.csdn.net/tefuirnever/article/category/9342309">专栏C++学习笔记</a></h1>
+<p>《C++ Primer》学习笔记/习题答案 总目录</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100700212">https://blog.csdn.net/TeFuirnever/article/details/100700212</a></li>
+</ul>
+<p>——————————————————————————————————————————————————————</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100881196">《C++ Primer》习题参考答案：第2章 - 变量和基本类型</a></li>
+</ul>
+<p></p><div class="toc"><h3>文章目录</h3><ul><li><a href="#Chttpsblogcsdnnettefuirneverarticlecategory9342309_0">专栏C++学习笔记</a></li><li><a href="#_11">变量和基本类型</a></li><ul><li><a href="#1_21">1、基本内置类型</a></li><ul><ul><li><a href="#1_23">1）算数类型</a></li><li><a href="#2_53">2）类型转换</a></li><li><a href="#3_88">3）字面值常量</a></li><ul><li><a href="#1__92">1_整型字面值</a></li><li><a href="#2__116">2_浮点型字面值</a></li><li><a href="#3__131">3_字符字面值和字符串字面值</a></li><li><a href="#4__151">4_非打印字符的转义序列</a></li><li><a href="#5__175">5_多行字面值</a></li><li><a href="#6__205">6_特殊情况</a></li></ul></ul></ul><li><a href="#2_220">2、变量</a></li><ul><ul><li><a href="#1_222">1）变量定义</a></li><li><a href="#2_265">2）变量声明和定义的关系</a></li><li><a href="#3_284">3）变量名</a></li><li><a href="#4_314">4）名字的作用域</a></li></ul></ul><li><a href="#3_343">3、复合类型</a></li><ul><ul><li><a href="#1_345">1）引用</a></li><li><a href="#2_371">2）指针（难点）</a></li><li><a href="#3_469">3）理解复合类型的声明</a></li></ul></ul><li><a href="#4const_517">4、const限定符</a></li><ul><ul><li><a href="#1const_541">1）const的引用</a></li><li><a href="#2const_564">2）指针和const</a></li><li><a href="#3const_588">3）顶层const</a></li><li><a href="#4constexpr_620">4）constexpr和常量表达式</a></li></ul></ul><li><a href="#5_665">5、处理类型</a></li><ul><ul><li><a href="#1_666">1）类型别名</a></li><li><a href="#2auto_683">2）auto类型说明符</a></li><li><a href="#3decltype_740">3）decltype类型指示符</a></li></ul></ul><li><a href="#6_776">6、自定义数据结构</a></li><li><a href="#_811">参考文章</a></li><li><a href="#_814">补充</a></li></ul></ul></div><p></p>
+<h1><a id="_11"></a>变量和基本类型</h1>
+<p>类型是所有程序的基础。它告诉了我们，数据代表什么意思以及可以对数据执行哪些操作。那么C++ 都有哪些类型呢？</p>
+<p>C++ 语言定义了几种基本类型：<strong>字符型</strong>、<strong>整型</strong>、<strong>浮点型</strong> 等；除此之外，还提供了可用于 <strong>自定义数据类型</strong> 的机制，标准库正是利用这些机制定义了许多更复杂的类型，比如 <strong>可变长字符串 string</strong>、<strong>vector</strong> 等；最后，还能修改已有的类型以形成 <strong>复合类型</strong>。</p>
+<p>类型确定了数据和操作在程序中的意义。在第一章（<a href="https://blog.csdn.net/TeFuirnever/article/details/100729935">《C++ Primer》学习笔记（一）：快速入门</a>）已经看到，如下的语句 <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mo>=</mo><mi>i</mi><mo>+</mo><mi>j</mi><mo separator="true">;</mo></mrow><annotation encoding="application/x-tex">i =i +j;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.65952em; vertical-align: 0em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.74285em; vertical-align: -0.08333em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span><span class="mpunct">;</span></span></span></span></span> 有不同的含义，具体含义取决于 i 和 j 的类型。如果 i 和 j 都是整型，则这条语句表示一般的算术“+”运算；如果 i 和 j 都是 Sales_item 对象，则这条语句是将这两个对象的组成成分分别加起来。</p>
+<p>C++ 中对类型的支持是非常广泛的：语言本身定义了一组基本类型和修改已有类型的方法，还提供了一组特征用于自定义类型。详细的看下面：</p>
+<h2><a id="1_21"></a>1、基本内置类型</h2>
+<h4><a id="1_23"></a>1）算数类型</h4>
+<p>C++ 定义了一组表示 <strong>整数</strong>、<strong>浮点数</strong>、<strong>单个字符</strong> 和 <strong>布尔值</strong> 的算术类型，另外还定义了一种称为 <strong>void</strong> 的特殊类型。</p>
+<p><strong>算术类型的存储空间依机器而定</strong>。这里的存储空间是指用来表示该类型的 <strong>位（bit）数</strong>。C++ 标准规定了每个算术类型的最小存储空间，但它并不阻止编译器使用更大的存储空间。</p>
+<p>下表列出了内置算术类型及其对应的最小存储空间。<br>
+<img src="https://img-blog.csdnimg.cn/2019091509000674.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+整数、字符和布尔值合称为 <strong>整型</strong>。</p>
+<p>字符类型有两种：<code>char</code> 和 <code>wchar_t</code>。<code>char</code> 类型通常是单个机器字节（byte），可以存放机器基本字符集中任意字符对应的数值。而 <code>wchar_t</code> 可以存放机器最大扩展字符集中的任意一个字符。</p>
+<p><code>bool</code> 类型的取值是真值 <code>true</code> 或假值 <code>false</code>。0 值算术类型代表 <code>false</code>，任何非 0 的值都代表 <code>true</code>。</p>
+<p>在整型类型大小方面，C++ 规定 <code>short</code> ≤ <code>int</code> ≤ <code>long</code> ≤ <code>long long</code>（<code>long long</code> 是C++11定义的类型）。</p>
+<p>整型可以是 <strong>带符号的（signed）</strong>，也可以是 <strong>无符号的（unsigned）</strong>。<code>int</code>、<code>short</code> 和 <code>long</code> 都默认为带符号型。无符号型必须指定 <code>unsigned</code>，比如 <code>unsigned long</code>。<code>unsigned int</code> 类型可以简写为 <code>unsigned</code>。</p>
+<p>字符型分为<code>char</code>、<code>signed char</code> 和 <code>unsigned char</code> 三种，但是表现形式只有带符号和无符号两种。类型 <code>char</code> 和 <code>signed char</code> 并不一样， <code>char</code>的具体形式由编译器（compiler）决定。</p>
+<p>浮点型可表示 <strong>单精度（single-precision）</strong>、<strong>双精度（double-precision）</strong> 和 <strong>扩展精度（extended-precision）</strong> 值，分别对应 <code>float</code>、<code>double</code> 和 <code>long double</code> 类型。</p>
+<p><strong>void</strong> 类型没有对应的值，仅用在有限的一些情况下，通常用作无返回值函数的返回类型。</p>
+<p>如何选择算数类型：</p>
+<ul>
+<li>当明确知晓数值不可能为负时，应该使用无符号类型。</li>
+<li>使用 <code>int</code> 执行整数运算，不易出错，如果数值超过了 <code>int</code> 的表示范围，应该使用 <code>long long</code> 类型。</li>
+<li>在算数表达式中不要使用 <code>char</code> 和 <code>bool</code> 类型。如果需要使用一个不大的整数，应该明确指定它的类型是 <code>signed char</code> 还是<code>unsigned char</code>。</li>
+<li>执行浮点数运算时建议使用 <code>double</code> 类型，基本上不会有错。</li>
+</ul>
+<h4><a id="2_53"></a>2）类型转换</h4>
+<p>进行类型转换时，类型所能表示的值的范围决定了转换的过程。</p>
+<ul>
+<li>把非布尔类型的算术值赋给布尔类型时，初始值为0则结果为 <code>false</code>，否则结果为 <code>true</code>。</li>
+<li>把布尔值赋给非布尔类型时，初始值为 <code>false</code> 则结果为0，初始值为 <code>true</code> 则结果为1。</li>
+<li>把浮点数赋给整数类型时，进行近似处理，结果值仅保留浮点数中的整数部分。</li>
+<li>把整数值赋给浮点类型时，小数部分记为0。如果该整数所占的空间超过了浮点类型的容量，精度可能有损失。</li>
+<li>赋给无符号类型一个超出它表示范围的值时，结果是初始值对无符号类型表示数值总数（8比特大小的 <code>unsigned char</code> 能表示的数值总数是256）取模后的余数。</li>
+<li>赋给带符号类型一个超出它表示范围的值时，结果是 <strong>未定义的（undefined）</strong>。</li>
+</ul>
+<p>避免无法预知和依赖于实现环境的行为。</p>
+<p>无符号数不会小于0这一事实，关系到循环的写法。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span> u <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> u <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>u<span class="token punctuation">)</span>  <span class="token comment">// 错误：永远不能小于0；条件总是成功的</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>预期是0的时候停止。<br>
+<img src="https://img-blog.csdnimg.cn/20190925110046366.png" alt="在这里插入图片描述"><br>
+然而并没有，这是因为当 <em>u</em> 等于0时，<em>–u</em> 的结果将会是4294967295（<span class="katex--inline"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{32} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.897438em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">1</span></span></span></span></span>），循环仍然会继续。</p>
+<p>一种解决办法是用 <code>while</code> 语句来代替 <code>for</code> 语句，前者可以在输出变量前先减去1，同时还是先判断条件再输出结果。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">unsigned</span> u <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">;</span>  <span class="token comment">//在要打印的第一个元素之后开始循环</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>u <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    <span class="token operator">--</span>u<span class="token punctuation">;</span>  		 <span class="token comment">//首先递减，以便最后一次迭代将打印0</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190925110203411.png" alt="在这里插入图片描述"><br>
+<strong>注意</strong>：不要混用带符号类型和无符号类型。</p>
+<h4><a id="3_88"></a>3）字面值常量</h4>
+<p>以 <code>0</code> 开头的整数代表 <strong>八进制（octal）数</strong>，以 <code>0x</code> 或 <code>0X</code> 开头的整数代表 <strong>十六进制（hexadecimal）数</strong>。在C++14中，<code>0b</code> 或 <code>0B</code> 开头的整数代表 <strong>二进制（binary）数</strong>。</p>
+<h5><a id="1__92"></a>1_整型字面值</h5>
+<p>整型字面值具体的数据类型由它的值和符号决定，默认为 <code>int</code> 或 <code>long</code> 类型。</p>
+<ul>
+<li>在数值后面加 <code>L</code> 或者 <code>l</code> 指定常量为 <code>long</code> 类型。（定义长整型时，应该使用大写字母 L。<strong>小写字母 l 很容易和数值 1 混淆。</strong>）</li>
+<li>在数值后面加 <code>U</code> 或 <code>u</code> 定义 <code>unsigned</code> 类型。</li>
+<li>同时加 <code>L</code> 和 <code>U</code> 就能够得到 <code>unsigned long</code> 类型的字面值常量。</li>
+</ul>
+<pre><code class="prism language-cpp"><span class="token number">128u</span>    <span class="token comment">/* unsigned */</span>
+<span class="token number">024UL</span>   <span class="token comment">/* unsigned long*/</span>
+<span class="token number">1L</span> 	 	<span class="token comment">/* long */</span>
+<span class="token number">8Lu</span> 	<span class="token comment">/* unsigned long*/</span>
+</code></pre>
+<hr>
+<p>C++14 新增了单引号 <code>'</code> 形式的数字分隔符。数字分隔符不会影响数字的值，但可以通过分隔符将数字分组，使数值读写更容易。</p>
+<pre><code class="prism language-c"><span class="token comment">// 按照书写形式，每3位分为一组</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">0</span>B1'<span class="token number">101</span><span class="token punctuation">;</span>   <span class="token comment">// 输出"13"</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token string">'100'</span><span class="token number">000</span><span class="token punctuation">;</span> <span class="token comment">// 输出"1100000"</span>
+</code></pre>
+<hr>
+<h5><a id="2__116"></a>2_浮点型字面值</h5>
+<p>浮点型字面值默认是一个 <code>double</code>。</p>
+<ul>
+<li>在数值的后面加上 F 或 f 表示单精度。</li>
+</ul>
+<pre><code class="prism language-cpp"><span class="token number">3.14159F</span>
+<span class="token number">.001f</span>
+<span class="token number">12.345L</span>
+<span class="token number">0.</span>
+<span class="token number">3.14159E0f</span>
+<span class="token number">1E-3F</span>
+<span class="token number">1.2345E1L</span>
+<span class="token number">0e0</span>
+</code></pre>
+<h5><a id="3__131"></a>3_字符字面值和字符串字面值</h5>
+<p>由单引号括起来的一个字符称为 <code>char</code> 型字面值，双引号括起来的零个或多个字符称为字符串字面值。</p>
+<ul>
+<li>可打印的字符型字面值通常用一对单引号来定义 <code>char</code> 类型，在字符字面值前加 <code>L</code> 就能够得到 <code>wchar_t</code> 类型的宽字符字面值。</li>
+</ul>
+<pre><code class="prism language-c">std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'a'</span> 	
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'2'</span> 	
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">','</span> 	
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">' '</span> <span class="token comment">// blank</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> L<span class="token string">'a'</span>
+</code></pre>
+<ul>
+<li>字符串字面值的类型是由常量字符构成的数组（array）。为了兼容 C 语言，C++ 中所有的字符串字面值都由编译器自动在末尾添加一个空字符 <code>'\0'</code>，因此字符串字面值的实际长度要比它的内容多一位。</li>
+</ul>
+<pre><code class="prism language-c">std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello World!"</span> 				<span class="token comment">// 文字简单字符串</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">""</span> 							<span class="token comment">// 文本空字符串</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"\nCC\toptions\tfile.[cC]\n"</span> 	<span class="token comment">// 文字字符串 using newlines and tabs</span>
+</code></pre>
+<h5><a id="4__151"></a>4_非打印字符的转义序列</h5>
+<p>非打印字符的转义序列，即不可显示的字符，都以反斜线符号开始。<br>
+<img src="https://img-blog.csdnimg.cn/20190916101843258.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<pre><code class="prism language-c">\<span class="token number">7</span> <span class="token punctuation">(</span>bell<span class="token punctuation">)</span> 	
+\<span class="token number">12</span> <span class="token punctuation">(</span>newline<span class="token punctuation">)</span> 	
+\<span class="token number">40</span> <span class="token punctuation">(</span>blank<span class="token punctuation">)</span>
+\<span class="token number">0</span> <span class="token punctuation">(</span>null<span class="token punctuation">)</span> 	
+\<span class="token number">062</span> <span class="token punctuation">(</span><span class="token string">'2'</span><span class="token punctuation">)</span> 		
+\<span class="token number">115</span> <span class="token punctuation">(</span><span class="token string">'M'</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190926102655538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<pre><code class="prism language-c">std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>      <span class="token comment">// prints a newline</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"\tHi!\n"</span><span class="token punctuation">;</span> <span class="token comment">// prints a tab 跟着是 "Hi!" and a newline</span>
+</code></pre>
+<p>泛化转义序列的形式是 <code>\x</code> 后紧跟1个或多个十六进制数字，或者<code>\</code>后紧跟1个、2个或3个八进制数字，其中数字部分表示字符对应的数值。如果<code>\</code>后面跟着的八进制数字超过3个，则只有前3个数字与<code>\</code>构成转义序列。相反，<code>\x</code>要用到后面跟着的所有数字。</p>
+<pre><code class="prism language-c">std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi \x4dO\115!\n"</span><span class="token punctuation">;</span> <span class="token comment">// prints Hi MOM! 后面是换行符</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">'\115'</span> <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>    <span class="token comment">// prints M 后跟着是换行符</span>
+</code></pre>
+<h5><a id="5__175"></a>5_多行字面值</h5>
+<p>处理长字符串有一个更基本的（但不常使用）方法，这个方法依赖于很少使用的程序格式化特性：在一行的末尾加一反斜线符号可将此行和下一行当作同一行处理。有一些地方不能插入空格，其中之一是在单词中间。特别是不能在单词中间断开一行，但可以通过使用反斜线符号巧妙实现：</p>
+<pre><code class="prism language-cpp"><span class="token comment">// ok: 换行符前的 \ 会忽略换行符</span>
+std<span class="token operator">::</span>cou\
+t <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi"</span> <span class="token operator">&lt;&lt;</span> st\
+d<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>等价于</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hi"</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>可以使用这个特性来编写长字符串字面值：</p>
+<pre><code class="prism language-cpp">	<span class="token comment">// 多行字符串文本</span>
+	std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"a multi-line \
+string literal \
+using a backslash"</span>
+		<span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>注意</strong>：反斜线符号必须是该行的尾字符——不允许有注释或空格符。同样，后继行行首的任何空格和制表符都是字符串字面值的一部分。正因如此，长字符串字面值的后继行才不会有正常的缩进。</p>
+<h5><a id="6__205"></a>6_特殊情况</h5>
+<p>如果连接字符串字面值和宽字符串字面值，将会出现什么结果呢？</p>
+<p>例如：</p>
+<pre><code class="prism language-c"><span class="token comment">// 连接普通字符串字面值和宽字符串字面值的未定义类型</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"multi-line "</span> L<span class="token string">"literal "</span> <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>其结果是未定义的，也就是说，连接不同类型的行为标准没有定义。这个程序可能会执行，也可能会崩溃或者产生没有用的值，而且在不同的编译器下程序的动作可能不同。</p>
+<p>VS2013运行结果如下：<br>
+<img src="https://img-blog.csdnimg.cn/20190916103740623.png" alt="在这里插入图片描述"></p>
+<h2><a id="2_220"></a>2、变量</h2>
+<h4><a id="1_222"></a>1）变量定义</h4>
+<p>变量定义的基本形式：<strong>类型说明符（type specifier）</strong> 后紧跟由一个或多个变量名组成的列表，其中变量名以 <strong>逗号</strong> 分隔，最后以 <strong>分号</strong> 结束。</p>
+<p>下列语句定义了 5 个变量：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> units_sold<span class="token punctuation">;</span>
+<span class="token keyword">double</span> sales_price<span class="token punctuation">,</span> avg_price<span class="token punctuation">;</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>string title<span class="token punctuation">;</span>
+Sales_item curr_book<span class="token punctuation">;</span>
+</code></pre>
+<p>每个定义都是以 <strong>类型说明符</strong> 开始，后面紧跟着以逗号分开的含有一个或多个说明符的列表，<strong>分号结束定义</strong>。类型说明符指定与对象相关联的类型：<code>int</code> 、<code>double</code>、<code>std::string</code> 和 <code>Sales_item</code> 都是类型名。</p>
+<p>其中 <code>int</code> 和 <code>double</code> 是内置类型，<code>std::string</code> 是标准库定义的类型，<code>Sales_item</code> 是在类中使用的类型。类型决定了分配给变量的存储空间的大小和可以在其上执行的操作。</p>
+<p>多个变量可以定义在同一条语句中：</p>
+<pre><code class="prism language-c"><span class="token keyword">double</span> salary<span class="token punctuation">,</span> wage<span class="token punctuation">;</span> <span class="token comment">// 定义两个 double 类型的变量</span>
+<span class="token keyword">int</span> month<span class="token punctuation">,</span> day<span class="token punctuation">,</span> year<span class="token punctuation">;</span> <span class="token comment">// 定义三个 int 类型的变量</span>
+std<span class="token punctuation">:</span><span class="token punctuation">:</span>string address<span class="token punctuation">;</span> <span class="token comment">// 定义一个 std::string 的变量</span>
+</code></pre>
+<p>定义时可以为一个或多个变量赋初始值，即 <strong>初始化（initialization）</strong>。</p>
+<p>初始化不等于 <strong>赋值（assignment）</strong>。</p>
+<p><strong>注意</strong>：初始化的含义是创建变量时赋予其一个初始值，而赋值的含义是把对象的当前值擦除，再用一个新值来替代。</p>
+<p>用花括号初始化变量称为 <strong>列表初始化（list initialization）</strong>。当用于内置类型的变量时，如果使用了列表初始化并且初始值存在丢失信息的风险，则编译器会报错。</p>
+<pre><code class="prism language-c"><span class="token keyword">long</span> <span class="token keyword">double</span> ld <span class="token operator">=</span> <span class="token number">3.1415926536</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> a<span class="token punctuation">{</span>ld<span class="token punctuation">}</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token punctuation">{</span>ld<span class="token punctuation">}</span><span class="token punctuation">;</span>    <span class="token comment">// error: 转换未执行，因为存在丢失信息的危险</span>
+<span class="token keyword">int</span> <span class="token function">c</span><span class="token punctuation">(</span>ld<span class="token punctuation">)</span><span class="token punctuation">,</span> d <span class="token operator">=</span> ld<span class="token punctuation">;</span>      <span class="token comment">// ok: 转换执行，且确实丢失了部分值</span>
+</code></pre>
+<p>如果定义变量时未指定初值，则变量被 <strong>默认初始化（default initialized）</strong>。对于内置类型，定义于任何函数体之外的变量被初始化为0，函数体内部的变量将不被 <strong>初始化（uninitialized）</strong>。定义于函数体内的内置类型对象如果没有初始化，则其值未定义，使用该类值是一种错误的编程行为且很难调试。类的对象如果没有显式初始化，则其值由类确定。</p>
+<p>建议初始化每一个内置类型的变量。</p>
+<h4><a id="2_265"></a>2）变量声明和定义的关系</h4>
+<p><strong>声明（declaration）</strong> 使得名字为程序所知。一个文件如果想使用其他地方定义的名字，则必须先包含对那个名字的声明。</p>
+<p><strong>定义（definition）</strong> 负责创建与名字相关联的实体。</p>
+<p>如果想声明一个变量而不定义它，就在变量名前添加关键字 <code>extern</code>，并且不要显式地初始化变量。</p>
+<pre><code class="prism language-c"><span class="token keyword">extern</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span> <span class="token comment">// 声明但不定义 i</span>
+<span class="token keyword">int</span> j<span class="token punctuation">;</span>      <span class="token comment">// 声明并定义 j</span>
+</code></pre>
+<p><code>extern</code>语句如果包含了初始值就不再是声明了，而变成了定义。</p>
+<p>变量能且只能被定义一次，但是可以被声明多次。</p>
+<p>如果要在多个文件中使用同一个变量，就必须将声明和定义分开。此时变量的定义必须出现且只能出现在一个文件中，其他使用该变量的文件必须对其进行声明，但绝对不能重复定义。</p>
+<h4><a id="3_284"></a>3）变量名</h4>
+<p>变量命名有许多约定俗成的规范，下面的这些规范能有效提高程序的可读性：</p>
+<ul>
+<li>
+<p>C++ 的变量名，即标识符，由字母、数字和下划线组成，其中必须以字母或下划线开头；</p>
+</li>
+<li>
+<p>变量名一般用小写字母；</p>
+</li>
+<li>
+<p>用户自定义的类名一般以大写字母开头；</p>
+</li>
+<li>
+<p>标识符的长度没有限制，但是对大小写字母敏感。</p>
+</li>
+</ul>
+<pre><code class="prism language-c"><span class="token comment">// 声明四个不同的int变量</span>
+<span class="token keyword">int</span> somename<span class="token punctuation">,</span> someName<span class="token punctuation">,</span> SomeName<span class="token punctuation">,</span> SOMENAME<span class="token punctuation">;</span>
+</code></pre>
+<ul>
+<li>语言本身并没有限制变量名的长度，但考虑到将会阅读和/或修改我们的代码的其他人，变量名不应太长。</li>
+</ul>
+<p>例如：<code>gosh_this_is_an_impossibly_long_name_to_type</code> 就是一个糟糕的标识符名。</p>
+<ul>
+<li>C++ 为标准库保留了一些名字。也就是关键字。关键字不能用作程序的标识符。</li>
+</ul>
+<p>下表列出了 C++ 所有的63个关键字：<br>
+<img src="https://img-blog.csdnimg.cn/20190917110913555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+用户自定义的标识符不能连续出现两个下划线，也不能以下划线紧连大写字母开头。此外，定义在函数体外的标识符不能以下划线开头。</p>
+<p>变量命名有许多被普遍接受的习惯，遵循这些习惯可以提高程序的可读性。</p>
+<ul>
+<li><strong>变量名一般用小写字母</strong>。例如，通常会写成 index，而不写成 Index 或 INDEX。</li>
+<li><strong>标识符应使用能帮助记忆的名字，也就是说，能够提示其在程序中的用法的名字</strong>，如 on_loan 或 salary。</li>
+<li><strong>包含多个词的标识符书写为在每个词之间添加一个下划线，或者每个内嵌的词的第一个字母都大写</strong>。例如通常会写成 student_loan 或 studentLoan，而不写成 studentloan。</li>
+</ul>
+<p>命名习惯最重要的是保持一致。</p>
+<h4><a id="4_314"></a>4）名字的作用域</h4>
+<p>定义在函数体之外的名字拥有 <strong>全局作用域（global scope）</strong>。声明之后，该名字在整个程序范围内都可使用。最好在第一次使用变量时再去定义它。这样做更容易找到变量的定义位置，并且也可以赋给它一个比较合理的初始值。</p>
+<p>作用域中一旦声明了某个名字，在它所嵌套着的所有作用域中都能访问该名字。同时，允许在内层作用域中重新定义外层作用域已有的名字，此时内层作用域中新定义的名字将屏蔽外层作用域的名字。</p>
+<p>可以用作用域操作符 <code>::</code> 来覆盖默认的作用域规则。因为全局作用域本身并没有名字，所以当作用域操作符的左侧为空时，会向全局作用域发出请求获取作用域操作符右侧名字对应的变量。</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token comment">// 该程序仅用于说明: 函数内部不宜定义与全局变量同名的新变量</span>
+<span class="token keyword">int</span> reused <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>  <span class="token comment">// reused拥有全局作用域</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> unique <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// unique拥有块作用域</span>
+	<span class="token comment">// output #1: 使用全局变量reused; prints 42 0</span>
+	std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> reused <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> unique <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> reused <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 新建局部变量reused，覆盖了全局变量reused</span>
+	<span class="token comment">// output #2: 使用局部变量reused; prints 0 0</span>
+	std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> reused <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> unique <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+	<span class="token comment">// output #3: 显式访问全局变量reused; prints 42 0</span>
+	std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token punctuation">:</span><span class="token punctuation">:</span>reused <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> unique <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190925113538521.png" alt="在这里插入图片描述"><br>
+如果函数有可能用到某个全局变量，则不宜再定义一个同名的局部变量。</p>
+<h2><a id="3_343"></a>3、复合类型</h2>
+<h4><a id="1_345"></a>1）引用</h4>
+<p>引用为对象起了另外一个名字，是一种复合类型，通过将声明符写成 <code>&amp;d</code> 的形式来定义引用类型。不能定义引用类型的引用，但可以定义任何其他类型的引用。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> ival <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>refVal <span class="token operator">=</span> ival<span class="token punctuation">;</span> <span class="token comment">// refval是指ival</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>refVal2<span class="token punctuation">;</span>       <span class="token comment">// error: 必须初始化引用</span>
+</code></pre>
+<p>定义引用时，程序把引用和它的初始值绑定（bind）在一起，而不是将初始值拷贝给引用。一旦初始化完成，将无法再令引用重新绑定到另一个对象，因此 <strong>引用必须初始化</strong>。</p>
+<p>引用不是对象，它只是为一个已经存在的对象所起的另外一个名字。</p>
+<p>声明语句中引用的类型实际上被用于指定它所绑定的对象类型。大部分情况下，引用的类型要和与之绑定的对象严格匹配。</p>
+<p>引用只能绑定在对象上，不能与字面值或某个表达式的计算结果绑定在一起。</p>
+<p>可以在一个类型定义行中定义多个引用。必须在每个引用标识符前添加 <strong>&amp;</strong> 符号：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">,</span> i2 <span class="token operator">=</span> <span class="token number">2048</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">,</span> r2 <span class="token operator">=</span> i2<span class="token punctuation">;</span> 	 <span class="token comment">// r是引用，r2是int</span>
+<span class="token keyword">int</span> i3 <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>ri <span class="token operator">=</span> i3<span class="token punctuation">;</span> <span class="token comment">// 定义一个对象和一个引用</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>r3 <span class="token operator">=</span> i3<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r4 <span class="token operator">=</span> i2<span class="token punctuation">;</span>  <span class="token comment">// 定义两个引用</span>
+</code></pre>
+<h4><a id="2_371"></a>2）指针（难点）</h4>
+<p>与引用类似，指针也是一种复合类型，也实现了对其他对象的间接访问。但是指针与引用相比又有很多不同点：</p>
+<ul>
+<li>指针本身就是一个对象，允许对指针赋值和拷贝，而且在生命周期内它可以先后指向不同的对象。</li>
+<li>指针无须在定义时赋初值。和其他内置类型一样，在块作用域内定义的指针如果没有被初始化，也将拥有一个不确定的值。</li>
+</ul>
+<p>通过将声明符写成 <code>*d</code> 的形式来定义指针类型，其中 <em>d</em> 是变量名称。如果在一条语句中定义了多个指针变量，则每个量前都必须有符号 <code>*</code>。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token operator">*</span>ip1<span class="token punctuation">,</span> <span class="token operator">*</span>ip2<span class="token punctuation">;</span>     <span class="token comment">// ip1和ip2都是指向int对象的指针</span>
+<span class="token keyword">double</span> dp<span class="token punctuation">,</span> <span class="token operator">*</span>dp2<span class="token punctuation">;</span>    <span class="token comment">// dp2是指向double对象的指针；dp是double对象</span>
+</code></pre>
+<p>指针存放某个对象的地址，要想获取对象的地址，需要使用取地址符 <code>&amp;</code>。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> ival <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>ival<span class="token punctuation">;</span> <span class="token comment">// p保存ival的地址；p是指向ival的指针</span>
+</code></pre>
+<p>因为引用不是对象，没有实际地址，所以不能定义指向引用的指针。</p>
+<p>声明语句中指针的类型实际上被用于指定它所指向的对象类型。大部分情况下，指针的类型要和它指向的对象严格匹配。</p>
+<p>指针的值（即地址）应属于下列状态之一：</p>
+<ul>
+<li>指向一个对象。</li>
+<li>指向紧邻对象所占空间的下一个位置。</li>
+<li>空指针，即指针没有指向任何对象。</li>
+<li>无效指针，即上述情况之外的其他值。</li>
+</ul>
+<p>试图拷贝或以其他方式访问无效指针的值都会引发错误。编译器并不负责检查此类错误，这一点和试图使用未经初始化的变量是一样的，访问无效指针的后果无法预计，因此需要程序员自己清楚任意给定的指针是否有效。</p>
+<p>如果指针指向一个对象，可以使用 <strong>解引用（dereference）符</strong> <code>*</code> 来访问该对象。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> ival <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>ival<span class="token punctuation">;</span> <span class="token comment">// p存放着变量ival的地址，或者说p是指向变量ival的指针</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>     <span class="token comment">// 由符号*得到指针p所指的对象，输出42</span>
+</code></pre>
+<p>给解引用的结果赋值，就是给指针所指向的对象赋值。</p>
+<pre><code class="prism language-cpp"><span class="token operator">*</span>p <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment">// 由符号*得到指针p所指的对象，即可经由p为变量ival赋值</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>  <span class="token comment">// 输出0</span>
+</code></pre>
+<p>解引用操作仅适用于那些确实指向了某个对象的有效指针。</p>
+<p><strong>空指针（null pointer）</strong> 不指向任何对象，在试图使用一个指针前代码可以先检查它是否为空。得到空指针最直接的办法是用字面值 <code>nullptr</code> 来初始化指针。</p>
+<p>旧版本程序通常使用 <code>NULL</code>（预处理变量，定义于头文件 <em>cstdlib</em> 中，值为0）给指针赋值，但在C++11中，最好使用 <code>nullptr</code> 初始化空指针。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> nullptr<span class="token punctuation">;</span>  <span class="token comment">// 等价于 int *p1 = 0;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>        <span class="token comment">// 直接将p2初始化为字面常量0</span>
+<span class="token comment">// 需要首先 #include cstdl ib</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p3 <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>     <span class="token comment">// 等价于 int *p3 = 0;</span>
+</code></pre>
+<p>建议初始化所有指针：使用未经初始化的指针是引发运行时错误的一大原因。如果实在不清楚指针应该指向何处， 就把它初始化为 <code>nullptr</code> 或者<code>0</code>。</p>
+<p>指针和引用都能提供对其他对象的间接访问，然而在具体实现细节上二者有很大不同，其中最重要的一点就是 <strong>引用本身并非一个对象</strong>。一旦定义了引用，就无法令其再绑定到另外的对象，之后每次使用这个引用都是访问它最初绑定的那个对象。指针和它存放的地址之间就没有这种限制了。和其他任何变量(只要不是引用) 一样，给指针赋值就是令它存放一个新的地址，从而指向一个新的对象。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>pi <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment">// pi被初始化，但没有指向任何对象</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>pi2 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>  <span class="token comment">// pi2被初始化，存有i的地址</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>pi3<span class="token punctuation">;</span>  <span class="token comment">//如果pi3定义于块内，则pi3的值是无法确定的</span>
+pi3 <span class="token operator">=</span> pi2<span class="token punctuation">;</span>  <span class="token comment">// pi3和pi2指向同一个对象i</span>
+pi2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  <span class="token comment">// 现在pi2不指向任何对象了</span>
+</code></pre>
+<p><strong>记住赋值永远改变的是等号左侧的对象。</strong></p>
+<pre><code class="prism language-cpp">pi <span class="token operator">=</span> <span class="token operator">&amp;</span>ival <span class="token punctuation">;</span> <span class="token comment">// pi的值被改变，现在pi指向了ival</span>
+</code></pre>
+<p>代码的意思是 <code>pi</code> 赋一个新的值，也就是改变了那个存放在 <code>pi</code>内的地址值。</p>
+<pre><code class="prism language-cpp"><span class="token operator">*</span>pi <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> <span class="token comment">// iva1的值被改变，指针pi并没有改变</span>
+</code></pre>
+<p>而这一行代码是 <code>*pi</code>（也就是指针 <code>pi</code> 指向的那个对象）发生改变。</p>
+<p>记住：<strong>记住赋值永远改变的是等号左侧的对象。</strong></p>
+<p><code>void*</code> 是一种特殊的指针类型，可以存放任意对象的地址，但不能直接操作 <code>void*</code> 指针所指的对象。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">double</span> obj <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">,</span> <span class="token operator">*</span>pd <span class="token operator">=</span> <span class="token operator">&amp;</span>obj<span class="token punctuation">;</span>
+<span class="token comment">// 正确：void*能存放任意类型对象的地址</span>
+<span class="token keyword">void</span> <span class="token operator">*</span>pv <span class="token operator">=</span> <span class="token operator">&amp;</span>obj<span class="token punctuation">;</span> <span class="token comment">// obj可以是任意类型的对象</span>
+pv <span class="token operator">=</span> pd<span class="token punctuation">;</span> <span class="token comment">// pv可以存放任意类型的指针</span>
+</code></pre>
+<h4><a id="3_469"></a>3）理解复合类型的声明</h4>
+<p>变量包括一个 <strong>基本数据类型(base type)</strong> 和一组 <strong>声明符</strong>。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// i是一个int型的数，p是一个int型指针，r是一个int型应用</span>
+<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1024</span> <span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i， <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">;</span>
+</code></pre>
+<p>修饰只修饰自己，不是这条语句中所有变量。错误案例：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span><span class="token operator">*</span> p1 <span class="token punctuation">,</span> p2<span class="token punctuation">;</span> <span class="token comment">// p1是指向int的指针， p2是int</span>
+</code></pre>
+<p>正确案例：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> <span class="token operator">*</span>p1<span class="token punctuation">,</span> <span class="token operator">*</span>p2<span class="token punctuation">;</span> <span class="token comment">// p1和p2都是指向int的指针</span>
+</code></pre>
+<p>等价于</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span><span class="token operator">*</span> p1<span class="token punctuation">;</span>  <span class="token comment">// p1是指向int的指针</span>
+<span class="token keyword">int</span><span class="token operator">*</span> p2<span class="token punctuation">;</span>  <span class="token comment">// p2是指向int的指针</span>
+</code></pre>
+<p>指向指针的指针（Pointers to Pointers）：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> ival <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>pi <span class="token operator">=</span> <span class="token operator">&amp;</span>ival<span class="token punctuation">;</span>    <span class="token comment">// pi指向一个int型的数</span>
+<span class="token keyword">int</span> <span class="token operator">*</span><span class="token operator">*</span>ppi <span class="token operator">=</span> <span class="token operator">&amp;</span>pi<span class="token punctuation">;</span>    <span class="token comment">// ppi指向一个int型的指针</span>
+</code></pre>
+<p>关系如下：<br>
+<img src="https://img-blog.csdnimg.cn/20190925163857943.png#pic_center" alt="在这里插入图片描述"><br>
+指向指针的引用（References to Pointers），引用本身不是一个对象，因此不能定义指向引用的指针。但指针是对象，所以存在对指针的引用：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>         <span class="token comment">// p是一个int型指针</span>
+<span class="token keyword">int</span> <span class="token operator">*</span><span class="token operator">&amp;</span>r <span class="token operator">=</span> p<span class="token punctuation">;</span>    <span class="token comment">// r是一个对指针p的引用</span>
+r <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>         <span class="token comment">// r引用了一个指针，因此给r赋值&amp;i就是令p指向i</span>
+<span class="token operator">*</span>r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>         <span class="token comment">// 解引用r得到i，也就是p指向的对象，将i的值改为0</span>
+</code></pre>
+<p>面对一条比较复杂的指针或引用的声明语句时，从右向左阅读有助于弄清它的真实含义。</p>
+<p>离变量名最近的符号(此例中是 <code>&amp;r</code> 的符号 <code>&amp;</code>)对变量的类型有最直接的影响，因此 <code>r</code> 是一个引用。声明符的其余部分用以确定 <code>r</code> 引用的类型是什么，此例中的符号 <code>*</code> 说明 <code>r</code> 引用的是一个指针。最后，声明的基本数据类型部分指出 <code>r</code> 引用的是一个 <code>int</code> 指针。</p>
+<h2><a id="4const_517"></a>4、const限定符</h2>
+<p>在变量类型前添加关键字 <code>const</code> 可以创建值不能被改变的对象。<strong><code>const</code> 变量必须被初始化</strong>。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 正确：运行时初始化</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>  		   <span class="token comment">// 正确：编译时初始化</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> k<span class="token punctuation">;</span>  			   <span class="token comment">// 错误：k是一个未经初始化的常量</span>
+</code></pre>
+<p>默认情况下，<code>const</code> 对象被设定成仅在文件内有效。当多个文件中出现了同名的 <code>const</code> 变量时，其实等同于在不同文件中分别定义了独立的变量。</p>
+<p>如果想在多个文件间共享 <code>const</code> 对象：</p>
+<ul>
+<li>若 <code>const</code> 对象的值在编译时已经确定，则应该定义在头文件中。其他源文件包含该头文件时，不会产生重复定义错误。</li>
+<li>若 <code>const</code> 对象的值直到运行时才能确定，则应该在头文件中声明，在源文件中定义。此时 <code>const</code> 变量的声明和定义前都应该添加 <code>extern</code> 关键字。</li>
+</ul>
+<pre><code class="prism language-c"><span class="token comment">// file_1.cc定义并初始化了一个常量，该常量能被其他文件访问</span>
+<span class="token keyword">extern</span> <span class="token keyword">const</span> <span class="token keyword">int</span> bufSize <span class="token operator">=</span> <span class="token function">fcn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// file_1.h头文件</span>
+<span class="token keyword">extern</span> <span class="token keyword">const</span> <span class="token keyword">int</span> bufSize<span class="token punctuation">;</span>   <span class="token comment">// 与file_1.cc中定义的bufSize是同一个</span>
+</code></pre>
+<h4><a id="1const_541"></a>1）const的引用</h4>
+<p>把引用绑定在 <code>const</code> 对象上即为 <strong>对常量的引用（reference to const）</strong>。与普通引用不同的是，对常量的引用不能被用作修改它所绑定的对象。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> ci <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r1 <span class="token operator">=</span> ci<span class="token punctuation">;</span>     <span class="token comment">// ok: 引用及其对应的对象都是常量</span>
+r1 <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>        		<span class="token comment">// error: r1是对常量的引用</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>r2 <span class="token operator">=</span> ci<span class="token punctuation">;</span>   		<span class="token comment">// error: 试图让一个非常量引用指向一个常量对象</span>
+</code></pre>
+<p>大部分情况下，引用的类型要和与之绑定的对象严格匹配。但是有两个例外（第二个例外在第十五章）：</p>
+<p>第一个例外就是初始化常量引用时，允许用任意表达式作为初始值，只要该表达式的结果能转换成引用的类型即可。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r1 <span class="token operator">=</span> i<span class="token punctuation">;</span>      <span class="token comment">// 允许将const int&amp;绑定到一个普通int对象上</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r2 <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>     <span class="token comment">// ok: r1是一个常量引用</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r3 <span class="token operator">=</span> r1 <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">// ok: r3是一个常量引用</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>r4 <span class="token operator">=</span> r1 <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>       <span class="token comment">// error: r4是一个普通的非常量引用</span>
+</code></pre>
+<h4><a id="2const_564"></a>2）指针和const</h4>
+<p><strong>指向常量的指针（pointer to const）</strong> 不能用于修改其所指向的对象。常量对象的地址只能使用指向常量的指针来存放，但是指向常量的指针可以指向一个非常量对象。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">double</span> pi <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span>     <span class="token comment">// pi是个常量，它的值不能改变</span>
+<span class="token keyword">double</span> <span class="token operator">*</span>ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>pi<span class="token punctuation">;</span>          <span class="token comment">// error: ptr是一个普通指针</span>
+<span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token operator">*</span>cptr <span class="token operator">=</span> <span class="token operator">&amp;</span>pi<span class="token punctuation">;</span>   <span class="token comment">// ok: cptr可以指向一个双精度常量</span>
+<span class="token operator">*</span>cptr <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>         	    <span class="token comment">// error: 不能给*cptr赋值</span>
+<span class="token keyword">double</span> dval <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span> 		<span class="token comment">// dval是一个双精度浮点纹，它的值可以改变</span>
+cptr <span class="token operator">=</span> <span class="token operator">&amp;</span>dval<span class="token punctuation">;</span>       		<span class="token comment">// ok: 但是不能通过cptr改变dval的值</span>
+</code></pre>
+<p>定义语句中把 <code>*</code> 放在 <code>const</code> 之前用来说明指针本身是一个常量，<strong>常量指针（const pointer）</strong> 必须初始化，而且一旦初始化完成，指针本身的值（即存放在指针中的那个地址）就不能再改变了：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> errNumb <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> curErr <span class="token operator">=</span> <span class="token operator">&amp;</span>errNumb<span class="token punctuation">;</span>   <span class="token comment">// curErr将一直指向errNumb</span>
+<span class="token keyword">const</span> <span class="token keyword">double</span> pi <span class="token operator">=</span> <span class="token number">3.14159</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">double</span> <span class="token operator">*</span><span class="token keyword">const</span> pip <span class="token operator">=</span> <span class="token operator">&amp;</span>pi<span class="token punctuation">;</span>  <span class="token comment">// pip是一个指向常量对象的常量指针</span>
+</code></pre>
+<p>指针本身是常量并不代表不能通过指针修改其所指向的对象的值，能否这样做完全依赖于其指向对象的类型。</p>
+<h4><a id="3const_588"></a>3）顶层const</h4>
+<p>顶层 <code>const</code> 表示指针本身是个常量，底层 <code>const</code>（low-level const）表示指针所指的对象是一个常量。指针类型既可以是顶层 <code>const</code> 也可以是底层 <code>const</code>。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>       <span class="token comment">// 不能改变p1的值，这是一个顶层const</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> ci <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>        <span class="token comment">// 不能改变ci的值，这是一个顶层const</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>ci<span class="token punctuation">;</span>      <span class="token comment">// 允许改变p2的值，这是一个底层const</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> p3 <span class="token operator">=</span> p2<span class="token punctuation">;</span> <span class="token comment">// 靠右的const是顶层const，靠左的是底层const</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> ci<span class="token punctuation">;</span>        <span class="token comment">// 用于声明引用的const都是底层const</span>
+</code></pre>
+<p>当执行拷贝操作时，常量是顶层 <code>const</code> 还是底层 <code>const</code> 区别明显：</p>
+<ul>
+<li>顶层 <code>const</code> 没有影响。拷贝操作不会改变被拷贝对象的值，因此拷入和拷出的对象是否是常量无关紧要。</li>
+</ul>
+<pre><code class="prism language-c">i <span class="token operator">=</span> ci<span class="token punctuation">;</span>     <span class="token comment">// ok: 拷贝ci的值，ci是一个顶层const，对此操作无影响</span>
+p2 <span class="token operator">=</span> p3<span class="token punctuation">;</span>    <span class="token comment">// ok: p2和p3指向的对象类型相同，p3顶层const的部分不影响</span>
+</code></pre>
+<ul>
+<li>底层const的限制不能忽视。拷入和拷出的对象必须具有相同的底层 <code>const</code> 资格。或者两个对象的数据类型可以相互转换。一般来说，非常量可以转换成常量，反之则不行。</li>
+</ul>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> p3<span class="token punctuation">;</span>    	<span class="token comment">// error: p3包含底层const的定义，而p没有</span>
+p2 <span class="token operator">=</span> p3<span class="token punctuation">;</span>        	<span class="token comment">// ok: p2和p3都是底层const</span>
+p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>        	<span class="token comment">// ok: int*能转换成const int*</span>
+<span class="token keyword">int</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> ci<span class="token punctuation">;</span>    	<span class="token comment">// error: 普通的int&amp;不能绑定到int常量上</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>r2 <span class="token operator">=</span> i<span class="token punctuation">;</span>  <span class="token comment">// ok: const int&amp;可以绑定到一个普通int上</span>
+</code></pre>
+<h4><a id="4constexpr_620"></a>4）constexpr和常量表达式</h4>
+<p><strong>常量表达式（constant expressions）</strong> 指值不会改变并且在编译过程就能得到计算结果的表达式。显然，字面值属于常量表达式，用常量表达式初始化的const对象也是常量表达式。</p>
+<p>一个对象是否为常量表达式由它的数据类型和初始值共同决定。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> max_files <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>           <span class="token comment">// max_files是常量表达式</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> limit <span class="token operator">=</span> max_files <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>    <span class="token comment">// limit是常量表达式</span>
+<span class="token keyword">int</span> staff_size <span class="token operator">=</span> <span class="token number">27</span><span class="token punctuation">;</span>        	    <span class="token comment">// staff_size不是常量表达式</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> sz <span class="token operator">=</span> <span class="token function">get_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  		<span class="token comment">// sz 不是常量表达式</span>
+</code></pre>
+<p>C++11允许将变量声明为<code>constexpr</code>类型以便由编译器来验证变量的值是否是一个常量表达式。</p>
+<pre><code class="prism language-c">constexpr <span class="token keyword">int</span> mf <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>          <span class="token comment">// 20是常量表达式</span>
+constexpr <span class="token keyword">int</span> limit <span class="token operator">=</span> mf <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>   <span class="token comment">// mf + 1是常量表达式</span>
+constexpr <span class="token keyword">int</span> sz <span class="token operator">=</span> <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 只有当size是一个constexpr函数时，才是一条正确的声明语句</span>
+</code></pre>
+<p>指针和引用都能定义成 <code>constexpr</code>，但是初始值受到严格限制。<code>constexpr</code> 指针的初始值必须是0、<code>nullptr</code> 或者是存储在某个固定地址中的对象。函数体内定义的普通变量一般并非存放在固定地址中，因此 <code>constexpr</code> 指针不能指向这样的变量。相反，函数体外定义的变量地址固定不变，可以用来初始化 <code>constexpr</code> 指针。</p>
+<p>在 <code>constexpr</code> 声明中如果定义了一个指针，限定符 <code>constexpr</code> 仅对指针本身有效，与指针所指的对象无关。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span> 	 <span class="token comment">// p是一个指向整型常量的指针</span>
+<span class="token keyword">constexpr</span> <span class="token keyword">int</span> <span class="token operator">*</span>q <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>  <span class="token comment">// q是一个指向整数的常量指针</span>
+</code></pre>
+<p><code>constexpr</code> 把它所定义的对象置为了顶层 <code>const</code>。</p>
+<p>与其他常量指针类似， <code>constexpr</code> 指针既可以指向常量也可以指向一个非常量：</p>
+<pre><code class="prism language-c">constexpr <span class="token keyword">int</span> <span class="token operator">*</span>np <span class="token operator">=</span> nullptr<span class="token punctuation">;</span>  <span class="token comment">// np是一个指向整数的常量指针，其值为空</span>
+<span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+constexpr <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span> 		  <span class="token comment">// i的类型是整型常量</span>
+<span class="token comment">// i和j都必须定义在函数体之外</span>
+constexpr <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p<span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>   <span class="token comment">// p是常量指针，指向整型常量i</span>
+constexpr <span class="token keyword">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>j<span class="token punctuation">;</span> 	  <span class="token comment">// p1是常量指针，指向整数j</span>
+</code></pre>
+<p><code>const</code> 和 <code>constexpr</code> 限定的值都是常量。但 <code>constexpr</code> 对象的值必须在编译期间确定，而 <code>const</code> 对象的值可以延迟到运行期间确定。建议使用 <code>constexpr</code> 修饰表示数组大小的对象，因为数组的大小必须在编译期间确定且不能改变。</p>
+<h2><a id="5_665"></a>5、处理类型</h2>
+<h4><a id="1_666"></a>1）类型别名</h4>
+<p>类型别名是某种类型的同义词，它让复杂的类型名字变得简单明了、易于理解和使用，还有助于程序员清楚地知道使用该类型的真实目的。有两利方法可用于定义类型别名。</p>
+<p>传统方法是使用关键字 <code>typedef</code> 定义类型别名。</p>
+<pre><code class="prism language-c"><span class="token keyword">typedef</span> <span class="token keyword">double</span> wages<span class="token punctuation">;</span>   <span class="token comment">// wages是double的同义词</span>
+<span class="token keyword">typedef</span> wages base<span class="token punctuation">,</span> <span class="token operator">*</span>p<span class="token punctuation">;</span> <span class="token comment">// base是double的同义词，p是double*的同义词</span>
+</code></pre>
+<p>C++11使用关键字 <code>using</code> 进行别名声明（alias declaration），作用是把等号左侧的名字规定成等号右侧类型的别名。</p>
+<pre><code class="prism language-c">using SI <span class="token operator">=</span> Sales_item<span class="token punctuation">;</span> <span class="token comment">// SI是Sales item的同义词</span>
+</code></pre>
+<h4><a id="2auto_683"></a>2）auto类型说明符</h4>
+<p>C++11新增 <code>auto</code> 类型说明符，能让编译器自动分析表达式所属的类型。<code>auto</code> 定义的变量必须有初始值。</p>
+<pre><code class="prism language-c"><span class="token comment">// 由val1和val2相加的结果可以推断出item的类型</span>
+<span class="token keyword">auto</span> item <span class="token operator">=</span> val1 <span class="token operator">+</span> val2<span class="token punctuation">;</span>    <span class="token comment">// item初始化为val1和val2相加的结果</span>
+</code></pre>
+<p>使用 <code>auto</code> 也能在一条语句中声明多个变量。因为一条声明语句只能有一个基本数据类型，所以该语句中所有变量的初始基本数据类型都必须一样：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">auto</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span> 	<span class="token comment">// ok：i是整数、p是整型指针</span>
+<span class="token keyword">auto</span> sz <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> pi <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span> <span class="token comment">// error：sz和pi的类型不一致</span>
+</code></pre>
+<p>编译器推断出来的 <code>auto</code> 类型有时和初始值的类型并不完全一样，编译器会适当地改变结果类型，使其更符合初始化规则。</p>
+<ul>
+<li>当引用被用作初始值时，真正参与初始化的其实是引用对象的值。编译器以引用对象的类型作为 <code>auto</code> 的类型。</li>
+</ul>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">;</span>
+<span class="token keyword">auto</span> a <span class="token operator">=</span> r<span class="token punctuation">;</span>     <span class="token comment">// a是一个整数(r是i的别名，而i是一个整数)</span>
+</code></pre>
+<ul>
+<li><code>auto</code> 一般会忽略顶层 <code>const</code>，同时底层 <code>const</code> 则会保留下来。</li>
+</ul>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> ci <span class="token operator">=</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>cr <span class="token operator">=</span> ci<span class="token punctuation">;</span>
+<span class="token keyword">auto</span> b <span class="token operator">=</span> ci<span class="token punctuation">;</span>    <span class="token comment">// b是一个整数(ci的顶层const特性被忽略掉了)</span>
+<span class="token keyword">auto</span> c <span class="token operator">=</span> cr<span class="token punctuation">;</span>    <span class="token comment">// c是一个整数(cr是ci的别名，ci本身是一个顶层const)</span>
+<span class="token keyword">auto</span> d <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>    <span class="token comment">// d是一个整型指针(整数的地址就是指向整数的指针)</span>
+<span class="token keyword">auto</span> e <span class="token operator">=</span> <span class="token operator">&amp;</span>ci<span class="token punctuation">;</span>   <span class="token comment">// e是一个指向整数常量的指针(对常量对象取地址是一种底层const)</span>
+</code></pre>
+<p>如果希望推断出的 <code>auto</code> 类型是一个顶层 <code>const</code>，需要显式指定 <code>const auto</code>。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">auto</span> f <span class="token operator">=</span> ci<span class="token punctuation">;</span>  <span class="token comment">// ci的推演类型是int，f是const int</span>
+</code></pre>
+<p>设置类型为 <code>auto</code> 的引用时，原来的初始化规则仍然适用，初始值中的顶层常量属性仍然保留。</p>
+<pre><code class="prism language-c"><span class="token keyword">auto</span> <span class="token operator">&amp;</span>g <span class="token operator">=</span> ci<span class="token punctuation">;</span>   		<span class="token comment">// g是一个整型常量引用，绑定到ci</span>
+<span class="token keyword">auto</span> <span class="token operator">&amp;</span>h <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>   		<span class="token comment">// error: 不能为非常量引用绑定字面值</span>
+<span class="token keyword">const</span> <span class="token keyword">auto</span> <span class="token operator">&amp;</span>j <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>     <span class="token comment">// ok: 可以为常量引用绑定字面值</span>
+</code></pre>
+<p>要在一条语句中定义多个变量，切记， 符号&amp;和*只从属于某个声明符，而非基本数据类型的一部分， 因此初始值必须是同一种类型：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">auto</span> k <span class="token operator">=</span> ci<span class="token punctuation">,</span> <span class="token operator">&amp;</span>l <span class="token operator">=</span> i<span class="token punctuation">;</span>      <span class="token comment">// k是整数，l是整型引用</span>
+<span class="token keyword">auto</span> <span class="token operator">&amp;</span>m <span class="token operator">=</span> ci<span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>ci<span class="token punctuation">;</span>   <span class="token comment">// m是对整型常量的引用，p是指向整型常量的指针</span>
+<span class="token comment">// 错误：i的类型是int而&amp;ci的类型是const int</span>
+<span class="token keyword">auto</span> <span class="token operator">&amp;</span>n <span class="token operator">=</span> i，<span class="token operator">*</span>p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>ci<span class="token punctuation">;</span>
+</code></pre>
+<h4><a id="3decltype_740"></a>3）decltype类型指示符</h4>
+<p>C++11新增 <code>decltype</code> 类型指示符，作用是选择并返回操作数的数据类型，此过程中编译器不实际计算表达式的值。</p>
+<pre><code class="prism language-c"><span class="token function">decltype</span><span class="token punctuation">(</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> sum <span class="token operator">=</span> x<span class="token punctuation">;</span>  <span class="token comment">// sum的类型就是函数f的返回类型</span>
+</code></pre>
+<p><code>decltype</code> 处理顶层 <code>const</code> 和引用的方式与 <code>auto</code> 有些不同，如果 <code>decltype</code> 使用的表达式是一个变量，则 <code>decltype</code> 返回该变量的类型（包括顶层 <code>const</code> 和引用）。</p>
+<pre><code class="prism language-c"><span class="token keyword">const</span> <span class="token keyword">int</span> ci <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>cj <span class="token operator">=</span> ci<span class="token punctuation">;</span>
+<span class="token function">decltype</span><span class="token punctuation">(</span>ci<span class="token punctuation">)</span> x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>     <span class="token comment">// x的类型是const int</span>
+<span class="token function">decltype</span><span class="token punctuation">(</span>cj<span class="token punctuation">)</span> y <span class="token operator">=</span> x<span class="token punctuation">;</span>     <span class="token comment">// y的类型是const int&amp;， y绑定到变量x</span>
+<span class="token function">decltype</span><span class="token punctuation">(</span>cj<span class="token punctuation">)</span> z<span class="token punctuation">;</span>     	<span class="token comment">// error: z是一个引用，必须初始化</span>
+</code></pre>
+<p>如果 <code>decltype</code> 使用的表达式不是一个变量，则 <code>decltype</code> 返回表达式结果对应的类型。如果表达式的内容是解引用操作，则 <code>decltype</code> 将得到引用类型。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// decltype的结果可以是引用类型</span>
+<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i <span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">;</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span>r <span class="token operator">+</span> <span class="token number">0</span><span class="token punctuation">)</span> b<span class="token punctuation">;</span> <span class="token comment">// 正确：加法的结果是int，因此b是一个(未初始化的)int</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span> c<span class="token punctuation">;</span> 	<span class="token comment">// 错误：c是int&amp;，必须初始化</span>
+</code></pre>
+<p><code>decltype</code> 和 <code>auto</code> 的另一处重要区别是，<code>decltype</code> 的结果类型与表达式形式密切相关。<strong>注意</strong>：如果 <code>decltype</code> 使用的是一个不加括号的变量，则得到的结果就是该变量的类型；如果给变量加上了一层或多层括号，则 <code>decltype</code> 会得到引用类型，因为变量是一种可以作为赋值语句左值的特殊表达式。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// decltype的表达式如果是加上了括号的变量，结果将是引用</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span> d<span class="token punctuation">;</span>  <span class="token comment">// 错误：d是int&amp;，必须初始化</span>
+<span class="token keyword">decltype</span> <span class="token punctuation">(</span>i<span class="token punctuation">)</span> e<span class="token punctuation">;</span>    <span class="token comment">// 正确：e是一个(未初始化的)int</span>
+</code></pre>
+<p><strong>切记</strong>：<code>decltype((var))</code> 的结果永远是引用，而 <code>decltype(var)</code> 的结果只有当 <em>var</em> 本身是一个引用时才会是引用。</p>
+<h2><a id="6_776"></a>6、自定义数据结构</h2>
+<p>C++11 规定可以为类的数据成员（data member）提供一个类内初始值（in-class initializer）。创建对象时，类内初始值将用于初始化数据成员，没有初始值的成员将被默认初始化。</p>
+<p>类内初始值不能使用圆括号。</p>
+<p>类定义的最后应该加上分号。</p>
+<p>头文件（header file）通常包含那些只能被定义一次的实体，如类、<code>const</code>和<code>constexpr</code>变量。</p>
+<p>头文件一旦改变，相关的源文件必须重新编译以获取更新之后的声明。</p>
+<p>头文件保护符（header guard）依赖于预处理变量（preprocessor variable）。预处理变量有两种状态：已定义和未定义。<code>#define</code>指令把一个名字设定为预处理变量。<code>#ifdef</code>指令当且仅当变量已定义时为真，<code>#ifndef</code>指令当且仅当变量未定义时为真。一旦检查结果为真，则执行后续操作直至遇到<code>#endif</code>指令为止。</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">ifndef</span> SALES_DATA_H</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> SALES_DATA_H</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token keyword">struct</span> Sales_data 
+<span class="token punctuation">{</span>
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>string bookNo<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> units_sold <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> revenue <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+</code></pre>
+<p>在高级版本的IDE环境中，可以直接使用<code>#pragma once</code>命令来防止头文件的重复包含。</p>
+<p>预处理变量无视C++语言中关于作用域的规则。</p>
+<p>整个程序中的预处理变量，包括头文件保护符必须唯一。预处理变量的名字一般均为大写。</p>
+<p>头文件即使目前还没有被包含在任何其他头文件中，也应该设置保护符。</p>
+<h2><a id="_811"></a>参考文章</h2>
+<ul>
+<li>《C++ Primer》</li>
+</ul>
+<h2><a id="_814"></a>补充</h2>
+<p>这一章看的真的头疼，还在看，配合习题希望能好好理解这些晦涩的概念。</p>
+</div>
+</body>
+
+</html>

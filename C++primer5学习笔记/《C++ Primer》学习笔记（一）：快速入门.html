@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《C++ Primer》习题参考答案：第1章 - 快速入门</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="Chttpsblogcsdnnettefuirneverarticlecategory9342309_0"></a><a href="https://blog.csdn.net/tefuirnever/article/category/9342309">专栏C++学习笔记</a></h2>
+<p>《C++ Primer》学习笔记/习题答案 总目录</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100700212">https://blog.csdn.net/TeFuirnever/article/details/100700212</a></li>
+</ul>
+<p>——————————————————————————————————————————————————————</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100729935">《C++ Primer》学习笔记（一）：快速入门</a></li>
+</ul>
+<h1><a id="1___9"></a>第1章 - 快速入门</h1>
+<h2><a id="11_11"></a>练习1.1</h2>
+<p>查阅你使用的编译器的文档，确定它所使用的文件名约定。编译并运行第2页的main程序。</p>
+<p>解：</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915115414925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+编译器VS2013中运行程序结果如下：<br>
+<img src="https://img-blog.csdnimg.cn/20190915115233513.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190915115256751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+源文件编译为可执行文件。<br>
+<img src="https://img-blog.csdnimg.cn/20190915115514622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+在系统cmd命令行中运行可执行文件。<br>
+<img src="https://img-blog.csdnimg.cn/2019091511535660.png" alt="在这里插入图片描述"></p>
+<h2><a id="12_35"></a>练习1.2</h2>
+<p>改写程序，让它返回-1。返回值-1通常被当做程序错误的标识。重新编译并运行你的程序，观察你的系统如何处理main返回的错误标识。</p>
+<p>解：</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>编译器VS2013中运行程序结果如下：<br>
+<img src="https://img-blog.csdnimg.cn/20190915115233513.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190915115828435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+命令行中运行 <code>echo %ERRORLEVEL%</code><br>
+<img src="https://img-blog.csdnimg.cn/20190915115942325.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2><a id="13_56"></a>练习1.3</h2>
+<p>编写程序，在标准输出上打印Hello, World。</p>
+<p>解：</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Hello, World"</span> <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915150443860.png" alt="在这里插入图片描述"></p>
+<h2><a id="14_74"></a>练习1.4</h2>
+<p>我们的程序使用加法运算符<code>+</code>来将两个数相加。编写程序使用乘法运算符<code>*</code>，来打印两个数的积。</p>
+<p>解：</p>
+<pre><code class="prism language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter two numbers:"</span> <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> v1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> v2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>cin <span class="token operator">&gt;&gt;</span> v1 <span class="token operator">&gt;&gt;</span> v2<span class="token punctuation">;</span>
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The product of "</span> <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> v2
+              <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">*</span> v2 <span class="token operator">&lt;&lt;</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>        
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915150607916.png" alt="在这里插入图片描述"></p>
+<h2><a id="15_96"></a>练习1.5</h2>
+<p>我们将所有的输出操作放在一条很长的语句中，重写程序，将每个运算对象的打印操作放在一条独立的语句中。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Enter two numbers:"</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> v1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> v2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> v1 <span class="token operator">&gt;&gt;</span> v2<span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The product of "</span><span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> v1<span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span><span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> v2<span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span><span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">*</span> v2<span class="token punctuation">;</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>    
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915150913929.png" alt="在这里插入图片描述"></p>
+<h2><a id="16_123"></a>练习1.6</h2>
+<p>解释下面程序片段是否合法。</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of "</span> <span class="token operator">&lt;&lt;</span> v1<span class="token punctuation">;</span>
+          <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> v2<span class="token punctuation">;</span>
+          <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">+</span> v2 <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>如果程序是合法的，它的输出是什么？如果程序不合法，原因何在？应该如何修正？</p>
+<p>解：</p>
+<p>程序不合法，有多余的分号，修改如下：</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of "</span> <span class="token operator">&lt;&lt;</span> v1
+          <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> v2
+          <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">+</span> v2 <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>或者在 &lt;&lt; 之前缺少了输出流，修改如下：</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"The sum of "</span> <span class="token operator">&lt;&lt;</span> v1<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" and "</span> <span class="token operator">&lt;&lt;</span> v2<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" is "</span> <span class="token operator">&lt;&lt;</span> v1 <span class="token operator">+</span> v2 <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<h2><a id="17_147"></a>练习1.7</h2>
+<p>编译一个包含不正确的嵌套注释的程序，观察编译器返回的错误信息。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token comment">/*
+* 注释对 */</span> <span class="token operator">*</span><span class="token operator">/</span> 不能嵌套。
+<span class="token operator">*</span> <span class="token string">"不能嵌套"</span> 几个字会被认为是源码，
+<span class="token operator">*</span> 像剩余程序一样处理
+<span class="token operator">*</span><span class="token operator">/</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>错误信息：<br>
+<img src="https://img-blog.csdnimg.cn/20190915151555363.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2><a id="18_170"></a>练习1.8</h2>
+<p>指出下列哪些输出语句是合法的（如果有的话）：</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"/*"</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"*/"</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token comment">/* "*/</span>" <span class="token operator">*</span><span class="token operator">/</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token comment">/* "*/</span><span class="token string">" /* "</span><span class="token comment">/*" */</span><span class="token punctuation">;</span>
+</code></pre>
+<p>预测编译这些语句会产生什么样的结果，实际编译这些语句来验证你的答案(编写一个小程序，每次将上述一条语句作为其主体)，改正每个编译错误。</p>
+<p>解：<br>
+第一条和第二条语句显然是合法的；</p>
+<p>在第三条语句中，第一个双引号被注释掉了，因此 &lt;&lt; 运算符后真正被编译的内容是 <code>" */</code>，编译器认为这是一个不完整的字符串，所以会报告：<code>7 error：missing terminating " character</code>，即，缺少结束的双引号。在分号前补一个双引号，这条语句就变味正确的了；</p>
+<p>第四条语句看起来很混乱，但它是正确的。第一个双引号被注释掉了，第四个双引号也被注释掉了，第二个双引号和第三个双引号之间的“ /* ”被认为是字符串的文字内容。但是这样的程序风格显然是不好的。</p>
+<h2><a id="19_187"></a>练习1.9</h2>
+<p>编写程序，使用<code>while</code>循环将50到100整数相加。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> val <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>val <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        sum <span class="token operator">+</span><span class="token operator">=</span> val<span class="token punctuation">;</span>
+        val <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Sum of 50 to 100 inclusive is "</span>
+              <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>    
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915152354879.png" alt="在这里插入图片描述"></p>
+<h2><a id="110_212"></a>练习1.10</h2>
+<p>除了<code>++</code>运算符将运算对象的值增加1之外，还有一个递减运算符<code>--</code>实现将值减少1。编写程序，使用递减运算符在循环中按递减顺序打印出10到0之间的整数。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>val <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> val <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+        val<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915152528986.png" alt="在这里插入图片描述"></p>
+<h2><a id="111_235"></a>练习1.11</h2>
+<p>编写程序，提示用户输入两个整数，打印出这两个整数所指定的范围内的所有整数。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Please input two num: "</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> start <span class="token operator">&gt;&gt;</span> end<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> start <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+            <span class="token operator">++</span>start<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span><span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"start should be smaller than end !!!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>  
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915152721956.png" alt="在这里插入图片描述"></p>
+<h2><a id="112_265"></a>练习1.12</h2>
+<p>下面的for循环完成了什么功能？sum的终值是多少？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">100</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+	sum <span class="token operator">+</span><span class="token operator">=</span> i<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>此循环将 -100 加到 100（包括 -100 和100）的整数，sum 的终值是 0。</p>
+<h2><a id="113_278"></a>练习1.13</h2>
+<p>使用for循环重做1.4.1节中的所有练习（练习1.9到1.11）。</p>
+<p>解：</p>
+<h4><a id="19_283"></a>练习1.9重做版本</h4>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span> val <span class="token operator">&lt;=</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>val<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        sum <span class="token operator">+</span><span class="token operator">=</span> val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Sum of 50 to 100 inclusive is "</span>
+              <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915153736452.png" alt="在这里插入图片描述"></p>
+<h4><a id="110_303"></a>练习1.10重做版本</h4>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> val <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> val <span class="token operator">&gt;=</span><span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>val<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> val <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915153842484.png" alt="在这里插入图片描述"></p>
+<h4><a id="111_321"></a>练习1.11重做版本</h4>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Please input two num: "</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> start <span class="token operator">&gt;&gt;</span> end<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> start <span class="token operator">&lt;=</span> end<span class="token punctuation">;</span> <span class="token operator">++</span>start<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> start <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span><span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"start should be smaller than end !!!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>  
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915154251587.png" alt="在这里插入图片描述"></p>
+<h2><a id="114_347"></a>练习1.14</h2>
+<p>对比 for 循环和 while 循环，两种形式的优缺点各是什么？</p>
+<p>解：<br>
+在循环次数已知的情况下，for 循环的形式显然更为简洁。</p>
+<p>而循环次数无法预知时，用 while 循环实现更适合。用特定条件控制循环是否执行，循环体中执行的语句可能导致循环判定条件发生变化。</p>
+<h2><a id="115_355"></a>练习1.15</h2>
+<p>编写程序，包含第14页“再探编译”中讨论的常见错误。熟悉编译器生成的错误信息。</p>
+<p>解：</p>
+<p>对于复杂程序中的错误，编译器给出的错误信息很可能无法对应到真正的错误位置并给出准确的错误原因。这是很正常的，因为某些时候我们人类都无法准确判断程序员到底犯了什么错误，在当前人工智能技术发展水平下，要求编译器有超越人类的智能是不现实的，而且，不同的编译器对同一程序给出的错误信息有可能是有很大差别的。一方面是因为如前所述，很多时候并不存在“唯一正确”的错误原因：另一方面，不同编译器对同样地错误原因也可能有自己不同的解释方式。</p>
+<p>编译器可以检查出的错误有：</p>
+<ul>
+<li>语法错误</li>
+<li>类型错误</li>
+<li>声明错误</li>
+</ul>
+<h2><a id="116_367"></a>练习1.16</h2>
+<p>编写程序，从cin读取一组数，输出其和。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>count <span class="token operator">&lt;&lt;</span> <span class="token string">"请输入一些数，按Ctrl + z 表示结束"</span> <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span> std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> value<span class="token punctuation">;</span> <span class="token punctuation">)</span>
+        sum <span class="token operator">+</span><span class="token operator">=</span> value<span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"读入的数之和为"</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915160400498.png" alt="在这里插入图片描述"></p>
+<h2><a id="117_389"></a>练习1.17</h2>
+<p>如果输入的所有值都是相等的，本节的程序会输出什么？如果没有重复值，输出又会是怎样的？</p>
+<p>解：</p>
+<p>如果输入的所有值都相等，则 while 循环中的 else 分支永远不会执行，直到输入结束，while 循环退出，循环后的输出语句打印这唯一的一个值和它出现的次数。</p>
+<p>若没有重复值，则 while 循环中的 if 语句的真值分支永远不会执行，每读入一个值，都会进入 else 分支，打印它的值和出现次数1。输入结束后，while 循环退出，循环后的输出语句打印最后一个值和出现次数1。</p>
+<h2><a id="118_398"></a>练习1.18</h2>
+<p>编译并运行本节的程序，给它输入全都相等的值。再次运行程序，输入没有重复的值。</p>
+<p>解：</p>
+<p>全部重复：</p>
+<pre><code class="prism language-c"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token number">1</span> <span class="token number">1</span> <span class="token number">1</span> <span class="token number">1</span> 
+<span class="token number">1</span> occurs <span class="token number">5</span> times 
+</code></pre>
+<p>没有重复：</p>
+<pre><code class="prism language-c"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token number">2</span> <span class="token number">3</span> <span class="token number">4</span> <span class="token number">5</span>
+<span class="token number">1</span> occurs <span class="token number">1</span> times 
+<span class="token number">2</span> occurs <span class="token number">1</span> times 
+<span class="token number">3</span> occurs <span class="token number">1</span> times 
+<span class="token number">4</span> occurs <span class="token number">1</span> times 
+<span class="token number">5</span> occurs <span class="token number">1</span> times 
+</code></pre>
+<p>注意：不要忘记了用 Ctrl + z 表示输入结束。</p>
+<h2><a id="119_420"></a>练习1.19</h2>
+<p>修改你为1.4.1节练习1.11（第11页）所编写的程序（打印一个范围内的数），使其能处理用户输入的第一个数比第二个数小的情况。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Please input two num: "</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> start <span class="token operator">&gt;&gt;</span> end<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>start <span class="token operator">&lt;=</span> end<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> start <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+            <span class="token operator">++</span>start<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span><span class="token punctuation">{</span>
+        std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"start should be smaller than end !!!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190915161243175.png" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190915161301934.png" alt="在这里插入图片描述"></p>
+<h2><a id="120__125_449"></a>练习1.20 - 1.25放在后期类的章节中再做。</h2>
+</div>
+</body>
+
+</html>
