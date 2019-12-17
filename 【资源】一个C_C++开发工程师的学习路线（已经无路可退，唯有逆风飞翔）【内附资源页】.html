@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【资源】一个C/C++开发工程师的学习路线（已经无路可退，唯有逆风飞翔）【内附资源页】</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="httpszhuanlanzhihucomp96165809httpszhuanlanzhihucomp96165809_0"></a>知乎同步地址：<a href="https://zhuanlan.zhihu.com/p/96165809">https://zhuanlan.zhihu.com/p/96165809</a></h2>
+<h2><a id="_1"></a>声明：</h2>
+<p>1）该文章整理自网上的大牛和专家无私奉献的资料，具体引用的资料请看参考文献。<br>
+2）本文仅供学术交流，非商用。所以每一部分具体的参考资料并没有详细对应。如果某部分不小心侵犯了大家的利益，还望海涵，并联系博主删除。<br>
+3）博主才疏学浅，文中如有不当之处，请各位指出，共同进步，谢谢。<br>
+4）此属于第一版本，若有错误，还需继续修正与增删。还望大家多多指点。大家都共享一点点，一起为祖国科研的推进添砖加瓦。</p>
+<p></p><div class="toc"><h3>文章目录</h3><ul><ul><li><a href="#httpszhuanlanzhihucomp96165809httpszhuanlanzhihucomp96165809_0">知乎同步地址：[https://zhuanlan.zhihu.com/p/96165809](https://zhuanlan.zhihu.com/p/96165809)</a></li><li><a href="#_1">声明：</a></li><li><a href="#V_9">资源(＾－＾)V</a></li><li><a href="#_21">〇、写在前面</a></li><li><a href="#_30">一、编程能力</a></li><ul><ul><li><a href="#1_linux_42">（1）熟练使用 linux</a></li><li><a href="#2_python_57">（2）流畅使用 python</a></li><li><a href="#3_C_70">（3）熟练使用 C++</a></li><li><a href="#4_94">（4）良好的算法与数据结构基础</a></li><li><a href="#5_111">（5）良好的编程习惯</a></li></ul></ul><li><a href="#C_117">二、C++的其他重要书籍</a></li><li><a href="#g_CMakeMakefile_127">三、g++, CMake和Makefile</a></li><li><a href="#shellvim__git_137">四、shell，vim 和 git</a></li><li><a href="#_151">五、操作系统</a></li><li><a href="#_171">六、计算机网络</a></li><li><a href="#_188">七、数据库</a></li><li><a href="#Linux_207">八、Linux提高</a></li><li><a href="#_235">九、后台开发</a></li><li><a href="#_239">十、总结</a></li><li><a href="#_244">参考文章</a></li></ul></ul></div><p></p>
+<h2><a id="V_9"></a>资源(＾－＾)V</h2>
+<p>推荐一个可以搜索一些pdf版的电子书的网站——鸠摩搜书，<a href="https://www.jiumodiary.com/">https://www.jiumodiary.com/</a><br>
+<img src="https://img-blog.csdnimg.cn/20191210141954398.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" width="600"><br>
+比如搜索【深度学习】，<br>
+<img src="https://img-blog.csdnimg.cn/20191210142030986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" width="600"><br>
+下文中提到的一些书都可以去其中搜索，或者也可以直接百度：<br>
+<img src="https://img-blog.csdnimg.cn/2019121014550072.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" width="600"><br>
+不过百度的坑比较多，但是也是可以尝试的，再或者脚本之家，<a href="https://www.jb51.net/books/">https://www.jb51.net/books/</a><br>
+<img src="https://img-blog.csdnimg.cn/20191210145340776.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" width="600"><br>
+如果实在找不到，也可以直接去CSDN的下载区下载，<a href="https://download.csdn.net/">https://download.csdn.net/</a>，淘宝找一个商家下载即可，一般也就一两块。<br>
+<img src="https://img-blog.csdnimg.cn/20191210145715255.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" width="600"></p>
+<h2><a id="_21"></a>〇、写在前面</h2>
+<ul>
+<li><strong>关于深度学习和算法工程师的成长路线在这个博客中，<a href="https://tefuirnever.blog.csdn.net/article/details/100999282">【记录】一个深度学习算法工程师的成长之路（思考和方法以及计划）</a>；</strong></li>
+<li><strong>关于后台学习和开发工程师的学习路线在这个博客中，【资源】C/C++开发工程师的学习路线（已经无路可退，唯有逆风飞翔），即本文。</strong></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20191204154938895.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+事实上19届秋招算法岗就有些【供过于求】了，头条甚至发了 <strong>算法劝退贴</strong>，而这很大程度上就是由于前几年算法就业形势太好了，导致一大批人转算法，这导致的大泡沫其实还没有消化掉，所以其实不是现在算法突然不好找工作了，而是之前太容易了。其实你说公司真的不缺算法工程师嘛？当然不是，公司也是有算法工程师的缺口的，那为什么出现这种情况？除了要劝退一部分盲目入行的同学；听到、遇到的好几个HR都说，收到几百份简历，但是没什么匹配的。所以说做算法的人多是真的，可是需要做算法的人也是真的，而主要的矛盾点在于 <strong>供需不匹配</strong>。<br>
+<img src="https://img-blog.csdnimg.cn/20191204165107707.png#pic_center" alt="在这里插入图片描述"><br>
+所以在这个大背景下，加上最近看到好多关于C/C++的学习路线，以及若干大佬的面经，此外也有很多同学询问算法或者数据结构相关的资源，就有了这么一个博客。因为我也在学习，没有办法给出具体的方案，不过下面提到的这些相关的都是必备的，也就是必须要学习的。<font color="#1E90FF" size="4">这个文章应该会是一个【资源】性质的文章，关于 <strong>准备学什么</strong>，<strong>需要学什么</strong>，希望和各位共勉。</font></p>
+<h2><a id="_30"></a>一、编程能力</h2>
+<p>在这个博客中谈到过，<a href="https://tefuirnever.blog.csdn.net/article/details/100999282">【记录】一个深度学习算法工程师的成长之路（思考和方法以及计划）</a>，这里面还是直接拿出来用了。</p>
+<p>这真是个老生常谈的问题，为什么这么说呢，自然是因为这个【编程能力】我听过不下几百遍，听的脑瓜子都疼，可是没法子，这就是 <strong>必备技能</strong>，必备到什么程度？</p>
+<p>这么说吧，假如你想写作文，如果你不会写字，组词，造句，我想你应该完全没法完成这个创作过程。很形象吧，但是也确实如此，仔细想一想，招你进去是要干活的，公司不会招聘一个只会 MATLAB 或者 python 都用不熟的人来做项目开发吧，做纯算法研究都不行。</p>
+<ul>
+<li>MATLAB 大家都懂的，做实验室研究确实很棒，高效方便的矩阵和数组运算，画图方面也相当不错，但是工业应用还没听过谁说是用 MATLAB 实现的呢。</li>
+<li>python 你可能想问为什么，可以这么说，如果连 python 这样比较简单的语言还用不熟，那真是无话可说。</li>
+<li>C++ 你更不必说了，因为这是一个开发工程师的主要工具，你的刀都没了还准备打架吗？嗯？</li>
+</ul>
+<p>那么 <strong>具体地说，编程能力需要哪些基本要求呢？</strong></p>
+<h4><a id="1_linux_42"></a>（1）熟练使用 linux</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190919135428447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+新手肯定都是用 <strong>Windows</strong> 起手的了，像我之前就是这样，但是在学习过程中发现在 <strong>Windows</strong> 上搞不定了，一般也会先忍几次，然后掉头就去学 <strong>linux</strong> 了，一定是这样的过程。尤其是很多工业上的项目实现都是在 <strong>linux</strong> 下完成的，深度学习的很多算法也是在 <strong>Windows</strong> 上真的搞不定，所以 <strong>linux</strong> 真的是一个必备的工具。。。</p>
+<p>但是在条件上可能很多人都觉得不是太合适，比如实验室条件，电脑条件等等，那也没有办法，只能搞起，下面是好久之前询问大佬给的意见，可供参考。<br>
+<img src="https://img-blog.csdnimg.cn/2019120416145096.png" alt="在这里插入图片描述"><br>
+如果是剩下的完全是在使用的过程中现用现学，手边常备一本书 <a href="http://product.dangdang.com/20866026.html">《鸟哥的linux私房菜》</a>，神书，你可以百度或者Google一下自然就知道这个书的强大了。在或者现在的网络比较强大了，资源也是很多，<a href="https://www.shiyanlou.com/">实验楼</a> 也是一个不错的选择，帮你搭配好的环境，直接使用就OK了。如果还是想自己搞一下，虚拟机也是一个不错的选择，不会影响你电脑本来的环境配置，但是还满足了要求。</p>
+<p><strong>个人建议</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《鸟哥的linux私房菜》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 实验楼</li>
+</ul>
+<p><strong>linux</strong> 内核的推荐放在后面了。</p>
+<h4><a id="2_python_57"></a>（2）流畅使用 python</h4>
+<p><img src="https://img-blog.csdnimg.cn/2019091913571394.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+网络如此发达的今天，如果你说你找不到资源我是不相信的，但是如果你说你眼花缭乱了，我是毫不质疑的。因为我当时就就是这样的，基础部分看廖雪峰的 <a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">python教程</a> 就可以了，我个人有看一些，但是真正入门的是一本书——《Python编程：从入门到实践》，极其的基础，但是对小白来说非常友好。</p>
+<p>有的同学会问是学 python2 还是 python3？这么说吧，python 核心团队计划2020年停止支持 python2，也就是说 python2 马上就要说再见了，肯定还是学 python3，遇到之前的 python2 的代码再查找区别即可。python 学起来其实很简单，看别人代码的过程就是学习的过程。对于不熟悉的用法多搜下官方文档，如 <a href="https://docs.python.org/3/">python</a>，<a href="https://docs.scipy.org/doc/numpy/reference/">numpy</a>，<a href="http://pandas.pydata.org/pandas-docs/stable/">pandas</a>，<a href="https://matplotlib.org/contents.html">matplot</a>，<a href="https://scikit-learn.org/stable/documentation.html">scikit-learn</a> 等等。</p>
+<p>python 的开发环境值得说一下，因为有太多选择，这里比较建议使用 pycharm 和 jupyter notebook 吧，具体可以参考这个博客——<a href="https://blog.csdn.net/TeFuirnever/article/details/90646020">Windows10 下 Anaconda和 PyCharm 的详细的安装教程（图文并茂）</a>。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《Python编程：从入门到实践》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 廖雪峰的 python教程</li>
+</ul>
+<h4><a id="3_C_70"></a>（3）熟练使用 C++</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190919135955493.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+至于 C++，比较普遍的都是 <a href="http://product.dangdang.com/23321562.html">《C++ primer》</a> 或 <a href="http://product.dangdang.com/22783504.html">《C++ primer plus》</a> 这样的大块头书，我也写过这类的博客，不过还没有写完，因为写起来太累了。。。<a href="https://tefuirnever.blog.csdn.net/article/details/100700212">《C++ Primer》学习笔记/习题答案 总目录</a>，这种特别厚的书有一个什么样的问题呢？</p>
+<p>直接看图说话：<br>
+<img src="https://img-blog.csdnimg.cn/20191204162136995.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+怕吗？知道什么叫做恐惧吗？就这？没错，真的厚，，，我服了，但是你还是得看，比如我现在就暂时停下了《C++ primer》的博客更新，去啃《C++ primer plus》了，原谅我的不厚道，对不住了兄弟们，我实在是觉得《C++ primer》的逻辑有点异于常人。。。《C++ primer plus》更适合我一点，最近正在写《C++ primer plus》的课后题：<a href="https://github.com/TeFuirnever/Cpp-Primer-Plus">https://github.com/TeFuirnever/Cpp-Primer-Plus</a>，有一起的小伙伴可以关注一下。</p>
+<p>入门之后就需要看一下《Effective C++》这本书了，可以说是必须要看的书之一，不过有大佬跟我说看过《C++ Primer》之后就不用了看《Effective C++》这本书，因为基本都包含在内了。。。你可以试一试。</p>
+<p>看完上面的书之后（大块头书优点在于全面，同时也往往导致了重点不突出），可以看一下 <a href="https://item.jd.com/11371483.html">《王道程序员求职宝典》</a>，这类书就是比较实用，推荐可以后期提高或者准备面试之前看。</p>
+<p>如果想看视频课程的话，推荐中国慕课上浙江大学的 <a href="https://www.icourse163.org/course/ZJU-199001">《程序设计入门——C语言 浙江大学》</a>，<a href="https://www.icourse163.org/course/ZJU-200001">《C语言程序设计进阶》</a>，第一个课是非常基础的C，第二个课是进阶加上一些数据结构，目前还在更新中，不过看视频课程一般比较慢，但是如果没什么基础或者特别想把基础学好的话，强烈推荐。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《C++ primer》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《C++ primer plus》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《Effective C++:改善程序与设计的55个具体做法》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《more effective C++》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《程序设计入门——C语言 浙江大学》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《C语言程序设计进阶》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《王道程序员求职宝典》</li>
+</ul>
+<h4><a id="4_94"></a>（4）良好的算法与数据结构基础</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190919140741557.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+开发能力如果想过关，算法效率必须要高，因为在实际生产中还是有要求的。因为工业界用的算法是滞后于学术界好几年的，所以不要对公司所做的算法有太多的幻想，现实用的算法也没有那么高端，大部分时间都不是用在建模，而是在开发，这也就是说你要好好准备算法与数据结构，这样你就立于不败之地了，无论是啥，都能游刃有余，懂不？</p>
+<p>道听途说的，某师哥说过进入公司培训期间就是刷LeetCode！？！</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> LeetCode</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 牛客网</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《剑指offer》（准备校招刷一遍，校招过程再刷一遍，哪里不会刷哪里）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《算法图解》（python写的，算法的入门书籍，写的真的牛逼，通俗易懂，之前写过 <a href="https://blog.csdn.net/TeFuirnever/article/details/90017382#5_91">笔记</a>，其实就是偷偷抄了抄书，写了写个人看法）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked="true" disabled=""> 《大话数据结构》（c语言写的，数据结构的入门书籍，写的真的牛逼，和《算法图解》一样，都是神书，作者自嗨写成了教案，你说牛逼不）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《算法导论中文第三版》（这是本神书。。。据说你要是能看完就是大佬了，如果能看懂部分就是大牛，如果能全部看懂那你一定是在吹牛逼，骗谁呢兄弟？？？）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 网易云课堂-浙江大学《数据结构课程》（推荐，0基础学生的必备良药，基础视频，每节课的配套题目必须独立完成）</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《程序员代码面试指南》（左程云，好书，配套左神的视频使用效果更佳）</li>
+</ul>
+<h4><a id="5_111"></a>（5）良好的编程习惯</h4>
+<p><img src="https://img-blog.csdnimg.cn/20190919140645924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+这里说的习惯有：多使用类，多利用函数封装，写好项目的目录结构，良好的变量或者函数命名，善用程序的注释功能。这可以帮助你更好的和同事或者同行沟通，而且看着也舒服，就算好久不看程序了，依然可以做到很好的回溯记忆。</p>
+<p>这个真的是一个很重要的但是被好多人忽略的习惯，希望咱们能跳过这个坑，让自己更具有影响力。</p>
+<h2><a id="C_117"></a>二、C++的其他重要书籍</h2>
+<p>《STL源码剖析》是一本 <strong>STL</strong> 方面的神书，介于 <strong>STL</strong> 的地位，虽然是一个很老的书了，很多内容都过时了，比如空间配置器，但是面试官还是会问。。。可以跟面试官讲讲 <strong>ptmalloc</strong> 的实现，故而整本书都是重点，有没有回到高中或者上学的时候那种感觉，老师说划重点了，整本书都是（微笑）。</p>
+<p>《深度探索C++对象模型》基础书籍，虽然基本只会问虚函数的实现，看一篇博客也能应付面试，但是还是建议多看几遍。比如某大佬（当然不是我）表明自己STL和对象模型我都看了3遍以上，因为太容易忘了，所以还没开始的我和你赶紧的吧。<br>
+<img src="https://img-blog.csdnimg.cn/20191204165032581.png#pic_center" alt="在这里插入图片描述"><br>
+<strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《STL源码剖析》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《深度探索C++对象模型》</li>
+</ul>
+<h2><a id="g_CMakeMakefile_127"></a>三、g++, CMake和Makefile</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190919144414817.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+关于部署在移动端嵌入式平台，需要使用 <strong>c / c++ / java</strong> 语言，<strong>g++，CMake 和 Makefile</strong> 正是 <strong>Linux</strong> 下编译 <strong>C系代码</strong> 的工具，也是必备的基础。实际上一些开源项目也需要预编译，更多的等到了工作岗位自然懂。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> <strong>g++</strong></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> <strong>CMake</strong></li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> <strong>Makefile</strong></li>
+</ul>
+<h2><a id="shellvim__git_137"></a>四、shell，vim 和 git</h2>
+<p><img src="https://img-blog.csdnimg.cn/20190919145123174.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<strong>Linux</strong> 下一个熟练的工程师，会比 <strong>Windows</strong> 下工作效率高很多，提高写代码效率可以从终端多任务管理，熟练使用 <strong>shell</strong> 命令，熟练使用 <strong>vim</strong> 等开发环境，熟练使用 <strong>git</strong> 命令等地方入手。</p>
+<ul>
+<li><strong>shell</strong> 命令是 <strong>Linux</strong> 的操作基础，也是学习使用 <strong>Linux</strong> 的开始，而慢慢熟悉高级的 <strong>shell</strong> 命令在将来的工作中会带来很大的效率提升。</li>
+<li><strong>vim</strong> 是 <strong>Linux</strong> 下最常用的编辑器，从小白到高手都可以使用，而它的列编辑，查找替换，自动补全等功能都是效率的保证，或许从 <strong>visual studio</strong> 等环境切换过来的同学刚开始会有些许不适应，但是时间久了就会越来越明白 <strong>vim</strong> 的好。</li>
+<li><strong>git</strong> 是程序员必备的素养，慢慢学会维护几个自己的代码库，等到将来出问题的时候就明白了。</li>
+</ul>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> shell</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> vim</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> git</li>
+</ul>
+<h2><a id="_151"></a>五、操作系统</h2>
+<p><img src="https://img-blog.csdnimg.cn/20191204171627666.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+《深入理解计算机基础》（CSAPP），一本神书，极度推荐*****，号称比同等质量的金子更加之前的书，这个评价一点也不为过，是一个必读的书籍。</p>
+<p>《现代操作系统》，建议在读完上一本书后再读，讲述操作系统的概念，可以配套网易云盘北大或者清华的操作系统课程视频，这样效率会高很多，不然自己摸路实在是。。。不想说了，就这样吧。</p>
+<p>《UNIX环境高级编程》（APUE），同样是一本强烈推荐的书籍*****，尤其是如果想进鹅厂（腾讯），建议此书列为必读，如果能够理解这本书的内容，网络编程不会是你拿到offer的拦路石。</p>
+<blockquote>
+<p>关于想去哪一个公司，可以留言区发表一下看法，我们探讨探讨，共同努力，话不多说，我想去字节。。。不过现在还只是在做梦中。。。<br>
+<img src="https://img-blog.csdnimg.cn/20191204165840672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+<p>还有一个一个牛客推荐的——MIT6.828的这门课，要求自己设计出一个简易的操作系统，是一个极好的实践项目（7个lab），如果有机会就建议搞一下，因为这可以作为作为项目的东西。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《深入理解计算机基础》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《现代操作系统》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《UNIX环境高级编程》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《MIT6.828》</li>
+</ul>
+<h2><a id="_171"></a>六、计算机网络</h2>
+<p><img src="https://img-blog.csdnimg.cn/20191204171357647.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+不知道你们本科学没学过计算机网络，如果学过的话应该会好一些，虽然学的比较水，但是聊胜于无。本人在本科学过的《计算机网络 自顶向下方法》，这本书虽然厚，虽然是翻译版本，但是真的不错。</p>
+<p>《图解TCP/IP》，这本书非常的简单明了又很薄，只要花上三天时间就能大概读完。多读读这本书还是挺有好处的，基础数据，又有图，可以说是很友好了。</p>
+<p>《TCP/IP详解》卷一，一本进阶书籍，属于必读的书籍之一，其中的12-16章是重点，TCP、IP、UDP等等。</p>
+<p>其它部分看书太麻烦了，直接从博客里看了。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《计算机网络 自顶向下方法》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《图解TCP/IP》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《TCP/IP详解》卷一</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 博客。。。</li>
+</ul>
+<h2><a id="_188"></a>七、数据库</h2>
+<p><img src="https://img-blog.csdnimg.cn/20191204171234324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+很多面试官都会问一下，你是不是学过数据库，如果没有的话，大概就不会问了，不是什么特别影响的事。</p>
+<p>《数据库概论》基础书籍，快速读过一遍就可以了，重在了解概念与基础，相当于是个入门级别的。</p>
+<p>《Mysql必知必会》基础书籍，快速了解mysql的好书，强烈推荐，Mysql（关系型数据库管理系统）是一个很重要的数据库知识，是 SQL 语言是用于访问数据库的最常用标准化语言。</p>
+<p>《高性能mysql》，这个书只要读前面索引和性能的部分即可，除非你有很多时间去准备，这样就随便了，我是不行了。。。<br>
+<img src="https://img-blog.csdnimg.cn/20191204171141967.png#pic_center" alt="在这里插入图片描述"><br>
+如果问了数据库的话，也不会太多，校招时间有限，所以建议基础先打好，后续再学习更深入的部分。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《数据库概论》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《Mysql必知必会》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《高性能mysql》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 牛客网</li>
+</ul>
+<h2><a id="Linux_207"></a>八、Linux提高</h2>
+<p><img src="https://img-blog.csdnimg.cn/20191204171828780.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>
+<strong>Linux</strong> 环境编程 <strong>apue</strong> 和 <strong>unp</strong> 两本是必须的，但是因为太厚了，看起来还是有点痛苦的，还好是不需要全看的，而且内容重叠很多。大佬推荐：<strong>unp</strong> 卷1前面8章是重点，卷2前面4部分都挺重要的；<strong>apue</strong> 全部，先是要有个概念，自己写代码的时候就知道哪块重要了。</p>
+<p>《深入理解linux内核》，这本书是挺有名，不过很多人都是完全啃不动，一个大佬推荐《linux内核设计与实现》，外加一大堆博客，除此之外，《深入理解计算机系统》讲的东西比较简单，可以作为一个补充。</p>
+<p>《Linux多线程服务器端编程》，陈硕的书，讲 <strong>muduo</strong> 网络库的，如果你能看好多遍的，收获肯定是非常多的。另外前面部分是后台开发的一些经验之谈，对面试也很有用。还有好多项目都是基于 <strong>muduo</strong> 实现的，基本上是必读书籍了。</p>
+<p>《Redis设计与实现》也是一本看完之后感觉特别好的书，很值得学习，可以很快就看完。有很多重要的数据结构可以在面试的时候讲出来，比如跳表、<strong>redis</strong> 的 <strong>hash</strong> 表等等。</p>
+<p>《深入理解Nginx》也是极其经典的一本书，因为 <strong>nginx</strong> 太经典了，很多面试官也都提到过，所以可以看一下。</p>
+<p>一个大佬还推荐了，短小精悍的源码——<strong>leveldb</strong>，对照博客就可以把 <strong>leveldb</strong> 源码看完，并不需要多长时间，在此基础上还可以了解一下 <strong>rocksdb</strong>。</p>
+<p>《Linux内核完全剖析——基于0.12内核》，这个书好像之前CSDN上有人下载过，具体的忘了。</p>
+<p><strong>个人计划</strong>：</p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《apue》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《unp》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《深入理解linux内核》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《Linux多线程服务器端编程》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《Redis设计与实现》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《深入理解Nginx》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《leveldb》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《rocksdb》</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled=""> 《Linux内核完全剖析——基于0.12内核》</li>
+</ul>
+<h2><a id="_235"></a>九、后台开发</h2>
+<p>《后台开发：核心技术与应用实践》是腾讯的员工写的，虽然这本书评价比较差，几乎都是抄的博客，但是内容上总结的很好，可以认为就是给咱们校招的同学写的（原来抄博客就能写书，那我岂不是也能写书了），都是后台开发需要的基础知识的总结，这本书中内容所代表的知识，基本都是腾讯的C++后台开发工程师所必备的基础，可以作为一个复习提纲。</p>
+<h2><a id="_239"></a>十、总结</h2>
+<p>这就是一个拉锯战，谁能站到最后，谁就通吃，就是这么简单又残酷的道理，建议多看看面经，就知道自己有多菜了。。。共勉。</p>
+<p>留言区有话就留言，可以一起加油，一起努力，已经无路可退，唯有逆风飞翔。</p>
+<h2><a id="_244"></a>参考文章</h2>
+<ul>
+<li><a href="https://tefuirnever.blog.csdn.net/article/details/100999282">【记录】一个深度学习算法工程师的成长之路（思考和方法以及计划）</a></li>
+<li><a href="https://www.nowcoder.com/discuss/147538">我的C++后台/基础架构岗位学习路线(offer大多是ssp</a></li>
+<li><a href="https://www.nowcoder.com/discuss/55353?type=2&amp;order=0&amp;pos=85&amp;page=3">送你一个励志故事——涵盖20多所互联网公司的校招C++面经</a></li>
+</ul>
+</div>
+</body>
+
+</html>
