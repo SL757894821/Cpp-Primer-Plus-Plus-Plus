@@ -1,6 +1,6 @@
 # C++ Primer 5th（更新ing）和 C++ Primer-Plus 6th（更新ing）
 
-- #### 种树最好的时间是10年前，其次是现在！！！
+- #### 📚📚📚种树最好的时间是10年前，其次是现在！！！
 
 - #### [欢迎关注我的 CSDN 博客](https://blog.csdn.net/tefuirnever)
 
