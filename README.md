@@ -8,15 +8,15 @@
 
 ---
 
-## C++ Primer学习笔记/习题答案 总目录
+## C++ Primer 5th 学习笔记/习题答案 总目录
 
 - [博客地址](https://blog.csdn.net/TeFuirnever/article/details/100700212)
 
-## C++primer5学习笔记
+## C++primer 5th 学习笔记
 
 - [学习笔记](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus/tree/master/C%2B%2Bprimer5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)
 
-## C++primer5课后题
+## C++primer 5th 课后题
 
 - [课后题](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus/tree/master/C%2B%2Bprimer5%E8%AF%BE%E5%90%8E%E9%A2%98)
 
