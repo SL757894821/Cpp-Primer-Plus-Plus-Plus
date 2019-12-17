@@ -1,0 +1,579 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《C++ Primer》习题参考答案：第2章 - 变量和基本类型</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2><a id="Chttpsblogcsdnnettefuirneverarticlecategory9342309_0"></a><a href="https://blog.csdn.net/tefuirnever/article/category/9342309">专栏C++学习笔记</a></h2>
+<p>《C++ Primer》学习笔记/习题答案 总目录</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100700212">https://blog.csdn.net/TeFuirnever/article/details/100700212</a></li>
+</ul>
+<p>——————————————————————————————————————————————————————</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100977081">《C++ Primer》学习笔记（二）：变量和基本类型</a></li>
+</ul>
+<h1><a id="__9"></a>第二章 变量和基本类型</h1>
+<h2><a id="21_11"></a>练习2.1</h2>
+<p>类型 int、long、long long 和 short 的区别是什么？无符号类型和带符号类型的区别是什么？float 和 double的区别是什么？</p>
+<p>解：</p>
+<p>在 C++ 语言中，int、long、long long 和 short 都属于整型，区别是 C++ 标准规定的尺寸的最小值（即该类型在内存中所占的比特数）不同。其中，short 是短整型，占16位；int 是整型，占16位；long 和 long long 均为长整型，分别占32位和64位。C++ 标准允许不同的编译器赋予这些类型更大的尺寸。某一类型占的比特数不同，它所能表示的数据范围也不一样。</p>
+<p>大多数整型都可以划分为无符号类型和带符号类型，在无符号类型中所有比特都用来存储数值，但是仅能表示大于等于0的值；带符号类型则可以表示正数、负数或0。</p>
+<p>float 和 double 分别是单精度浮点数和双精度浮点数，区别主要是在内存中所占的比特数不同，以及默认规定的有效位数不同。</p>
+<h2><a id="22_22"></a>练习2.2</h2>
+<p>计算按揭贷款时，对于利率、本金和付款分别应选择何种数据类型？说明你的理由。</p>
+<p>解：</p>
+<p>在实际应用中，利率、本金和付款极有可能是整数，也有可能是普通的实数。因此应该选择一种浮点类型来表示。</p>
+<p>在三种可供选择的浮点类型 float、double 和 long double 中，double 和 float 的计算代价比较接近且表示范围更广，long double的计算代价则相对较大，一般情况下没有选择的必要。</p>
+<p>综合以上分析，选择 double 是比较恰当。</p>
+<h2><a id="23_33"></a>练习2.3</h2>
+<p>读程序写结果。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">unsigned</span> u <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span> u2 <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> u2 <span class="token operator">-</span> u <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">-</span> u2 <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span> i2 <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> i2 <span class="token operator">-</span> i <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">-</span> i2 <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">-</span> u <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> u <span class="token operator">-</span> i <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190916111447924.png" alt="在这里插入图片描述"><br>
+u 和 u2 都是无符号整数，因此 u2 - u 得到了正确的结果（42 - 10 = 32）；u - u2 也能正确计算，但是因为直接计算的结果是 -32，所以在表示为无符号整数时自动加上了模，在我的编译环境中 int 占32位，因此加模（<span class="katex--inline"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>32</mn></msup><mo>=</mo><mn>4294967296</mn></mrow><annotation encoding="application/x-tex">2^{32} = 4294967296</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.814108em; vertical-align: 0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">4</span><span class="mord">2</span><span class="mord">9</span><span class="mord">4</span><span class="mord">9</span><span class="mord">6</span><span class="mord">7</span><span class="mord">2</span><span class="mord">9</span><span class="mord">6</span></span></span></span></span>）的结果是4294967264。</p>
+<p>i 和 i2 都是带符号整数，因此中间两个式子的结果比较直观，42 - 10 = 32，10 - 42 = -32。</p>
+<p>在最后两个式子中，u 和 i 分别是无符号整数和带符号整数，计算时编译器先把带符号整数转换为无符号整数，幸运的是，i 本身是一个正数，因此转换后不会出现异常情况，两个式子的计算结果都是0。</p>
+<p>不过需要注意的是，一般情况下请不要在同一个表达式中混合使用无符号整数和带符号整数。<strong>因为计算前带符号类型会自动转换成无符号类型，当带符号类型取值为负时就会出现异常结果。</strong></p>
+<h2><a id="24_59"></a>练习2.4</h2>
+<p>编写程序检查你对 <strong>练习2.3</strong> 的估计是否正确，如果不正确，请仔细研读本节直到弄明白问题所在。</p>
+<p>解：</p>
+<p>其实最大的问题一般应该是无符号负数的计算，这个需要积累，别问我为啥知道，因为我也错了。<br>
+<img src="https://img-blog.csdnimg.cn/20190916113255140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RlRnVpcm5ldmVy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2><a id="25_67"></a>练习2.5</h2>
+<p>指出下述字面值的数据类型并说明每一组内几种字面值的区别：</p>
+<pre><code class="prism language-c"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token string">'a'</span><span class="token punctuation">,</span> L<span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">"a"</span><span class="token punctuation">,</span> L<span class="token string">"a"</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10u</span><span class="token punctuation">,</span> <span class="token number">10L</span><span class="token punctuation">,</span> <span class="token number">10uL</span><span class="token punctuation">,</span> <span class="token number">012</span><span class="token punctuation">,</span> <span class="token number">0xC</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token number">3.14</span><span class="token punctuation">,</span> <span class="token number">3.14f</span><span class="token punctuation">,</span> <span class="token number">3.14L</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10u</span><span class="token punctuation">,</span> <span class="token number">10.</span><span class="token punctuation">,</span> <span class="token number">10e-2</span>
+</code></pre>
+<p>解：</p>
+<p>(a): 字符字面值，宽字符字面值且类型是 <code>wchar_t</code>，字符串字面值，宽字符串字面值。</p>
+<p>(b): 普通的整数类型字面值，无符号数，长整型数，无符号长整型数，八进制数，十六进制数。</p>
+<p>(c): 普通的浮点类型字面值，<code>float</code> 类型的单精度浮点数，<code>long double</code> 类型的扩展精度浮点数。</p>
+<p>(d): 整数，无符号整数，浮点数，科学计数法表示的浮点数。</p>
+<h2><a id="26_87"></a>练习2.6</h2>
+<p>下面两组定义是否有区别，如果有，请叙述之：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> month <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">,</span> day <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> month <span class="token operator">=</span> <span class="token number">09</span><span class="token punctuation">,</span> day <span class="token operator">=</span> <span class="token number">07</span><span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>第一组定义是正确的，定义了两个十进制数9和7。</p>
+<p>第二组定义是错误的，编译时将报错。因为以0开头的数是八进制数，而数字9显然超出了八进制数能表示的范围，所以第二组定义无法被编译通过。</p>
+<h2><a id="27_100"></a>练习2.7</h2>
+<p>下述字面值表示何种含义？它们各自的数据类型是什么？</p>
+<pre><code class="prism language-cpp"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token string">"Who goes with F\145rgus?\012"</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token number">3.14e1L</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token number">1024f</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token number">3.14L</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是一个字符串，包含两个转义字符，其中 <code>\145</code> 表示字符 <code>e</code>，<code>\012</code> 表示一个换行符，因此该字符串的输出结果是：<code>Who goes with Fergus?(换行)</code></p>
+<p>(b) 是一个科学计数法表示的扩展精度浮点数，大小为 <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3.14</mn><mo>∗</mo><mn>1</mn><msup><mn>0</mn><mn>1</mn></msup><mo>=</mo><mn>31.4</mn></mrow><annotation encoding="application/x-tex">3.14 * 10^1 = 31.4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">3</span><span class="mord">.</span><span class="mord">1</span><span class="mord">4</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.814108em; vertical-align: 0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">3</span><span class="mord">1</span><span class="mord">.</span><span class="mord">4</span></span></span></span></span></p>
+<p>(c) 试图表示一个单精度浮点数，但是该形式在某些编译器中将报错，因为后缀 f 直接跟在了整数 1024 后面，改成 <code>1024.f</code> 就可以了</p>
+<p>(d) 是一个扩展精度浮点数，类型是 long double，大小是 3.14</p>
+<h2><a id="28_120"></a>练习2.8</h2>
+<p>请利用转义序列编写一段程序，要求先输出 2M，然后转到新一行。修改程序使其先输出 2，然后输出制表符，再输出 M，最后转到新一行。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"2\x4d\012"</span><span class="token punctuation">;</span>
+	std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"2\tM\n"</span><span class="token punctuation">;</span>
+
+	<span class="token comment">/*
+	std::cout &lt;&lt; 2 &lt;&lt; "\115\012";
+	std::cout &lt;&lt; 2 &lt;&lt; "\t\115\012";
+	*/</span>
+	
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190917095942441.png" alt="在这里插入图片描述"><br>
+主函数的前两行分别实现了题目中要求的两种输出形式。</p>
+<p>其中，字符串 <code>2\xed\012</code> 先输出字符 <code>2</code>，紧接着利用转义字符 <code>\x4d</code> 输出字符串 <code>M</code>，最后利用转义字符 <code>\012</code> 转到新一行。</p>
+<p>字符串 <code>2\tM\n</code> 先输出字符 <code>2</code>，然后利用转义字符 <code>\t</code> 输出一个制表符，接着输出字符 <code>M</code>，最后利用转移字符 <code>\n</code> 转到新一行。</p>
+<p>可以发现，输出同一字符有多重方式可供选择。例如，可以直接输出字符 <code>M</code>，也可以通过转义字符 <code>\x4d</code> 输出字符 <code>M</code>；可以用转义字符 <code>\012</code> 换行，也可以用转移字符 <code>\n</code> 换行。</p>
+<h2><a id="29_151"></a>练习2.9</h2>
+<p>解释下列定义的含义，对于非法的定义，请说明错在何处并将其改正。</p>
+<pre><code class="prism language-c"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>cin <span class="token operator">&gt;&gt;</span> <span class="token keyword">int</span> input_value<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">3.14</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">double</span> salary <span class="token operator">=</span> wage <span class="token operator">=</span> <span class="token number">9999.99</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a): 是错误的，输入运算符的右侧需要一个明确的变量名称，而非定义变量的语句，应该先定义再使用。改正后的结果是：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> input_value<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cin <span class="token operator">&gt;&gt;</span> input_value<span class="token punctuation">;</span>
+</code></pre>
+<p>(b): 引发警告，该语句定义了一个整型变量 i，但是试图通过列表初始化的方式把浮点数 <code>3.14</code> 赋值给 <code>i</code>，这样做将造成小数部分丢失，是一种不被建议的窄化操作。改正后的结果是：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">double</span> i <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">3.14</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>(c): 是错误的，该语句试图将 <code>9999.99</code> 分别赋值给 <code>salary</code> 和 <code>wage</code>，但是在声明语句中声明多个变量时需要用逗号将变量名隔开，而不是直接用赋值运算符连接。改正后的结果是：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">double</span> salary<span class="token punctuation">,</span> wage<span class="token punctuation">;</span>
+salary <span class="token operator">=</span> wage <span class="token operator">=</span> <span class="token number">9999.99</span><span class="token punctuation">;</span>
+</code></pre>
+<p>(d): 引发警告，该语句定义了一个整型变量 i，但是试图把浮点数 <code>3.14</code> 赋值给 <code>i</code>，这样做将造成小数部分丢失，与(b)一样，是不被建议的窄化操作。改正后的结果是：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">double</span> i <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span>
+</code></pre>
+<h2><a id="210_189"></a>练习2.10</h2>
+<p>下列变量的初值分别是什么？</p>
+<pre><code class="prism language-cpp">std<span class="token operator">::</span>string global_str<span class="token punctuation">;</span>
+<span class="token keyword">int</span> global_int<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> local_int<span class="token punctuation">;</span>
+    std<span class="token operator">::</span>string local_str<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>解：</p>
+<p>对于 <code>string</code> 类型的变量来说，因为 <code>string</code> 类型本身接受无参数的初始化方式，所以不论变量定义在函数内还是函数外都被默认初始化为空字符串。</p>
+<p>对于内置类型 <code>int</code> 来说，变量 <code>global_int</code> 定义在所有函数体之外，根据 C++ 的规定，<code>global_int</code> 默认初始化为 <code>0</code>，而变量 <code>local_int</code> 定义在 <code>main</code> 函数的内部，将不被初始化，如果程序试图拷贝或输出未初始化的变量，将遇到一个为定义的奇异值。</p>
+<h2><a id="211_208"></a>练习2.11</h2>
+<p>指出下面的语句是声明还是定义：</p>
+<pre><code class="prism language-c"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">extern</span> <span class="token keyword">int</span> ix <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> iy<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">extern</span> <span class="token keyword">int</span> iz<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>声明与定义的关系是：声明使得名字为程序所知，而定义负责创建与名字关联的实体。</p>
+<p>(a): 定义了变量 <code>ix</code></p>
+<p>(b): 声明并定义了变量 <code>iy</code></p>
+<p>(c): 声明了变量 <code>iz</code></p>
+<h2><a id="212_227"></a>练习2.12</h2>
+<p>请指出下面的名字中哪些是非法的？</p>
+<pre><code class="prism language-c"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token keyword">double</span> <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> _<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">int</span> catch<span class="token operator">-</span><span class="token number">22</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token number">1</span>_or_2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token keyword">double</span> Double <span class="token operator">=</span> <span class="token number">3.14</span><span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a)是非法的，因为 <code>double</code> 是c++关键字，代表一种数据类型，不能作为变量的名字。</p>
+<p>(b)是合法的命名。</p>
+<p>(c)是非法的，在标识符中只能出现字母、数字和下划线，不能出现符号 <code>-</code>，如果改成 <code>int catch_22;</code> 就是合法的了。</p>
+<p>(d)是非法的，因为标识符必须以字母或下划线开头，不能以数字开头。</p>
+<p>(e)是合法的命名。</p>
+<h2><a id="213_250"></a>练习2.13</h2>
+<p>下面程序中<code>j</code>的值是多少？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>解：</p>
+<p><code>j</code> 的值是100。</p>
+<p>c++允许内层作用域重新定义外层作用域中已有的名字，在本题中，<code>int i = 42;</code> 位于外层作用域，但是变量 <code>i</code> 在内层作用域被重新定义了，因此真正赋予 <code>j</code> 的值是定义在内层作用域中的 <code>i</code> 的值，即100。</p>
+<h2><a id="214_268"></a>练习2.14</h2>
+<p>下面的程序合法吗？如果合法，它将输出什么？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">,</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">!=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+    sum <span class="token operator">+</span><span class="token operator">=</span> i<span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> sum <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190926152647684.png" alt="在这里插入图片描述"><br>
+解：</p>
+<p>该程序是合法的。输出结果是 100 45。</p>
+<p>该程序存在嵌套的作用域，其中 for 循环之外是外层作用域，for 循环内部是内层作用域。首先在外层作用域中定义了 <code>i</code> 和 <code>sum</code>，但是在 for 循环内部 <code>i</code> 被重新定义了，因此 for 循环实际上是从 <code>i=0</code> 循环到了 <code>i=9</code>，内层作用域中没有重新定义 <code>sum</code>，因此 <code>sum</code> 的初始值是0并在此基础上依次累加。最后一句输出语句位于外层作用域中，此时在 for 循环内部重新定义的 <code>i</code>，值为100；而 <code>sum</code> 经由循环累加，值变为了45。</p>
+<h2><a id="215_284"></a>练习2.15</h2>
+<p>下面的哪个定义是不合法的？为什么？</p>
+<pre><code class="prism language-c"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">int</span> ival <span class="token operator">=</span> <span class="token number">1.01</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>rval1 <span class="token operator">=</span> <span class="token number">1.01</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>rval2 <span class="token operator">=</span> ival<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>rval3<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是合法的。</p>
+<p>(b) 是非法的，引用必须指向一个实际存在的对象而非字面值常量。</p>
+<p>(c) 是合法的。</p>
+<p>(d) 是非法的，因为无法令引用重新绑定到另外一个对象，所以引用必须初始化。</p>
+<h2><a id="216_304"></a>练习2.16</h2>
+<p>考察下面的所有赋值然后回答：哪些赋值是不合法的？为什么？哪些赋值是合法的？它们执行了哪些操作？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>r1 <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token keyword">double</span> d <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>r2 <span class="token operator">=</span> d<span class="token punctuation">;</span>
+
+<span class="token punctuation">(</span>a<span class="token punctuation">)</span> r2 <span class="token operator">=</span> <span class="token number">3.14159</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> r2 <span class="token operator">=</span> r1<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> i <span class="token operator">=</span> r2<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> r1 <span class="token operator">=</span> d<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是合法的，为引用赋值实际上是把值赋给了与引用绑定的对象，在这里是把 <code>3.14159</code> 赋给了变量 <code>d</code>。</p>
+<p>(b) 是合法的，以引用作为初始值实际上是以引用绑定的对象作为初始值，在这里是把 <code>i</code> 的值赋给了变量 <code>d</code>。</p>
+<p>(c) 是合法的，把 <code>d</code> 的值赋给了变量 <code>i</code>，因为 <code>d</code> 是双精度浮点数而 <code>i</code> 是整数，所以该语句实际上执行了窄化操作。</p>
+<p>(d) 是合法的，把 <code>d</code> 的值赋给了变量 <code>i</code>，与上一条语句一样执行了窄化操作。</p>
+<h2><a id="217_326"></a>练习2.17</h2>
+<p>执行下面的代码段将输出什么结果？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>ri <span class="token operator">=</span> i<span class="token punctuation">;</span>
+i <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> ri <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> ri <span class="token operator">&lt;&lt;</span> std<span class="token operator">::</span>endl<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>程序的输出结果是10, 10。</p>
+<p>引用不是对象，它只是为已经存在的对象起了另外一个名字，因此 <code>ri</code> 实际上是 <code>i</code> 的别名。在上面的程序中，首先将 <code>i</code> 赋值为 5，然后把这个值更新为 10。因为 <code>ri</code> 是 <code>i</code> 的引用，所以它们的输出结果是一样的。</p>
+<h2><a id="218_340"></a>练习2.18</h2>
+<p>编写代码分别改变指针的值以及指针所指对象的值。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> p <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	p <span class="token operator">=</span> <span class="token operator">&amp;</span>j<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> p <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token operator">*</span>p <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> p <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	j <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> p <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190927152846774.png" alt="在这里插入图片描述"><br>
+在上面的例子中，首先定义了两个整型变量 <code>i</code> 和 <code>j</code> 以及一个整型指针 <code>p</code>，初始情况下指针 <code>p</code> 指向变量 <code>i</code>，此时分别输出 <code>p</code> 的值（即 <code>p</code> 所指对象的内存地址）以及 <code>p</code> 所指对象的值，得到 <code>00BCFE84</code> 和 5。</p>
+<p>随后依次改变指针的值以及指针所指对象的值。<code>p=&amp;j;</code> 更改了指针的值，令指针 <code>p</code> 指向另外一个整数对象 <code>j</code>。<code>*p=20;</code> 和 <code>j=30;</code> 是两种更改指针所指对象值的方式，前者显式地更改指针 <code>p</code> 所指的内容，后者则通过更改变量 <code>j</code> 的值实现同样的目的。</p>
+<h2><a id="219_367"></a>练习2.19（这个题面试经常考察）</h2>
+<p>说明指针和引用的主要区别</p>
+<p>解：</p>
+<p>指针“指向”内存中的某个对象，而引用“绑定到”内存中的某个对象，它们都实现了对其他对象的间接访问，二者的区别主要有两个方面：</p>
+<ul>
+<li>第一，指针本身就是一个对象，允许对指针赋值和拷贝，而且在指针的声明周期内它可以指向几个不同的对象；引用不是一个对象，无法令引用重新绑定到另外一个对象。</li>
+<li>第二，指针无需在定义时赋初值，和其他内置类型一样，在块作用域内定义的指针如果没有被初始化，也将拥有一个不确定的值；引用则必须在定义时赋初值。</li>
+</ul>
+<h2><a id="220_376"></a>练习2.20</h2>
+<p>请叙述下面这段代码的作用。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span> 
+<span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">*</span>p1 <span class="token operator">*</span> <span class="token operator">*</span>p1<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>这段代码首先定义了一个整型变量 <code>i</code> 并设其初值为 42；接着定义了一个整型指针 <code>p1</code>，令其指向变量 <code>i</code>；最后取出 <code>p1</code> 所指的当前值，计算平方后重新赋给 <code>p1</code> 所指的变量 <code>i</code>，即 42 * 42 (1764)。</p>
+<p>第二行的 <code>*</code> 表示声明一个指针，第三行的 <code>*</code> 表示解引用运算，即取出指针 <code>p1</code> 所指对象的值。</p>
+<p>编写一个小程序实现一下，就知道结果了：</p>
+<pre><code class="prism language-python"><span class="token comment">#include &lt;iostream&gt;</span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token builtin">int</span> main<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token builtin">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+	<span class="token builtin">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> p1 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">*</span>p1 <span class="token operator">*</span> <span class="token operator">*</span>p1<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> p1 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	system<span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190927154835580.png" alt="在这里插入图片描述"></p>
+<h2><a id="221_409"></a>练习2.21</h2>
+<p>请解释下述定义。在这些定义中有非法的吗？如果有，为什么？</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">double</span><span class="token operator">*</span> dp <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">*</span>ip <span class="token operator">=</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是非法的，<code>dp</code> 是一个 <code>double</code> 指针，而 <code>i</code> 是一个 <code>int</code> 变量，类型不匹配。</p>
+<p>(b) 是非法的，不能直接把 <code>int</code> 变量赋给 <code>int</code> 指针，正确的做法是，通过取地址运算 <code>&amp;i</code> 得到变量 <code>i</code> 在内存中的地址，然后再将该地址赋给指针。</p>
+<p>(c) 是合法的。</p>
+<h2><a id="222_427"></a>练习2.22</h2>
+<p>假设 p 是一个 int 型指针，请说明下述代码的含义。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">)</span>  <span class="token comment">// ...</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span> <span class="token comment">// ...</span>
+</code></pre>
+<p>解：</p>
+<p>指针 <code>p</code> 作为 <code>if</code> 语句的条件时，实际检验的是指针本身的值，即指针所指的地址值。如果指针指向一个真实存在的变量，则其值必不为0，此时条件为真；如果指针没有指向任何对象或者是无效指针，则对 <code>p</code> 的使用将引发不可预计的后果。</p>
+<p>解引用运算符 <code>*p</code> 作为 <code>if</code> 语句的条件时，实际检验的是指针所指的对象内容，在上面的例子中是指针 <code>p</code> 所指的 <code>int</code> 值。如果该 <code>int</code> 值为0，则条件为假；否则，如果该 <code>int</code> 值不为0，对应条件为真。</p>
+<p>举个简单的例子：</p>
+<pre><code class="prism language-python"><span class="token comment">#include &lt;iostream&gt;</span>
+using namespace std<span class="token punctuation">;</span>
+<span class="token builtin">int</span> main<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token builtin">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token builtin">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> nullptr<span class="token punctuation">;</span>
+	<span class="token builtin">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>p1<span class="token punctuation">)</span>
+		cout <span class="token operator">&lt;&lt;</span> <span class="token string">"p1 pass"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+		cout <span class="token operator">&lt;&lt;</span> <span class="token string">"p pass"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span>
+		cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i pass"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	system<span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190927182054182.png" alt="在这里插入图片描述"><br>
+在这段程序中，<code>p</code> 和 <code>p1</code> 是两个整型指针，其中 <code>p1</code> 被定义为空指针（nullptr），<code>p</code> 则指向整数 <code>i</code>。在3个判断条件中，<code>p1</code> 指向空，意即指向地址为0，条件不满足；<code>p</code> 指向 <code>i</code>，在内存中有一个实际的地址值且不为0，因此该条件满足；<code>*p</code> 表示 <code>p</code> 所指对象的内容，即整数 <code>i</code> 的值，因为程序开始处 <code>i</code> 被赋予了初值0，所以这个条件不满足。</p>
+<h2><a id="223_464"></a>练习2.23</h2>
+<p>给定指针 p，你能知道它是否指向了一个合法的对象吗？如果能，叙述判断的思路；如果不能，也请说明原因。</p>
+<p>解：</p>
+<p>在c++程序中，应该尽量初始化所有指针，并且尽可能等定义了对象之后再定义指向它的指针。如果实在不清楚应该指向何处，就把它初始化为 nullptr 或0，这样程序就能检测并指导它有没有指向一个具体的对象了。</p>
+<p>其中 nullptr 是c++11新标准刚刚引入的一个特殊字符值，它可以转换成任意其他的指针类型。在此前提下，判断 <code>p</code> 是否指向合法的对象，只需把 <code>p</code> 作为 <code>if</code> 语句的条件即可，如果 <code>p</code> 的值是 nullptr，则条件为假；反之，条件为真。</p>
+<p>如果不注意初始化所有指针而贸然判断指针的值，则有可能引发不可预知的结果。一种处理的办法是把 <code>if(p)</code> 置于 <code>try</code> 结构中，当程序块顺利执行时，表示 <code>p</code> 指向了合法的对象；当程序块出错跳转到 <code>catch</code> 语句时，表示 <code>p</code> 没有指向合法的对象。</p>
+<h2><a id="224_475"></a>练习2.24</h2>
+<p>在下面这段代码中为什么 p 合法而 lp 非法？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+<span class="token keyword">long</span> <span class="token operator">*</span>lp <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p><code>p</code> 是合法的，因为 <code>void*</code> 是一种特殊的指针类型，可用于存放任意对象的地址。</p>
+<p><code>lp</code> 是非法的，因为 <code>lp</code> 是一个长整型指针，而 <code>i</code> 只是一个普通整型数，二者的类型不匹配。</p>
+<h2><a id="225_489"></a>练习2.25</h2>
+<p>说明下列变量的类型和值。</p>
+<pre><code class="prism language-cpp"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">int</span><span class="token operator">*</span> ip<span class="token punctuation">,</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token operator">*</span>ip <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">int</span><span class="token operator">*</span> ip<span class="token punctuation">,</span> ip2<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) <code>ip</code> 是一个整型指针，指向一个整型数，它的值是所指整型数在内存中的地址；<code>i</code> 是一个整型数；<code>r</code> 是一个引用，它绑定了 <code>i</code>，可以看作是 <code>i</code> 的别名，<code>r</code> 的值就是 <code>i</code> 的值。</p>
+<p>(b) <code>i</code> 是一个整型数；<code>ip</code> 是一个整型指针，但是它不指向任何具体的对象，它的值被初始化为0。</p>
+<p>(c) <code>ip</code> 是一个整型指针，指向一个整型数，它的值是所指整型数在内存中的地址；<code>ip2</code> 是一个整型数。</p>
+<h2><a id="226_505"></a>练习2.26</h2>
+<p>下面哪些语句是合法的？如果不合法，请说明为什么？</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> buf<span class="token punctuation">;</span>
+<span class="token keyword">int</span> cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> sz <span class="token operator">=</span> cnt<span class="token punctuation">;</span>
+<span class="token operator">++</span>cnt<span class="token punctuation">;</span> <span class="token operator">++</span>sz<span class="token punctuation">;</span>
+</code></pre>
+<p>(a) 是非法的，<code>const</code> 对象一旦创建后其值就不能改变，所以 <code>const</code> 对象必须初始化。该句应修改为 <code>const int buf = 10</code>。</p>
+<p>(b) 是合法的。</p>
+<p>(c) 是合法的。</p>
+<p>(d) 是非法的，<code>sz</code> 是一个 <code>const</code> 对象，其值不能被改变，当然不能执行自增操作。</p>
+<h2><a id="227_525"></a>练习2.27</h2>
+<p>下面的哪些初始化是合法的？请说明原因。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>b<span class="token punctuation">)</span> <span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>i2<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> p3 <span class="token operator">=</span> <span class="token operator">&amp;</span>i2<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>i2<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>f<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span><span class="token keyword">const</span> r2<span class="token punctuation">;</span>
+<span class="token punctuation">(</span>g<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token keyword">int</span> i2 <span class="token operator">=</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> i<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是非法的，非常量引用 <code>r</code> 不能引用字面值常量0。</p>
+<p>(b) 是合法的，<code>p2</code> 是一个常量指针，<code>p2</code> 的值永不改变，即 <code>p2</code> 永远指向变量 <code>i2</code>。</p>
+<p>© 是合法的，<code>i</code> 是一个常量，<code>r</code> 是一个常量引用，此时 <code>r</code> 可以绑定到字面值常量0。</p>
+<p>(d) 是合法的，<code>p3</code> 是一个常量指针，<code>p3</code> 的值永不改变，即 <code>p3</code> 永远指向变量 <code>i2</code>；同时 <code>p3</code> 指向的是常量，即不能通过 <code>p3</code> 改变所指对象的值。</p>
+<p>(e) 是合法的，<code>p1</code> 指向一个常量，即不能通过 <code>p1</code> 改变所指对象的值。</p>
+<p>(f) 是非法的，引用本身不是对象，因此不能让引用恒定不变。</p>
+<p>(g) 是合法的，<code>i2</code> 是一个常量，<code>r</code> 是一个常量引用。</p>
+<h2><a id="228_556"></a>练习2.28</h2>
+<p>说明下面的这些定义是什么意思，挑出其中不合法的。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token keyword">const</span> cp<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p1<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token keyword">const</span> p2<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> ic<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> ic<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span><span class="token keyword">const</span> p3<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是非法的，<code>cp</code> 是一个常量指针，因其值不能被改变，所以必须初始化。</p>
+<p>(b) 是非法的，<code>p2</code> 是一个常量指针，因其值不能被改变，所以必须初始化。</p>
+<p>(c) 是非法的，<code>ic</code> 是一个常量，因其值不能被改变，所以必须初始化。</p>
+<p>(d) 是非法的，<code>p3</code> 是一个常量指针，因其值不能被改变，所以必须初始化；同时 <code>p3</code> 指向的是常量，即不能通过 <code>p3</code> 改变所指对象的值。</p>
+<p>(e) 是合法的，但是 <code>p</code> 没有指向任何实际的对象。</p>
+<h2><a id="229_580"></a>练习2.29</h2>
+<p>假设已有上一个练习中定义的那些变量，则下面的哪些语句是合法的？请说明原因。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp">i <span class="token operator">=</span> ic<span class="token punctuation">;</span>
+p1 <span class="token operator">=</span> p3<span class="token punctuation">;</span>
+p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>ic<span class="token punctuation">;</span>
+p3 <span class="token operator">=</span> <span class="token operator">&amp;</span>ic<span class="token punctuation">;</span>
+p2 <span class="token operator">=</span> p1<span class="token punctuation">;</span>
+ic <span class="token operator">=</span> <span class="token operator">*</span>p3<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>(a) 是合法的，常量 <code>ic</code> 的值赋给了非常量 <code>i</code>。</p>
+<p>(b) 是非法的，普通指针 <code>p1</code> 指向了一个常量，从语法上说，<code>p1</code> 的值可以随意改变，显然是不合理的。</p>
+<p>© 是非法的，普通指针 <code>p1</code> 指向了一个常量，错误情况与上一条类似。</p>
+<p>(d) 是非法的，<code>p3</code> 是一个常量指针，不能被赋值。</p>
+<p>(e) 是非法的，<code>p2</code> 是一个常量指针，不能被赋值。</p>
+<p>(f) 是非法的，<code>ic</code> 是一个常量，不能被赋值。</p>
+<h2><a id="230_607"></a>练习2.30</h2>
+<p>对于下面的这些语句，请说明对象被声明成了顶层const还是底层const？</p>
+<pre><code class="prism language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> v2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token keyword">int</span> v1 <span class="token operator">=</span> v2<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>p1 <span class="token operator">=</span> <span class="token operator">&amp;</span>v1<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r1 <span class="token operator">=</span> v1<span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>p2 <span class="token operator">=</span> <span class="token operator">&amp;</span>v2<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token keyword">const</span> p3 <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>r2 <span class="token operator">=</span> v2<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p><code>v2</code> 和 <code>p3</code> 是顶层 const，分别表示一个整型常量和一个整型常量指针；<br>
+<code>p2</code> 和 <code>r2</code> 是底层 const，分别表示它们所指（所引用）的对象是常量。</p>
+<h2><a id="231_621"></a>练习2.31</h2>
+<p>假设已有上一个练习中所做的那些声明，则下面的哪些语句是合法的？请说明顶层const和底层const在每个例子中有何体现。</p>
+<p>解：</p>
+<pre><code class="prism language-cpp">r1 <span class="token operator">=</span> v2<span class="token punctuation">;</span>
+p1 <span class="token operator">=</span> p2<span class="token punctuation">;</span>
+p2 <span class="token operator">=</span> p1<span class="token punctuation">;</span>
+p1 <span class="token operator">=</span> p3<span class="token punctuation">;</span>
+p2 <span class="token operator">=</span> p3<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>在执行拷贝操作时，顶层 const 和底层 const 区别明显。其中，顶层 const 不受影响，这是因为拷贝操作并不会改变被拷贝对象的值。底层 const 的限制则不容忽视，拷入和拷出的对象必须具有相同的底层 const 资格，或者两个对象的数据类型必须能够转换。一般来说，非常量可以转换成常量，反之则不行。</p>
+<ul>
+<li>
+<p><code>r1=v2</code>；是合法的，<code>r1</code> 是一个非常量引用，<code>v2</code> 是一个常量（顶层 const），把 <code>v2</code> 的值拷贝给 <code>r1</code> 不会对 <code>v2</code> 有任何影响。</p>
+</li>
+<li>
+<p><code>p1=p2</code>；是非法的，<code>p1</code> 是普通指针，指向的对象可以是任意值，<code>p2</code> 是指向常量的指针（底层 const），令 <code>p1</code> 指向 <code>p2</code> 所指的内容，有可能错误地改变常量的值。</p>
+</li>
+<li>
+<p><code>p2=p1</code>；是合法的，与上一条语句相反，<code>p2</code> 可以指向一个非常量，只不过不会通过 <code>p2</code> 更改它所指的值。</p>
+</li>
+<li>
+<p><code>p1=p3</code>；是非法的，<code>p3</code> 包含底层 const 定义(<code>p3</code> 所指的对象是常量），不能把 <code>p3</code> 的值赋给普通指针。</p>
+</li>
+<li>
+<p><code>p2=p3</code>；是合法的，<code>p2</code> 和 <code>p3</code> 包含相同的底层 const，<code>p3</code> 的顶层 const 则可以忽略不计。</p>
+</li>
+</ul>
+<h2><a id="232_648"></a>练习2.32</h2>
+<p>下面的代码是否合法？如果非法，请设法将其修改正确。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> null <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> null<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>上述代码是非法的，null 是一个 <code>int</code> 变量，<code>p</code> 是一个 <code>int</code> 指针，二者不能直接绑定。</p>
+<p>仅仅从语法角度来说，可以将代码修改为：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> null <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>null<span class="token punctuation">;</span>
+</code></pre>
+<p>显然，这种写法与代码的愿意不一定相符。另一种改法是使用 nullptr ；</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> null <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+</code></pre>
+<h2><a id="235_670"></a>练习2.35</h2>
+<p>判断下列定义推断出的类型是什么，然后编写程序进行验证。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token keyword">auto</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token keyword">const</span> <span class="token keyword">auto</span> <span class="token operator">&amp;</span>k <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token keyword">auto</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span> 
+<span class="token keyword">const</span> <span class="token keyword">auto</span> j2 <span class="token operator">=</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>k2 <span class="token operator">=</span> i<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p><code>i</code> 是一个整型常量，<code>j</code> 的类型判断结果是整数，<code>k</code> 的类型判断结果是整型常量，<code>p</code> 的类型判断结果是指向整型常量的指针，<code>j2</code> 的类型判断结果是整数，<code>k2</code> 的类型判断结果是整数。</p>
+<p>程序如下：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;typeinfo&gt;</span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">const</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+	<span class="token keyword">auto</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span>
+	<span class="token keyword">const</span> <span class="token keyword">auto</span> <span class="token operator">&amp;</span>k <span class="token operator">=</span> i<span class="token punctuation">;</span>
+	<span class="token keyword">auto</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span>
+	<span class="token keyword">const</span> <span class="token keyword">auto</span> j2 <span class="token operator">=</span> i<span class="token punctuation">,</span> <span class="token operator">&amp;</span>k2 <span class="token operator">=</span> i<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>j2<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>k2<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190927210829592.png" alt="在这里插入图片描述"></p>
+<h2><a id="236_708"></a>练习2.36</h2>
+<p>关于下面的代码，请指出每一个变量的类型以及程序结束时它们各自的值。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> c <span class="token operator">=</span> a<span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span> d <span class="token operator">=</span> a<span class="token punctuation">;</span>
+<span class="token operator">++</span>c<span class="token punctuation">;</span>
+<span class="token operator">++</span>d<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>在本题的程序中，初始情况下 <code>a</code> 的值是3、<code>b</code> 的值是4。</p>
+<p><code>decltype(a)	c=a;</code> 使用的是一个不加括号的变量，因此 <code>c</code> 的类型就是 <code>a</code> 的类型，即该语句等同于 <code>int c=a;</code>，此时 <code>c</code> 是一个新整型变量，值为3。</p>
+<p><code>decltype((b)）d=a;</code> 使用的是一个加了括号的变量，因此 <code>d</code> 的类型是引用，即该语句等同于 <code>int &amp;d=a;</code>，此时 <code>d</code> 是变量 <code>a</code> 的别名。</p>
+<p>执行 <code>++c; ++d;</code> 时，变量 <code>c</code> 的值自增为4，因为 <code>d</code> 是 <code>a</code> 的别名，所以 <code>d</code> 自增1意味着 <code>a</code> 的值变成了4。当程序结束时，<code>a、b、c、d</code> 的值都是4。</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;typeinfo&gt;</span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+	<span class="token keyword">decltype</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> c <span class="token operator">=</span> a<span class="token punctuation">;</span>
+	<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span> d <span class="token operator">=</span> a<span class="token punctuation">;</span>
+	<span class="token operator">++</span>c<span class="token punctuation">;</span>
+	<span class="token operator">++</span>d<span class="token punctuation">;</span>
+
+	cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> c <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> d <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20191111201929961.png" alt="在这里插入图片描述"></p>
+<h2><a id="237_751"></a>练习2.37</h2>
+<p>赋值是会产生引用的一类典型表达式，引用的类型就是左值的类型。也就是说，如果 i 是 int，则表达式 i=x 的类型是 int&amp;。根据这一特点，请指出下面的代码中每一个变量的类型和值。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> c <span class="token operator">=</span> a<span class="token punctuation">;</span>
+<span class="token keyword">decltype</span><span class="token punctuation">(</span>a <span class="token operator">=</span> b<span class="token punctuation">)</span> d <span class="token operator">=</span> a<span class="token punctuation">;</span>
+</code></pre>
+<p>解：</p>
+<p>根据 <code>decltype</code> 的上述性质可知，<code>c</code> 的类型是 <code>int</code>，值为3；表达式 <code>a=b</code> 作为 <code>decltype</code> 的参数，编译器分析表达式并得到它的类型作为 <code>d</code> 的推断类型，但是不实际计算该表达式，所以 <code>a</code> 的值不发生改变，仍然是3；<code>d</code> 的类型是 <code>int&amp;</code>，<code>d</code> 是 <code>a</code> 的别名，值是3；<code>b</code> 的值一直没有发生改变，为4。</p>
+<h2><a id="238_764"></a>练习2.38</h2>
+<p>说明由decltype 指定类型和由auto指定类型有何区别。请举一个例子，decltype指定的类型与auto指定的类型一样；再举一个例子，decltype指定的类型与auto指定的类型不一样。</p>
+<p>解：</p>
+<p><code>auto</code> 和 <code>decltype</code> 的区别主要有三个方面：</p>
+<p>第一，<code>aut0</code> 类型说明符用编译器计算变量的初始值来推断其类型，而 <code>decltype</code> 虽然也让编译器分析表达式并得到它的类型，但是不实际计算表达式的值。</p>
+<p>第二，编译器推断出来的 <code>auto</code> 类型有时候和初始值的类型并不完全一样，编译器会适当地改变结果类型使其更符合初始化规则。例如，<code>auto</code> 一般会忽略掉顶层 const，而把底层 const 保留下来。与之相反，<code>decltype</code> 会保留变量的顶层 const。</p>
+<p>第三，与 <code>auto</code> 不同，<code>decltype</code> 的结果类型与表达式形式密切相关，如果变量名加上了一对括号，则得到的类型与不加括号时会有不同。如果 <code>decltype</code> 使用的是一个不加括号的变量，则得到的结果就是该变量的类型；如果给变量加上了一层或多层括号，则编译器将推断得到引用类型。</p>
+<p>例子如下：</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;typeinfo&gt;</span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+	<span class="token keyword">auto</span> c1 <span class="token operator">=</span> a<span class="token punctuation">;</span>
+	<span class="token keyword">decltype</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>c2 <span class="token operator">=</span> a<span class="token punctuation">;</span>
+	<span class="token keyword">decltype</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span>c3 <span class="token operator">=</span> a<span class="token punctuation">;</span>
+
+	<span class="token keyword">const</span> <span class="token keyword">int</span> d <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+	<span class="token keyword">auto</span> f1 <span class="token operator">=</span> d<span class="token punctuation">;</span>
+	<span class="token keyword">decltype</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span>f2 <span class="token operator">=</span> d<span class="token punctuation">;</span>
+
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>c1<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>c2<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>c3<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>f1<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">typeid</span><span class="token punctuation">(</span>f2<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+
+	c1<span class="token operator">++</span><span class="token punctuation">;</span>
+	c2<span class="token operator">++</span><span class="token punctuation">;</span>
+	c3<span class="token operator">++</span><span class="token punctuation">;</span>
+	f1<span class="token operator">++</span><span class="token punctuation">;</span>
+	f2<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token comment">// error：f2是整型常量，不能执行自增操作</span>
+	cout <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> c1 <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> c2 <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> c3 <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> f1 <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> f2 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190927212845897.png" alt="在这里插入图片描述"><br>
+对于第一组类型推断来说，<code>a</code> 是一个非常量整数，<code>c1</code> 的推断结果是整数，<code>c2</code> 的推断结果也是整数，<code>c3</code> 的推断结果由于变量 <code>a</code> 额外加了一对括号，所以是整数引用。<code>c1、c2、c3</code> 依次执行自增操作，因为 <code>c3</code> 是变量 <code>a</code> 的别名，所以 <code>c3</code> 自增等同于 <code>a</code> 自增，最终 <code>a、c1、c2、c3</code> 的值都变为4。</p>
+<p>对于第二组类型推断来说，<code>d</code> 是一个常量整数，含有顶层 <code>const</code> 使用 <code>auto</code> 推断类型自动忽略掉顶层 const，因此 <code>f1</code> 的推断结果是整数；<code>decltype</code> 则保留顶层 const ，所以 <code>f2</code> 的推断结果是整数常量。<code>f1</code> 可以正常执行自增操作，而常量 <code>f2</code> 的值不能被改变，所以无法自增。</p>
+<h2><a id="239__242_815"></a>练习2.39 - 2.42放在后期类的章节中再做。</h2>
+</div>
+</body>
+
+</html>
