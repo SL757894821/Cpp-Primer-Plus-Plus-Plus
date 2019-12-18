@@ -1,6 +1,6 @@
-# ⭐⭐⭐ C++Primer 5th（更新ing）和 C++Primer-Plus 6th（更新ing）
+# ⭐ C++Primer 5th（更新ing）和 C++Primer-Plus 6th（更新ing）
 
-# 🎄🎄🎄 种树最好的时间是10年前，其次是现在！！！
+# 🎄 种树最好的时间是10年前，其次是现在！！！
 
 ---
 
@@ -10,31 +10,31 @@
 
 ---
 
-## 📒📒📒 C++ Primer 5th 学习笔记/习题答案 总目录
+## 📒 C++ Primer 5th 学习笔记/习题答案 总目录
 
 - [博客地址](https://blog.csdn.net/TeFuirnever/article/details/100700212)
 
-## 📓📓📓 C++primer 5th 学习笔记
+## 📓 C++primer 5th 学习笔记
 
 - [学习笔记](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus/tree/master/C%2B%2Bprimer5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0)
 
-## 📔📔📔 C++primer 5th 课后题
+## 📔 C++primer 5th 课后题
 
 - [课后题](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus/tree/master/C%2B%2Bprimer5%E8%AF%BE%E5%90%8E%E9%A2%98)
 
 ---
 
-## 📕📕📕 C++ Primer Plus 6th 源代码
+## 📕 C++ Primer Plus 6th 源代码
 
 - [源代码](https://github.com/TeFuirnever/Cpp-Primer-Plus/tree/master/C%2B%2Bprimer-plus%E6%BA%90%E4%BB%A3%E7%A0%81)
 
-## 📗📗📗 C++ Primer Plus 6th 复习题
+## 📗 C++ Primer Plus 6th 复习题
 
 - [pdf 文档](https://github.com/TeFuirnever/Cpp-Primer-Plus/blob/master/C%2B%2BPrimerPlus%E7%AC%AC%E5%85%AD%E7%89%88%E5%A4%8D%E4%B9%A0%E9%A2%98.pdf)
 
 ---
 
-## 📘📘📘 C++ Primer Plus 6th 课后题
+## 📘 C++ Primer Plus 6th 课后题
 
 ## 目录
 
@@ -54,6 +54,6 @@
 - 第十六章 - string类和标准模板库
 - 第十七章 - 输入、输出和文件
 
-# 📢📢📢 全部本人所写✏✏✏，仅供参考📜📜📜
+# 📢 全部本人所写✏，仅供参考📜
 
-# 📢📢📢 更新中ing📆📆📆。。。。期待一下🌈🌈🌈
+# 📢 更新中ing📆。。。。期待一下🌈
