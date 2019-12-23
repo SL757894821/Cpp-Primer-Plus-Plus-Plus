@@ -1,4 +1,4 @@
-# ⭐ C++Primer 5th（更新ing）和 C++Primer-Plus 6th（更新ing）
+# ⭐ C++Primer 5th 和 C++PrimerPlus 6th（更新ing）
 
 # 🎄 种树最好的时间是10年前，其次是现在！！！
 
