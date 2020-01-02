@@ -1,2 +1,3 @@
 - [《C++ Primer》习题参考答案：第3章 - 字符串、向量和数组](https://tefuirnever.blog.csdn.net/article/details/101976043)
 - [《C++ Primer》习题参考答案：第4章 - 优先级和关系运算符](https://tefuirnever.blog.csdn.net/article/details/103007520)
+- [《C++ Primer》习题参考答案：第5章 - 循环、分支、跳转和异常处理语句](https://tefuirnever.blog.csdn.net/article/details/103671585)
