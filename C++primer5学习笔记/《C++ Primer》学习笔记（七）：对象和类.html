@@ -1,0 +1,712 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《C++ Primer》学习笔记（七）：对象和类</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="WX_0"></a>欢迎关注WX公众号：【程序员管小亮】</h1>
+<h2><a id="Chttpsblogcsdnnettefuirneverarticlecategory9342309_1"></a><a href="https://blog.csdn.net/tefuirnever/article/category/9342309">专栏C++学习笔记</a></h2>
+<p>《C++ Primer》学习笔记/习题答案 总目录</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100700212">https://blog.csdn.net/TeFuirnever/article/details/100700212</a></li>
+</ul>
+<p>——————————————————————————————————————————————————————</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/103671604">《C++ Primer》习题参考答案：第7章 - 对象和类</a></li>
+</ul>
+<p></p><div class="toc"><h3>文章目录</h3><ul><li><a href="#WX_0">欢迎关注WX公众号：【程序员管小亮】</a></li><ul><li><a href="#Chttpsblogcsdnnettefuirneverarticlecategory9342309_1">专栏C++学习笔记</a></li></ul><li><a href="#_CppPrime5__CppPrimerPlus6_httpsgithubcomTeFuirneverCppPrimerPlusPlusPlus_12">📚💻 [Cpp-Prime5 + Cpp-Primer-Plus6 源代码和课后题](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus)</a></li><li><a href="#_13">对象和类</a></li><ul><li><a href="#1_19">1、定义抽象数据类型</a></li><ul><ul><li><a href="#1Sales_data_22">1）设计Sales_data类</a></li><li><a href="#2Sales_data_34">2）定义改进的Sales_data类</a></li><li><a href="#3_118">3）定义类相关的非成员函数</a></li><li><a href="#4_149">4）构造函数</a></li><li><a href="#5_217">5）拷贝、赋值和析构</a></li></ul></ul><li><a href="#2_223">2、访问控制与封装</a></li><ul><ul><li><a href="#1_260">1）友元</a></li></ul></ul><li><a href="#3_307">3、类的其他特性</a></li><ul><ul><li><a href="#1_309">1）类成员再探</a></li><li><a href="#2this_360">2）返回\*this的成员函数</a></li><li><a href="#3_389">3）类类型</a></li><li><a href="#4_423">4）友元再探</a></li></ul></ul><li><a href="#4_464">4、类的作用域</a></li><ul><ul><li><a href="#1_485">1）名字查找与作用域</a></li></ul></ul><li><a href="#5_556">5、构造函数再探</a></li><ul><ul><li><a href="#1_558">1）构造函数初始值列表</a></li><li><a href="#2_586">2）委托构造函数</a></li><li><a href="#3_605">3）默认构造函数的作用</a></li><li><a href="#4_637">4）隐式的类类型转换</a></li><li><a href="#5_699">5）聚合类</a></li><li><a href="#6_728">6）字面值常量类</a></li></ul></ul><li><a href="#7_740">7、类的静态成员</a></li><li><a href="#_849">参考文章</a></li></ul></ul></div><p></p>
+<h1><a id="_CppPrime5__CppPrimerPlus6_httpsgithubcomTeFuirneverCppPrimerPlusPlusPlus_12"></a>📚💻 <a href="https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus">Cpp-Prime5 + Cpp-Primer-Plus6 源代码和课后题</a></h1>
+<h1><a id="_13"></a>对象和类</h1>
+<p>类的基本思想是 <strong>数据抽象（data abstraction）</strong> 和 <strong>封装（encapsulation）</strong>。数据抽象是一种依赖于 <strong>接口（interface）</strong> 和 <strong>实现（implementation）</strong> 分离的编程及设计技术。类的接口包括用户所能执行的操作；类的实现包括类的数据成员、负责接口实现的函数体以及其他私有函数。</p>
+<p>封装实现了类的接口和实现的分离。封装后的类隐藏了它的实现细节，也就是说，类的用户只能使用接口而无法访问实现部分。</p>
+<h2><a id="1_19"></a>1、定义抽象数据类型</h2>
+<p>本章主要使用的 <code>Sales_data</code> 类是一个抽象数据类型，通过它的接口可以使用它，但是不能访问它的数据成员，因为事实上，我们甚至根本不知道这个类有哪些数据成员。</p>
+<h4><a id="1Sales_data_22"></a>1）设计Sales_data类</h4>
+<p><code>Sales_item</code> 类有一个名为 <code>isbn</code> 的 <strong>成员函数（member function）</strong>， 并且支持 <code>+ 、= 、+= 、&lt;&lt; 和 &gt;&gt;</code> 运算符。</p>
+<p><code>Sales_data</code> 的接口应该包含以下操作：</p>
+<ul>
+<li>一个 <code>isbn</code> 成员函数，用于返回对象的 <code>ISBN</code> 编号</li>
+<li>一个 <code>combine</code> 成员函数，用于将一个 <code>Sales_data</code> 对象加到另一个对象上</li>
+<li>一个 <code>add</code> 的函数，执行两个 <code>Sales_data</code> 对象的加法</li>
+<li>一个 <code>read</code> 函数，将数据从 <code>istream</code> 读入到 <code>Sales_data</code> 对象中</li>
+<li>一个 <code>print</code> 函数， 将 <code>Sales_data</code> 对象的值输出到 <code>ostream</code></li>
+</ul>
+<blockquote>
+<p>程序员们常把运行其程序的人称作 <strong>用户（user）</strong> 。类的用户是程序员，而非应用程序的最终使用者。</p>
+</blockquote>
+<h4><a id="2Sales_data_34"></a>2）定义改进的Sales_data类</h4>
+<p><strong>成员函数（member function）</strong> 的声明必须在类的内部，定义则既可以在类的内部也可以在类的外部。作为接口组成部分的非成员函数，它们的定义和声明都在类的外部。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">struct</span> Sales_data
+<span class="token punctuation">{</span>
+    <span class="token comment">// 新成员:关于Sales_data对象的操作</span>
+    std<span class="token operator">::</span>string <span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> bookNo<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    Sales_data<span class="token operator">&amp;</span> <span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> <span class="token function">avg_price</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+    <span class="token comment">// 数据成员</span>
+    std<span class="token operator">::</span>string bookNo<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> units_sold <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> revenue <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// Sales_data的非成员接口函数</span>
+Sales_data <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span><span class="token function">print</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>istream <span class="token operator">&amp;</span><span class="token function">read</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream<span class="token operator">&amp;</span><span class="token punctuation">,</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>定义在类内部的函数是隐式的内联（inline）函数。</p>
+</blockquote>
+<p>尽管所有成员都必须在类的内部声明，但是成员函数体可以定义在类内也可以定义在<br>
+类外。</p>
+<p>成员函数通过一个名为 <code>this</code> 的隐式额外参数来访问调用它的对象。<code>this</code> 参数是一个常量指针，被初始化为调用该函数的对象地址，不允许改变 <code>this</code> 中保存的地址。</p>
+<pre><code class="prism language-cpp">total<span class="token punctuation">.</span><span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// 伪代码，用于说明调用成员函数的实际执行过程</span>
+Sales_data<span class="token operator">::</span><span class="token function">isbn</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>total<span class="token punctuation">)</span>
+std<span class="token operator">::</span>string <span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">&gt;</span>bookNo<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+</code></pre>
+<p>默认情况下，<code>this</code> 的类型是指向类类型非常量版本的常量指针。<code>this</code> 也遵循初始化规则，所以默认不能把 <code>this</code> 绑定到一个常量对象上，即不能在常量对象上调用普通的成员函数。</p>
+<p>C++允许在成员函数的参数列表后面添加关键字 <code>const</code>，表示 <code>this</code> 是一个指向常量的指针。使用关键字 <code>const</code> 的成员函数被称作 <strong>常量成员函数（const member function）</strong>。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 伪代码，说明隐式的this指针是如何使用的</span>
+<span class="token comment">// 下面的代码是非法的：因为我们不能显式地定义自己的this指针</span>
+<span class="token comment">// 谨记此处的this是一个指向常量的指针，因为isbn是一个常量成员</span>
+std<span class="token operator">::</span>string Sales_data<span class="token operator">::</span><span class="token function">isbn</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data <span class="token operator">*</span><span class="token keyword">const</span> <span class="token keyword">this</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">&gt;</span>isbn<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>常量对象和指向常量对象的引用或指针都只能调用常量成员函数。</p>
+</blockquote>
+<p>类本身就是一个作用域，成员函数的定义嵌套在类的作用域之内。</p>
+<p>编译器处理类时器分两步处理类，</p>
+<ul>
+<li>首先会是编译成员声明，</li>
+<li>然后才轮到编译成员函数体（如果有的话），</li>
+</ul>
+<p>因此，成员函数可以随意使用类的其他成员而无须在意这些成员的出现顺序。</p>
+<p>在类的外部定义成员函数时，成员函数的定义必须与它的声明相匹配。也就是说，返回类型、参数列表和函数名都得与类内部的声明保持一致。如果成员函数被声明为常量成员函数，那么它的定义也必须在参数列表后面指定 <code>const</code> 属性。同时，类外部定义的成员名字必须包含它所属的类名。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 声明在类Sales_data的作用域内定义了一个名为avg_price的函数</span>
+<span class="token keyword">double</span> Sales_data<span class="token operator">::</span><span class="token function">avg_price</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> 
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>units_sold<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> revenue <span class="token operator">/</span> units_sold<span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>可以定义返回 <code>this</code> 对象的成员函数。</p>
+<pre><code class="prism language-c">Sales_data<span class="token operator">&amp;</span> Sales_data<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data <span class="token operator">&amp;</span>rhs<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    units_sold <span class="token operator">+</span><span class="token operator">=</span> rhs<span class="token punctuation">.</span>units_sold<span class="token punctuation">;</span>   <span class="token comment">// 把rhs的成员加到this对象的成员上</span>
+    revenue <span class="token operator">+</span><span class="token operator">=</span> rhs<span class="token punctuation">.</span>revenue<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">*</span>this<span class="token punctuation">;</span>       			<span class="token comment">// 返回调用该函数的对象</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>其中，<code>return</code> 语句解引用 <code>this</code> 指针以获得执行该函数的对象。</p>
+<h4><a id="3_118"></a>3）定义类相关的非成员函数</h4>
+<p>类的作者通常会定义一些辅助函数，尽管这些函数从概念上来说属于类接口的组成部分，但实际上它们并不属于类本身。</p>
+<blockquote>
+<p>如果非成员函数是类接口的组成部分，则这些函数的声明应该与类放在同一个头文件中。</p>
+</blockquote>
+<pre><code class="prism language-cpp"><span class="token comment">// 输入的交易信息包括ISBN、售出总数和售出价格</span>
+istream <span class="token operator">&amp;</span><span class="token function">read</span><span class="token punctuation">(</span>istream <span class="token operator">&amp;</span>is<span class="token punctuation">,</span> Sales_data <span class="token operator">&amp;</span>item<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">double</span> price <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    is <span class="token operator">&gt;&gt;</span> item<span class="token punctuation">.</span>bookNo <span class="token operator">&gt;&gt;</span> item<span class="token punctuation">.</span>units_sold <span class="token operator">&gt;&gt;</span> price<span class="token punctuation">;</span>
+    item<span class="token punctuation">.</span>revenue <span class="token operator">=</span> price <span class="token operator">*</span> item<span class="token punctuation">.</span>units_sold<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> is<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ostream <span class="token operator">&amp;</span><span class="token function">print</span><span class="token punctuation">(</span>ostream <span class="token operator">&amp;</span>os<span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data <span class="token operator">&amp;</span>item<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    os <span class="token operator">&lt;&lt;</span> item<span class="token punctuation">.</span><span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> item<span class="token punctuation">.</span>units_sold <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span>
+        <span class="token operator">&lt;&lt;</span> item<span class="token punctuation">.</span>revenue <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token operator">&lt;&lt;</span> item<span class="token punctuation">.</span><span class="token function">avg_price</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> os<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+Sales_data <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data <span class="token operator">&amp;</span>lhs<span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data <span class="token operator">&amp;</span>rhs<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	Sales_data sum <span class="token operator">=</span> lhs<span class="token punctuation">;</span> 	<span class="token comment">// 把lhs的数据成员拷贝给sum</span>
+	sum<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span>rhs<span class="token punctuation">)</span><span class="token punctuation">;</span> 		<span class="token comment">// 把rhs的数据成员加到sum当中</span>
+	<span class="token keyword">return</span> sum<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>一般来说，执行输出任务的函数应该尽量减少对格式的控制，这样可以确保由用户代归来决定是有换行。</p>
+<h4><a id="4_149"></a>4）构造函数</h4>
+<p>类通过一个或几个特殊的成员函数来控制其对象的初始化操作，这些函数被称作 <strong>构造函数（constructor）</strong>。构造函数的任务是初始化类对象的数据成员，只要类的对象被创建，就会执行构造函数。</p>
+<p>构造函数的名字和类名相同，和其他函数不一样的是，构造函数没有返回类型，且不能被声明为 <code>const</code> 函数。</p>
+<p>构造函数在 <code>const</code> 对象的构造过程中可以向其写值。</p>
+<p>类通过一个特殊的构造函数来控制默认初始化过料， 这个函数叫做 <strong>默认构造函数（default constructor）</strong>。默认构造函数无须任何实参。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">struct</span> Sales_data 
+<span class="token punctuation">{</span>
+    <span class="token comment">// 新增的构造函数</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> n<span class="token punctuation">,</span> <span class="token keyword">double</span> p<span class="token punctuation">)</span><span class="token operator">:</span>
+        <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>p<span class="token operator">*</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 之前已有的其他成员</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>类通过 <strong>默认构造函数（default constructor）</strong> 来控制默认初始化过程，默认构造函数无须任何实参。</p>
+<p>如果类没有显式地定义构造函数，则编译器会为类隐式地定义一个默认构造函数，该构造函数也被称为 <strong>合成的默认构造函数（synthesized default constructor）</strong>。对于大多数类来说，合成的默认构造函数初始化数据成员的规则如下：</p>
+<ul>
+<li>如果存在类内初始值，则用它来初始化成员。</li>
+<li>否则默认初始化该成员。</li>
+</ul>
+<p>某些类不能依赖于合成的默认构造函数。</p>
+<ul>
+<li>只有当类没有声明任何构造函数时，编译器才会自动生成默认构造函数。一旦类定义了其他构造函数，那么除非再显式地定义一个默认的构造函数，否则类将没有默认构造函数。</li>
+<li>如果类包含内置类型或者复合类型的成员，则只有当这些成员全部存在类内初始值时，这个类才适合使用合成的默认构造函数。否则用户在创建类的对象时就可能得到未定义的值。</li>
+<li>编译器不能为某些类合成默认构造函数。例如类中包含一个其他类类型的成员，且该类型没有默认构造函数，那么编译器将无法初始化该成员。</li>
+</ul>
+<p>在C++11中，如果类需要默认的函数行为，可以通过在参数列表后面添加 <code>=default</code> 来要求编译器生成构造函数。其中 <code>=default</code> 既可以和函数声明一起出现在类的内部，也可以作为定义出现在类的外部。和其他函数一样，如果 <code>=default</code> 在类的内部，则默认构造函数是内联的。</p>
+<pre><code class="prism language-cpp"><span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+</code></pre>
+<p><strong>构造函数初始值列表（constructor initializer list）</strong> 负责为新创建对象的一个或几个数据成员赋初始值。形式是每个成员名字后面紧跟括号括起来的（或者在花括号内的）成员初始值，不同成员的初始值通过逗号分隔。</p>
+<pre><code class="prism language-c"><span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+<span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> n<span class="token punctuation">,</span> <span class="token keyword">double</span> p<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>p<span class="token operator">*</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+</code></pre>
+<p>当某个数据成员被构造函数初始值列表忽略时，它会以与合成默认构造函数相同的方式隐式初始化。</p>
+<pre><code class="prism language-c"><span class="token comment">// 与上面定义的那个构造函数效果相同</span>
+<span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>构造函数不应该轻易覆盖掉类内初始值，除非新值与原值不同。如果编译器不支持类内初始值，则所有构造函数都应该显式初始化每个内置类型的成员。</p>
+</blockquote>
+<p>使用 <code>this</code> 来把对象当成一个整体访问，而非直接访问对象的某个成员。</p>
+<pre><code class="prism language-cpp">Sales_data<span class="token operator">::</span><span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream <span class="token operator">&amp;</span>is<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token function">read</span><span class="token punctuation">(</span>is<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// read函数的作用是从is中读取一条交易信息然后存入this对象中</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="5_217"></a>5）拷贝、赋值和析构</h4>
+<p>编译器能合成拷贝、赋值和析构函数，但是对于某些类来说，合成的版本无法正常工作。特别是，当类需要分配类对象之外的资源时，合成的版本通常会失效。</p>
+<p>使用 <code>vector</code> 或者 <code>string</code> 的类能避免分配和释放内存带来的复杂性。</p>
+<h2><a id="2_223"></a>2、访问控制与封装</h2>
+<p>使用 <strong>访问说明符（access specifier）</strong> 可以加强类的封装性：</p>
+<ul>
+<li>定义在 <code>public</code> 说明符之后的成员在整个程序内都可以被访问。<code>public</code> 成员定义类的接口。</li>
+<li>定义在 <code>private</code> 说明符之后的成员可以被类的成员函数访问，但是不能被使用该类的代码访问。<code>private</code> 部分封装了类的实现细节。</li>
+</ul>
+<pre><code class="prism language-c">class Sales_data 
+<span class="token punctuation">{</span>
+public<span class="token punctuation">:</span> 	<span class="token comment">// 添加了访问说明符</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> n<span class="token punctuation">,</span> <span class="token keyword">double</span> p<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>p<span class="token operator">*</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token punctuation">:</span><span class="token punctuation">:</span>istream<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>string <span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> bookNo<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    Sales_data <span class="token operator">&amp;</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+private<span class="token punctuation">:</span> 	<span class="token comment">// 添加了访问说明符</span>
+    <span class="token keyword">double</span> <span class="token function">avg_price</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span>
+    	<span class="token punctuation">{</span> <span class="token keyword">return</span> units_sold <span class="token operator">?</span> revenue<span class="token operator">/</span>units_sold <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>   
+    std<span class="token punctuation">:</span><span class="token punctuation">:</span>string bookNo<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> units_sold <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> revenue <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>作为接口的一部分，</p>
+<ul>
+<li><strong>构造函数和部分成员函数</strong> 紧跟在 <code>public</code> 说明符之后；</li>
+<li>而<strong>数据成员和作为实现部分的函数</strong> 则跟在 <code>private</code> 说明符后面。</li>
+</ul>
+<p>一个类可以包含零或多个访问说明符，而且对于某个访问说明符能出现多少次也没有严格限定。每个访问说明符指定了接下来的成员的访问级别，其有效范围到出现下一个访问说明符或类的结尾处为止。</p>
+<ul>
+<li>使用关键字 <code>struct</code> 定义类时，定义在第一个访问说明符之前的成员是 <code>public</code> 的；</li>
+<li>而使用关键字 <code>class</code> 时，这些成员是 <code>private</code> 的。<br>
+二者唯一的区别就是默认访问权限不同。</li>
+</ul>
+<h4><a id="1_260"></a>1）友元</h4>
+<p>类可以允许其他类或函数访问它的非公有成员，方法是使用关键字 <code>friend</code> 将其他类或函数声明为它的 <strong>友元（friend）</strong>。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Sales_data</span> 
+<span class="token punctuation">{</span>
+<span class="token comment">// 为Sales_data的非成员函数所做的友元声明</span>
+<span class="token keyword">friend</span> Sales_data <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">friend</span> std<span class="token operator">::</span>istream <span class="token operator">&amp;</span><span class="token function">read</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream<span class="token operator">&amp;</span><span class="token punctuation">,</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">friend</span> std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span><span class="token function">print</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 其他成员及访问说明符与之前一致</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> n<span class="token punctuation">,</span> <span class="token keyword">double</span> p<span class="token punctuation">)</span><span class="token operator">:</span>
+    	<span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>p<span class="token operator">*</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token operator">::</span>string <span class="token function">isbn</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> bookNo<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    Sales_data <span class="token operator">&amp;</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    std<span class="token operator">::</span>string bookNo<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> units_sold <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> revenue <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// Sales_data接口的非成员组成部分的声明</span>
+Sales_data <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>istream <span class="token operator">&amp;</span><span class="token function">read</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream<span class="token operator">&amp;</span><span class="token punctuation">,</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span><span class="token function">print</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Sales_data<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>友元声明只能出现在类定义的内部，具体位置不限。友元不是类的成员，也不受它所在区域访问级别的约束。</p>
+<blockquote>
+<p>通常情况下，最好在类定义开始或结束前的位置集中声明友元。</p>
+</blockquote>
+<p>封装的好处：</p>
+<ul>
+<li>确保用户代码不会无意间破坏封装对象的状态。</li>
+<li>被封装的类的具体实现细节可以随时改变，而无须调整用户级别的代码。</li>
+</ul>
+<p>友元声明仅仅指定了访问权限，而并非一个通常意义上的函数声明。如果希望类的用户能调用某个友元函数，就必须在友元声明之外再专门对函数进行一次声明（部分编译器没有该限制）。</p>
+<p>为了使友元对类的用户可见，通常会把友元的声明（类的外部）与类本身放在同一个头文件中。</p>
+<blockquote>
+<p>许多编译器并未强制限定友元函数必须在使用之前在类的外部声明。</p>
+</blockquote>
+<p>一些编译器允许在尚无友元函数的初始声明的情况下就调用它。不过即使你的编译器支持这种行为，最好还是提供一个独立的函数声明。这样即使你更换了一个有这种强制要求的编译器，也不必改变代码。</p>
+<h2><a id="3_307"></a>3、类的其他特性</h2>
+<h4><a id="1_309"></a>1）类成员再探</h4>
+<p>由类定义的类型名字和其他成员一样存在访问限制，可以是 <code>public</code> 或 <code>private</code> 中的一种。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span> 
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token keyword">typedef</span> std<span class="token operator">::</span>string<span class="token operator">::</span>size_type pos<span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+	pos cursor <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	pos height <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	std<span class="token operator">::</span>string contents<span class="token punctuation">;</span>
+
+<span class="token comment">// *******************</span>
+
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// 使用类型别名等价地声明一个类型名字</span>
+    <span class="token keyword">using</span> pos <span class="token operator">=</span> std<span class="token operator">::</span>string<span class="token operator">::</span>size_type<span class="token punctuation">;</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>与普通成员不同，用来定义类型的成员必须先定义后使用。类型成员通常位于类起始处。</p>
+<p>定义在类内部的成员函数是自动内联的。</p>
+<p>如果需要显式声明内联成员函数，建议只在类外部定义的位置说明 <code>inline</code>。</p>
+<blockquote>
+<p>和我们在头文件中定义 <code>inline</code> 函数的原因一样，<code>inline</code> 成员函数也该与类定义在同一个头文件中。</p>
+</blockquote>
+<p>使用关键字 <code>mutable</code> 可以声明 <strong>可变数据成员（mutable data member）</strong>。可变数据成员永远不会是 <code>const</code> 的，即使它在 <code>const</code> 对象内。因此 <code>const</code> 成员函数可以修改可变成员的值。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span> 
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">some_member</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">mutable</span> size_t access_ctr<span class="token punctuation">;</span>  <span class="token comment">// 即使在一个const对象内也能被修改</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> Screen<span class="token operator">::</span><span class="token function">some_member</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span>
+<span class="token punctuation">{</span>
+    <span class="token operator">++</span>access_ctr<span class="token punctuation">;</span>   <span class="token comment">// 保存一个计数值，用于记录成员函数被调用的次数</span>
+    <span class="token comment">// 该成员需要完成的其他工作</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>提供类内初始值时，必须使用 <code>=</code> 或花括号形式。</p>
+<h4><a id="2this_360"></a>2）返回*this的成员函数</h4>
+<blockquote>
+<p><code>const</code> 成员函数如果以引用形式返回 <code>*this</code>，则返回类型是常量引用。</p>
+</blockquote>
+<p>通过区分成员函数是否为 <code>const</code> 的，可以对其进行重载。因为非常量版本的函数对于常量对象是不可用的，在常量对象上只能调用 <code>const</code> 版本的函数；在非常量对象上，尽管两个版本都能调用，但显然会选择非常量版本，因为是一个更好的匹配。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span> 
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// 根据对象是否是const重载了display函数</span>
+    Screen <span class="token operator">&amp;</span><span class="token function">display</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span>os<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span> <span class="token function">do_display</span><span class="token punctuation">(</span>os<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">const</span> Screen <span class="token operator">&amp;</span><span class="token function">display</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span>os<span class="token punctuation">)</span> <span class="token keyword">const</span>
+    <span class="token punctuation">{</span> <span class="token function">do_display</span><span class="token punctuation">(</span>os<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token comment">// 该函数负责显示Screen的内容</span>
+    <span class="token keyword">void</span> <span class="token function">do_display</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream <span class="token operator">&amp;</span>os<span class="token punctuation">)</span> <span class="token keyword">const</span>
+    <span class="token punctuation">{</span> os <span class="token operator">&lt;&lt;</span> contents<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+Screen <span class="token function">myScreen</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> Screen <span class="token function">blank</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myScreen<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'#'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">display</span><span class="token punctuation">(</span>cout<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 调用非常量版本</span>
+blank<span class="token punctuation">.</span><span class="token function">display</span><span class="token punctuation">(</span>cout<span class="token punctuation">)</span><span class="token punctuation">;</span>    			<span class="token comment">// 调用常量版本</span>
+</code></pre>
+<h4><a id="3_389"></a>3）类类型</h4>
+<p>每个类定义了唯一的类型。即使两个类的成员列表完全一致，它们也是不同的类型。</p>
+<p>我们可以把类名作为类型的名字使用，从而直接指向类类型。或者，也可以把类名跟在关键字 <code>class</code> 或 <code>struct</code> 后面：</p>
+<pre><code class="prism language-cpp">Sales_data iteml<span class="token punctuation">;</span>			<span class="token comment">// 默认初始化Sales_data类型的对象</span>
+<span class="token keyword">class</span> <span class="token class-name">Sales_data</span> iteml<span class="token punctuation">;</span>		<span class="token comment">// 一条等价的声明</span>
+</code></pre>
+<p>可以仅仅声明一个类而暂时不定义它。这种声明被称作 <strong>前向声明（forward declaration）</strong>，用于引入类的名字。在类声明之后定义之前都是一个 <strong>不完全类型（incomplete type）</strong>。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span><span class="token punctuation">;</span>   <span class="token comment">// Screen类的声明</span>
+</code></pre>
+<p>不完全类型只能在非常有限的情景下使用：</p>
+<ul>
+<li>可以定义指向不完全类型的指针或引用，</li>
+<li>也可以声明（不能定义）以不完全类型作为参数或返回类型的函数。</li>
+</ul>
+<p>必须首先完成类的定义，然后编译器才能知道存储该数据成员需要多少空间。因为只有当类全部完成后才算被定义，所以一个类的成员类型不能是该类本身。</p>
+<p>但是一旦类的名字出现，就可以被认为是声明过了，因此类可以包含指向它自身类型的引用或指针。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Link_screen</span>
+<span class="token punctuation">{</span>
+    Screen window<span class="token punctuation">;</span>
+    Link_screen <span class="token operator">*</span>next<span class="token punctuation">;</span>
+    Link_screen <span class="token operator">*</span>prev<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h4><a id="4_423"></a>4）友元再探</h4>
+<p>除了普通函数，类还可以把其他类或其他类的成员函数声明为友元。此外， 友元函数能定义在类的内部， 这样的函数是隐式内联的。</p>
+<p>友元类的成员函数可以访问此类包括非公有成员在内的所有成员。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span> 
+<span class="token punctuation">{</span>
+    <span class="token comment">// Window_mgr的成员可以访问Screen类的私有部分</span>
+    <span class="token keyword">friend</span> <span class="token keyword">class</span> <span class="token class-name">Window_mgr</span><span class="token punctuation">;</span>
+    <span class="token comment">// Screen类的剩余部分</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>必须要注意的一点是， 友元关系不存在传递性。</p>
+<blockquote>
+<p>每个类负责控制自己的友元类或友元函数。</p>
+</blockquote>
+<p>友元函数可以直接定义在类的内部，这种函数是隐式内联的。但是必须在类外部提供相应声明令函数可见。</p>
+<p>把其他类的成员函数声明为友元时，必须明确指定该函数所属的类名。</p>
+<p>如果类想把一组重载函数声明为友元，需要对这组函数中的每一个分别声明。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">struct</span> X
+<span class="token punctuation">{</span>
+    <span class="token keyword">friend</span> <span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* 友元函数可以定义在类的内部 */</span> <span class="token punctuation">}</span>
+    <span class="token function">X</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>   <span class="token comment">// 错误：f还没有被声明</span>
+    <span class="token keyword">void</span> <span class="token function">g</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">h</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> X<span class="token operator">::</span><span class="token function">g</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>     <span class="token comment">// 错误：f还没有被声明</span>
+<span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   					<span class="token comment">// 声明那个定义在x中的函数</span>
+<span class="token keyword">void</span> X<span class="token operator">::</span><span class="token function">h</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>     <span class="token comment">// 正确：现在f的声明在作用域中了</span>
+</code></pre>
+<p>友元声明的作用是影响访问权限，它本身并非普通意义上的声明。请注意，有的编译器并不强制执行上述关于友元的限定规则。</p>
+<h2><a id="4_464"></a>4、类的作用域</h2>
+<p>当成员函数定义在类外时，返回类型中使用的名字位于类的作用域之外，此时返回类型必须指明它是哪个类的成员。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Window_mgr</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// 向窗口添加一个Screen，返回它的编号</span>
+    ScreenIndex <span class="token function">addScreen</span><span class="token punctuation">(</span><span class="token keyword">const</span> Screen<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// 首先处理返回类型，之后我们才进入Window_mgr的作用域</span>
+Window_mgr<span class="token operator">::</span>ScreenIndex
+Window_mgr<span class="token operator">::</span><span class="token function">addScreen</span><span class="token punctuation">(</span><span class="token keyword">const</span> Screen <span class="token operator">&amp;</span>s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    screens<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> screens<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="1_485"></a>1）名字查找与作用域</h4>
+<blockquote>
+<p>编译器处理完类中的全部声明后才会处理成员函数的定义。</p>
+</blockquote>
+<p>成员函数体直到整个类可见后才会被处理，因此它能使用类中定义的任何名字。</p>
+<p>声明中使用的名字，包括返回类型或参数列表，都必须确保使用前可见。</p>
+<ul>
+<li>如果某个成员的声明使用了类中尚未出现的名字，贝IJ编译器将会在定义该类的作用域中继续查找。</li>
+<li>如果类的成员使用了外层作用域的某个名字，而该名字表示一种类型，则类不能在之后重新定义该名字。</li>
+</ul>
+<pre><code class="prism language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">double</span> Money<span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">Account</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    Money <span class="token function">balance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> bal<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token comment">// 使用外层作用域的Money</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">typedef</span> <span class="token keyword">double</span> Money<span class="token punctuation">;</span> 			<span class="token comment">// 错误：不能重新定义Money</span>
+    Money bal<span class="token punctuation">;</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>尽管重新定义类型名字是一种错误的行为，但是编译器并不为此负责。一些编译器仍将顺利通过这样的代码，而忽略代码有错的事实。</p>
+<blockquote>
+<p>类型名定义通常出现在类起始处，这样能确保所有使用该类型的成员都位于类型名定义之后。</p>
+</blockquote>
+<p>成员函数中名字的解析顺序：</p>
+<ul>
+<li>在成员函数内查找该名字的声明，只有在函数使用之前出现的声明才会被考虑。</li>
+<li>如果在成员函数内没有找到，则会在类内继续查找，这时会考虑类的所有成员。</li>
+<li>如果类内也没有找到，会在成员函数定义之前的作用域查找。</li>
+</ul>
+<pre><code class="prism language-cpp"><span class="token comment">// 注意：这段代码仅为了说明而用，不是一段很好的代码</span>
+<span class="token comment">// 通常情况下不建议为参数和成员使用同样的名字</span>
+<span class="token keyword">int</span> height<span class="token punctuation">;</span>   <span class="token comment">// 定义了一个名字，稍后将在Screen中使用</span>
+<span class="token keyword">class</span> <span class="token class-name">Screen</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">typedef</span> std<span class="token operator">::</span>string<span class="token operator">::</span>size_type pos<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">dummy_fcn</span><span class="token punctuation">(</span>pos height<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        cursor <span class="token operator">=</span> width <span class="token operator">*</span> height<span class="token punctuation">;</span>  <span class="token comment">// 哪个height? 是那个参数</span>
+    <span class="token punctuation">}</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    pos cursor <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    pos height <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> width <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>尽管类的成员被隐藏了，但我们仍然可以通过加上类的名字或显式地使用 <code>this</code> 指针来强制访问成员。</p>
+</blockquote>
+<p>尽管外层的对象被隐藏掉了，还是可以通过作用域运算符 <code>::</code> 或显式 <code>this</code> 指针来强制访问被隐藏的类成员。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 不建议的写法：成员函数中的名字不应该隐藏同名的成员</span>
+<span class="token keyword">void</span> Screen<span class="token operator">::</span><span class="token function">dummy_fcn</span><span class="token punctuation">(</span>pos height<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    cursor <span class="token operator">=</span> width <span class="token operator">*</span> <span class="token keyword">this</span><span class="token operator">-</span><span class="token operator">&gt;</span>height<span class="token punctuation">;</span>  	<span class="token comment">// 成员height</span>
+    <span class="token comment">// 另外一种表示该成员的方式</span>
+    cursor <span class="token operator">=</span> width <span class="token operator">*</span> Screen<span class="token operator">::</span>height<span class="token punctuation">;</span>  	<span class="token comment">// 成员height</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 建议的写法：不要把成员名字作为参数或其他局部变量使用variable</span>
+<span class="token keyword">void</span> Screen<span class="token operator">::</span><span class="token function">dummy_fcn</span><span class="token punctuation">(</span>pos ht<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    cursor <span class="token operator">=</span> width <span class="token operator">*</span> height<span class="token punctuation">;</span>  			<span class="token comment">// 成员height</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="5_556"></a>5、构造函数再探</h2>
+<h4><a id="1_558"></a>1）构造函数初始值列表</h4>
+<ul>
+<li>如果没有在构造函数初始值列表中显式初始化成员，该成员会在构造函数体之前执行默认初始化。</li>
+<li>如果成员是 <code>const</code>、引用，或者是某种未定义默认构造函数的类类型，必须在初始值列表中将其初始化。</li>
+</ul>
+<p>当成员属于某种类类型且该类没有定义默认构造函数时，也必须将这个成员初始化。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">ConstRef</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">ConstRef</span><span class="token punctuation">(</span><span class="token keyword">int</span> ii<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token keyword">int</span> ci<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token operator">&amp;</span>ri<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 正确：显式地初始化引用和const成员</span>
+ConstRef<span class="token operator">::</span><span class="token function">ConstRef</span><span class="token punctuation">(</span><span class="token keyword">int</span> ii<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token function">i</span><span class="token punctuation">(</span>ii<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">ci</span><span class="token punctuation">(</span>ii<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">ri</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>如果成员是const、引用，或者属于某种未提供默认构造函数的类类型，我们必须通过构造函数初始值列表为这些成员提供初值。</p>
+</blockquote>
+<blockquote>
+<p>最好令构造函数初始值的顺序与成员声明的顺序一致，并且尽量避免使用某些成员初始化其他成员。</p>
+</blockquote>
+<blockquote>
+<p>如果一个构造函数为所有参数都提供了默认实参，则它实际上也定义了默认构造函数。</p>
+</blockquote>
+<h4><a id="2_586"></a>2）委托构造函数</h4>
+<p>C++11扩展了构造函数初始值功能，可以定义 <strong>委托构造函数（delegating constructor）</strong>。委托构造函数使用它所属类的其他构造函数执行它自己的初始化过程，或者说它把它自己的一些(或者全部)职责委托给了其他构造函数。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Sales_data</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// 非委托构造函数使用对应的实参初始化成员</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>string s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> cnt<span class="token punctuation">,</span> <span class="token keyword">double</span> price<span class="token punctuation">)</span><span class="token operator">:</span>
+    	<span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>cnt<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>cnt<span class="token operator">*</span>price<span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token punctuation">}</span>
+    <span class="token comment">// 其余构造函数全都委托给另一个构造函数</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span>Sales <span class="token function">data</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token punctuation">}</span>
+	<span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>string s<span class="token punctuation">)</span><span class="token operator">:</span><span class="token function">Sales_data</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token punctuation">}</span>
+	<span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream <span class="token operator">&amp;</span>is<span class="token punctuation">)</span><span class="token operator">:</span>Sales <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">read</span><span class="token punctuation">(</span>is<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="3_605"></a>3）默认构造函数的作用</h4>
+<p>当对象被默认初始化或值初始化时会自动执行默认构造函数。</p>
+<p>默认初始化的发生情况：</p>
+<ul>
+<li>在块作用域内不使用初始值定义非静态变量或数组。</li>
+<li>类本身含有类类型的成员且使用合成默认构造函数。</li>
+<li>类类型的成员没有在构造函数初始值列表中显式初始化。</li>
+</ul>
+<p>值初始化的发生情况：</p>
+<ul>
+<li>数组初始化时提供的初始值数量少于数组大小。</li>
+<li>不使用初始值定义局部静态变量。</li>
+<li>通过 <code>T()</code> 形式（<em>T</em> 为类型）的表达式显式地请求值初始化。</li>
+</ul>
+<p>类必须包含一个默认构造函数。</p>
+<blockquote>
+<p>在实际中，如果定义了其他构造函数，那么最好也提供一个默认构造函数。</p>
+</blockquote>
+<p>如果想定义一个使用默认构造函数进行初始化的对象，应该去掉对象名后的空括号对。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 正确：obj是个默认初始化的对象</span>
+Sales_data obj<span class="token punctuation">;</span>
+</code></pre>
+<p>对于C++的新手程序员来说有一种常犯的错误，它们试图以如下的形式声明一个用默认构造函数初始化的对象：</p>
+<pre><code class="prism language-c">Sales_data <span class="token function">obj</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 错误：声明了一个函数而非对象</span>
+Sales_data obj2<span class="token punctuation">;</span>    <span class="token comment">// 正确：obj2是一个对象而非函数</span>
+</code></pre>
+<h4><a id="4_637"></a>4）隐式的类类型转换</h4>
+<p>如果构造函数只接受一个实参，则它实际上定义了转换为此类类型的隐式转换机制。这种构造函数被称为 <strong>转换构造函数（converting constructor）</strong>。</p>
+<blockquote>
+<p>能通过一个实参调用的构造函数定义了一条从构造函数的参数类型向类类型隐式转换的规则。</p>
+</blockquote>
+<pre><code class="prism language-cpp">string null_book <span class="token operator">=</span> <span class="token string">"9-999-99999-9"</span><span class="token punctuation">;</span>
+<span class="token comment">// 构造一个临时的Sales_data对象</span>
+<span class="token comment">// 该对象的units_sold和revenue等于0，bookNo等于null_book</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span>null_book<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>编译器只会自动执行一步类型转换。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 错误：需要用户定义的两种转换。</span>
+<span class="token comment">// (1) 把"9-999-99999-9"转换成string</span>
+<span class="token comment">// (2) 再把这个(临时的)string转换成Sales_data</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token string">"9-999-99999-9"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 正确：显式地转换成string，隐式地转换成Sales_data</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token string">"9-999-99999-9"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 正确: 隐式地转换成string，显式地转换成Sales_data</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token string">"9-999-99999-9"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在要求隐式转换的程序上下文中，可以通过将构造函数声明为 <code>explicit</code> 的加以阻止。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Sales_data</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">;</span>
+    <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> n<span class="token punctuation">,</span> <span class="token keyword">double</span> p<span class="token punctuation">)</span><span class="token operator">:</span>
+        <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">units_sold</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">revenue</span><span class="token punctuation">(</span>p<span class="token operator">*</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token keyword">explicit</span> <span class="token function">Sales_data</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token function">bookNo</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+    <span class="token keyword">explicit</span> <span class="token function">Sales_data</span><span class="token punctuation">(</span>std<span class="token operator">::</span>istream<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p><code>explicit</code> 关键字只对接受一个实参的构造函数有效。需要多个实参的构造函数不能用于执行隐式转换，所以无须将这些构造函数指定为 <code>explicit</code> 的。只能在类内声明构造函数时使用 <code>explicit</code> 关键字，在类外定义时不能重复。</p>
+<p>执行拷贝初始化时（使用 <code>=</code>）会发生隐式转换，所以 <code>explicit</code> 构造函数只能用于直接初始化。</p>
+<pre><code class="prism language-cpp">Sales_data item1 <span class="token punctuation">(</span>null_book<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 正确: 直接初始化</span>
+<span class="token comment">// 错误：不能将explicit构造函数用于拷贝形式的初始化过程</span>
+Sales_data item2 <span class="token operator">=</span> null_book<span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>当我们用 <code>explicit</code> 关键字声明构造函数时，它将只能以直接初始化的形式使用。而且，编译器将不会在自动转换过程中使用该构造函数。</p>
+</blockquote>
+<p>尽管编译器不会将 <code>explicit</code> 的构造函数用于隐式转换过程，可以使用 <code>explicit</code> 构造函数显式地强制转换类型。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 正确: 实参是一个显式构造的Sales_data对象</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token function">Sales_data</span><span class="token punctuation">(</span>null_book<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 正确：static_cast可以使用explicit的构造函数</span>
+item<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">static_cast</span><span class="token operator">&lt;</span>Sales_data<span class="token operator">&gt;</span><span class="token punctuation">(</span>cin<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4><a id="5_699"></a>5）聚合类</h4>
+<p>聚合类满足如下条件：</p>
+<ul>
+<li>所有成员都是 <code>public</code> 的。</li>
+<li>没有定义任何构造函数。</li>
+<li>没有类内初始值。</li>
+<li>没有基类。</li>
+<li>没有虚函数。</li>
+</ul>
+<p>下面的类是一个聚合类：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">struct</span> Data
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> ival<span class="token punctuation">;</span>
+    string s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>可以使用一个用花括号包围的成员初始值列表初始化聚合类的数据成员。初始值顺序必须与声明顺序一致。如果初始值列表中的元素个数少于类的成员个数，则靠后的成员被值初始化。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// val1.ival = 0; val1.s = string("Anna")</span>
+Data val1 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">"Anna"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 错误：不能使用"Anna"初始化ival，也不能使用1024初始化s</span>
+Data va12 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token string">"Anna"</span><span class="token punctuation">,</span> <span class="token number">1024</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h4><a id="6_728"></a>6）字面值常量类</h4>
+<p>数据成员都是字面值类型的聚合类是字面值常量类。或者一个类不是聚合类，但符合下列条件，则也是字面值常量类：</p>
+<ul>
+<li>数据成员都是字面值类型。</li>
+<li>类至少含有一个 <code>constexpr</code> 构造函数。</li>
+<li>如果数据成员含有类内初始值，则内置类型成员的初始值必须是常量表达式。如果成员属于类类型，则初始值必须使用成员自己的 <code>constexpr</code> 构造函数。</li>
+<li>类必须使用析构函数的默认定义。</li>
+</ul>
+<p><code>constexpr</code> 构造函数用于生成 <code>constexpr</code> 对象以及 <code>constexpr</code> 函数的参数或返回类型。</p>
+<p><code>constexpr</code> 构造函数必须初始化所有数据成员，初始值使用 <code>constexpr</code> 构造函数或常量表达式。</p>
+<h2><a id="7_740"></a>7、类的静态成员</h2>
+<p>使用关键字 <code>static</code> 可以声明类的静态成员，可以是 <code>public</code> 的或 <code>private</code> 的。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Account</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> amount <span class="token operator">+</span><span class="token operator">=</span> amount <span class="token operator">*</span> interestRate<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">rate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> interestRate<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">rate</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    std<span class="token operator">::</span>string owner<span class="token punctuation">;</span>
+    <span class="token keyword">double</span> amount<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token keyword">double</span> interestRate<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">initRate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>静态成员存在于任何对象之外，对象中不包含与静态成员相关的数据。</p>
+<p>类似的， 静态成员函数也不与任何对象绑定在一起。</p>
+<p>由于静态成员不与任何对象绑定，因此静态成员函数不能声明为 <code>const</code> 的，也不能在静态成员函数内使用 <code>this</code> 指针。</p>
+<p>用户代码可以使用作用域运算符访问静态成员，也可以通过类对象、引用或指针访问。类的成员函数可以直接访问静态成员。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">double</span> r<span class="token punctuation">;</span>
+r <span class="token operator">=</span> Account<span class="token operator">::</span><span class="token function">rate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 使用作用城运算符访问静态成员</span>
+
+Account ac1<span class="token punctuation">;</span>
+Account <span class="token operator">*</span>ac2 <span class="token operator">=</span> <span class="token operator">&amp;</span>ac1<span class="token punctuation">;</span>
+<span class="token comment">// 调用静态成员函数rate的等价形式</span>
+r <span class="token operator">=</span> ac1<span class="token punctuation">.</span><span class="token function">rate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span class="token comment">// 通过Account的对象或引用</span>
+r <span class="token operator">=</span> ac2<span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">rate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span class="token comment">// 通过指向Account对象的指针</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Account</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> amount <span class="token operator">+</span><span class="token operator">=</span> amount <span class="token operator">*</span> interestRate<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> <span class="token keyword">double</span> interestRate<span class="token punctuation">;</span>
+    <span class="token comment">// 其他成员与之前的版本一致</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在类外部定义静态成员时，不能重复 <code>static</code> 关键字，其只能用于类内部的声明语句。</p>
+<blockquote>
+<p>和类的所有成员一样，当我们指向类外部的静态成员时，必须指明成员所属的类名。<code>static</code> 关键字则只出现在类内部的声明语句中。</p>
+</blockquote>
+<p>由于静态数据成员不属于类的任何一个对象，因此它们并不是在创建类对象时被定义的。通常情况下，不应该在类内部初始化静态成员。而必须在类外部定义并初始化每个静态成员。一个静态成员只能被定义一次。一旦它被定义，就会一直存在于程序的整个生命周期中。</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 定义并初始化一个静态成员</span>
+<span class="token keyword">double</span> Account<span class="token operator">::</span>interestRate <span class="token operator">=</span> <span class="token function">initRate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>建议把静态数据成员的定义与其他非内联函数的定义放在同一个源文件中，这样可以确保对象只被定义一次。</p>
+</blockquote>
+<p>尽管在通常情况下，不应该在类内部初始化静态成员。但是可以为静态成员提供 <code>const</code> 整数类型的类内初始值，不过要求静态成员必须是字面值常量类型的 <code>constexpr</code>。</p>
+<p>初始值必须是常量表达式，因为这些成员本身就是常量表达式， 所以它们能用在所有适合于常量表达式的地方。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Account</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">rate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> interestRate<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">rate</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> <span class="token keyword">constexpr</span> <span class="token keyword">int</span> period <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>  <span class="token comment">// period是常量表达式</span>
+    <span class="token keyword">double</span> daily_tbl<span class="token punctuation">[</span>period<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>即使一个常量静态数据成员在类内部被初始化了，通常情况下也应该在类的外部定义一下该成员。</p>
+</blockquote>
+<p>静态成员独立于任何对象。</p>
+<p>特别的， 静态数据成员的类型可以就是它所属的类类型。而非静态数据成员则受到限制，只能声明成它所属类的指针或引用：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Bar</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+	<span class="token comment">// ...</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> Bar mem1<span class="token punctuation">;</span>   	<span class="token comment">// 正确：静态成员可以是不完全类型</span>
+    Bar <span class="token operator">*</span>mem2<span class="token punctuation">;</span>    		<span class="token comment">// 正确：指针成员可以是不完全类型</span>
+    Bar mem3<span class="token punctuation">;</span>   		<span class="token comment">// 错误：数据成员必须是完全类型</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>静态成员和普通成员的另外一个区别是我们可以使用静态成员作为默认实参。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">class</span> <span class="token class-name">Screen</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// bkground表示一个在类中稍后定义的静态成员</span>
+    Screen<span class="token operator">&amp;</span> <span class="token function">clear</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">=</span> bkground<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">static</span> <span class="token keyword">const</span> <span class="token keyword">char</span> bkground<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>非静态数据成员不能作为默认实参，因为它的值本身属于对象的一部分， 这么做的结果是无法真正提供一个对象以便从中获取成员的值， 最终将引发错误。</p>
+<h2><a id="_849"></a>参考文章</h2>
+<ul>
+<li>《C++ Primer》</li>
+</ul>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,682 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《C++ Primer》学习笔记（六）：C++模块设计——函数</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1><a id="WX_0"></a>欢迎关注WX公众号：【程序员管小亮】</h1>
+<h2><a id="Chttpsblogcsdnnettefuirneverarticlecategory9342309_1"></a><a href="https://blog.csdn.net/tefuirnever/article/category/9342309">专栏C++学习笔记</a></h2>
+<p>《C++ Primer》学习笔记/习题答案 总目录</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/100700212">https://blog.csdn.net/TeFuirnever/article/details/100700212</a></li>
+</ul>
+<p>——————————————————————————————————————————————————————</p>
+<ul>
+<li><a href="https://blog.csdn.net/TeFuirnever/article/details/103671594">《C++ Primer》习题参考答案：第6章 - C++模块设计——函数</a></li>
+</ul>
+<p></p><div class="toc"><h3>文章目录</h3><ul><li><a href="#WX_0">欢迎关注WX公众号：【程序员管小亮】</a></li><ul><li><a href="#Chttpsblogcsdnnettefuirneverarticlecategory9342309_1">专栏C++学习笔记</a></li></ul><li><a href="#_CppPrime5__CppPrimerPlus6_httpsgithubcomTeFuirneverCppPrimerPlusPlusPlus_12">📚💻 [Cpp-Prime5 + Cpp-Primer-Plus6 源代码和课后题](https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus)</a></li><li><a href="#C_13">C++模块设计——函数</a></li><ul><li><a href="#1_15">1、函数基础</a></li><ul><ul><li><a href="#1_76">1）局部对象</a></li><li><a href="#2_102">2）函数声明</a></li><li><a href="#3_110">3）分离式编译</a></li></ul></ul><li><a href="#2_114">2、参数传递</a></li><ul><ul><li><a href="#1_123">1）传值参数</a></li><li><a href="#2_166">2）传引用参数</a></li><li><a href="#3const_212">3）const形参和实参</a></li><li><a href="#4_233">4）数组形参</a></li><li><a href="#5main_292">5）main：处理命令行选项</a></li><li><a href="#6_312">6）含有可变形参的函数</a></li></ul></ul><li><a href="#3return_363">3、返回类型和return语句</a></li><ul><ul><li><a href="#1_372">1）无返回值函数</a></li><li><a href="#2_393">2）有返回值函数</a></li><li><a href="#3_481">3）返回数组指针</a></li></ul></ul><li><a href="#4_523">4、函数重载</a></li><ul><ul><li><a href="#1_601">1）重载与作用域</a></li></ul></ul><li><a href="#5_624">5、特殊用途语言特性</a></li><ul><ul><li><a href="#1_630">1）默认实参</a></li><li><a href="#2constexpr_675">2）内联函数和constexpr函数</a></li><li><a href="#3_722">3）调试帮助</a></li><ul><li><a href="#1_assert__723">1_assert 预处理宏</a></li><li><a href="#2_NDE8UG__734">2_NDE8UG 预处理变量</a></li></ul></ul></ul><li><a href="#6_751">6、函数匹配</a></li><ul><ul><li><a href="#1_767">1）实参类型转换</a></li></ul></ul><li><a href="#7_793">7、函数指针</a></li><li><a href="#_848">参考文章</a></li></ul></ul></div><p></p>
+<h1><a id="_CppPrime5__CppPrimerPlus6_httpsgithubcomTeFuirneverCppPrimerPlusPlusPlus_12"></a>📚💻 <a href="https://github.com/TeFuirnever/Cpp-Primer-Plus-Plus-Plus">Cpp-Prime5 + Cpp-Primer-Plus6 源代码和课后题</a></h1>
+<h1><a id="C_13"></a>C++模块设计——函数</h1>
+<h2><a id="1_15"></a>1、函数基础</h2>
+<p>函数是一个命名了的代码块，通过调用函数执行相应的代码。函数可以有0个或多个参数，而且(通常)会产生一个结果。可以重载函数，也就是说，同一个名字可以对应几个不同的函数。</p>
+<p>一个典型的 <strong>函数（function）</strong> 定义包括：<strong>返回类型（return type）</strong>、<strong>函数名字</strong>、由0个或多个形式参数（parameter，简称形参）组成的 <strong>列表</strong> 和 <strong>函数体（function body）</strong>。函数执行的操作在语句块中说明，即函数体。</p>
+<p>n的阶乘是从1到n所有数字的乘积，程序如下：</p>
+<pre><code class="prism language-c"><span class="token comment">// val的阶乘是val * (val - 1) * (val - 2) . . . * ((val - (val - 1)) * 1)</span>
+<span class="token keyword">int</span> <span class="token function">fact</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> ret <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>    	<span class="token comment">// 局部变量，用于保存计算结果</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>val <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    	ret <span class="token operator">*</span><span class="token operator">=</span> val<span class="token operator">--</span><span class="token punctuation">;</span>   <span class="token comment">// 把ret和val的来积赋给ret，然后将val减1</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>     	<span class="token comment">// 返回结果</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>程序通过 <strong>调用运算符（call operator）</strong> 来执行函数。调用运算符的形式之一是一对圆括号 <code>()</code>，作用于一个表达式，该表达式是函数或者指向函数的指针；圆括号内是一个用逗号隔开的 <strong>实际参数（argument，简称实参）</strong> 列表，用来初始化函数形参。调用表达式的类型就是函数的返回类型。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token function">fact</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// j equals 120, i.e., the result of fact(5)</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"5! is "</span> <span class="token operator">&lt;&lt;</span> j <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>函数调用完成两项工作：</p>
+<ul>
+<li>用实参初始化对应的形参；</li>
+<li>将控制权从主调函数转移给被调函数。</li>
+</ul>
+<p>此时，<strong>主调函数（calling function）</strong> 的执行被暂时中断，<strong>被调函数（called function）</strong> 开始执行。</p>
+<p><code>return</code> 语句结束函数的执行过程，完成两项工作：</p>
+<ul>
+<li>返回 <code>return</code> 语句中的值（如果有的话）。</li>
+<li>将控制权从被调函数转移回主调函数，函数的返回值用于初始化调用表达式的结果，之后继续完成调用所在的表达式的剩余部分。</li>
+</ul>
+<p>实参是形参的初始值，两者的顺序和类型必须一一对应，相应的数量也要一致。</p>
+<p>函数的形参列表可以为空，但是不能省略。</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>      <span class="token comment">// 隐式地定义空形参列表</span>
+<span class="token keyword">void</span> <span class="token function">f2</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>  <span class="token comment">// 显式地定义空形参列表</span>
+</code></pre>
+<p>形参列表中的形参通常用逗号隔开，每个形参都是含有一个声明符的声明，即使两个形参类型一样，也必须把两个类型声明都写出来。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token function">f3</span><span class="token punctuation">(</span><span class="token keyword">int</span> v1<span class="token punctuation">,</span> v2<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>      <span class="token comment">// 错误</span>
+<span class="token keyword">int</span> <span class="token function">f4</span><span class="token punctuation">(</span><span class="token keyword">int</span> v1<span class="token punctuation">,</span> <span class="token keyword">int</span> v2<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>  <span class="token comment">// 正确</span>
+</code></pre>
+<p>函数的任意两个形参不能同名，而且函数最外层作用域中的局部变量也不能使用与函数形参一样的名字。形参的名字是可选的，但是由于无法使用未命名的形参，所以形参一般都应该有个名字，即使某个形参不被函数使用，也必须为它提供一个实参。</p>
+<p>函数的返回类型不能是数组类型或者函数类型，但可以是指向数组或函数的指针。</p>
+<h4><a id="1_76"></a>1）局部对象</h4>
+<p>在C++语言中，名字有作用域，对象有 <strong>生命周期（lifetime）</strong>。</p>
+<ul>
+<li>名字的作用域是程序文本的一部分， 名字在其中可见；</li>
+<li>对象的生命周期是程序执行过程中该对象存在的一段时间。</li>
+</ul>
+<p>形参和函数体内定义的变量统称为 <strong>局部变量（local variable）</strong>，仅在函数的作用域内可见。</p>
+<p>只存在于块执行期间的对象称为 <strong>自动对象（automatic object）</strong>，当块的执行结束后，块中创建的自动对象的值就变成未定义的了。形参是一种自动对象，在函数开始时为形参申请存储空间，因为形参定义在函数体作用域之内，所以一旦函数终止，形参也就被销毁。</p>
+<p><strong>局部静态对象（local static object）</strong> 在程序的执行路径第一次经过对象定义语句时初始化，并且直到程序结束才被销毁，对象所在的函数结束执行并不会对它产生影响。在变量类型前添加关键字 <code>static</code> 可以定义局部静态对象。</p>
+<pre><code class="prism language-cpp">size_t count <span class="token function">calls</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">static</span> size_t ctr <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 调用结束后，这个值仍然有效</span>
+	<span class="token keyword">return</span> <span class="token operator">++</span>ctr<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">int</span> main <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">!=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+		cout <span class="token operator">&lt;&lt;</span> <span class="token function">count_calls</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果局部静态对象没有显式的初始值，它将执行值初始化，内置类型的局部静态变量初始化为0 。</p>
+<h4><a id="2_102"></a>2）函数声明</h4>
+<p>和其他名字一样，函数的名字也必须在使用之前声明。和变量类似，函数只能定义一次，但可以声明多次，函数声明也叫做 <strong>函数原型（function prototype）</strong>。函数的声明和函数的定义非常类似，唯一的区别是函数声明无须函数体，用一个分号<br>
+替代即可。</p>
+<p>函数应该在头文件中声明，在源文件中定义。定义函数的源文件应该包含含有函数声明的头文件，编译器负责验证函数的定<br>
+义和声明是否匹配。</p>
+<h4><a id="3_110"></a>3）分离式编译</h4>
+<p><strong>分离式编译（separate compilation）</strong> 允许我们把程序按照逻辑关系分割到几个文件中去，每个文件独立编译。这一过程通常会产生后缀名是 <em>.obj</em>（Windows） 或 <em>.o</em>（UNIX） 的文件，该文件包含 <strong>对象代码（object code）</strong>。之后编译器把对象文件 <strong>链接（link）</strong> 在一起形成可执行文件。</p>
+<h2><a id="2_114"></a>2、参数传递</h2>
+<p>每次调用函数时都会重新创建它的形参，并用传入的实参对形参进行初始化。形参初始化的机理与变量初始化一样。</p>
+<p>形参的类型决定了形参和实参交互的方式：</p>
+<ul>
+<li>当形参是引用类型时，它对应的实参被 <strong>引用传递（passed by reference）</strong>，函数被 <strong>传引用调用（called by reference）</strong>。引用形参是它对应实参的别名。</li>
+<li>当形参不是引用类型时，形参和实参是两个相互独立的对象，实参的值会被拷贝给形参（<strong>值传递，passed by value</strong>），函数被 <strong>传值调用（called by value）</strong>。</li>
+</ul>
+<h4><a id="1_123"></a>1）传值参数</h4>
+<p>如果形参不是引用类型，则函数对形参做的所有操作都不会影响实参。</p>
+<p>使用指针类型的形参可以访问或修改函数外部的对象。</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token operator">&amp;</span>n<span class="token punctuation">,</span> <span class="token operator">*</span>q <span class="token operator">=</span> <span class="token operator">&amp;</span>i<span class="token punctuation">;</span> <span class="token comment">// p指向n; q指向i</span>
+	<span class="token operator">*</span>p <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>			  <span class="token comment">// n的值改变; p不变</span>
+	p <span class="token operator">=</span> q<span class="token punctuation">;</span>				  <span class="token comment">// p现在指向了i; 但是i和n的值都不变</span>
+	
+	cout <span class="token operator">&lt;&lt;</span> <span class="token string">"n:"</span> <span class="token operator">&lt;&lt;</span> n <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i:"</span> <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20191118215311209.png" alt="在这里插入图片描述"><br>
+指针形参的行为与之类似：</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 该函数接受一个指针，然后将指针所指的位置为0</span>
+<span class="token keyword">void</span> <span class="token function">reset</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>ip<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token operator">*</span>ip <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>					<span class="token comment">// 改变指针ip所指对象的值</span>
+	ip <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>						<span class="token comment">// 只改变了ip的局部拷贝，实参未被改变</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>调用 <code>reset</code> 函数之后， 实参所指的对象被置为0，但是实参本身并没有改变：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token function">reset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>						<span class="token comment">// 改变i的值而非i的地址</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"i = "</span> <span class="token operator">&lt;&lt;</span> i <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">// 输出i = 0</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20191118220029848.png" alt="在这里插入图片描述"><br>
+如果想在函数体内访问或修改函数外部的对象，建议使用引用形参代替指针形参。</p>
+<h4><a id="2_166"></a>2）传引用参数</h4>
+<p>通过使用引用形参，函数可以改变实参的值。</p>
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+	<span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> i <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> n<span class="token punctuation">;</span> 		<span class="token comment">// r绑定了n(即r是n的另一个名字)</span>
+	r <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>				<span class="token comment">// 现在n的值是42</span>
+	r <span class="token operator">=</span> i<span class="token punctuation">;</span>				<span class="token comment">// 现在n的值和i相同</span>
+	cout <span class="token operator">&lt;&lt;</span> <span class="token string">"n = "</span> <span class="token operator">&lt;&lt;</span> n <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+	<span class="token function">system</span><span class="token punctuation">(</span><span class="token string">"pause"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2019111822093520.png" alt="在这里插入图片描述"><br>
+引用形参的行为与之类似：</p>
+<pre><code class="prism language-c"><span class="token comment">// 该函数接受一个int对象的引用，然后将对象的位置为0</span>
+<span class="token keyword">void</span> <span class="token function">reset</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">&amp;</span>i<span class="token punctuation">)</span>  			<span class="token comment">// i是传给reset函数的对象的另一个名字</span>
+<span class="token punctuation">{</span>
+    i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  					<span class="token comment">// 改变了i所引对象的值</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>引用形参绑定初始化它的对象，即引用直接传入对象而无须传递对象的地址。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+<span class="token function">reset</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>						<span class="token comment">// j采用传引用方式，它的值被改变</span>
+cout <span class="token operator">&lt;&lt;</span> <span class="token string">"j = "</span> <span class="token operator">&lt;&lt;</span> j <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>	<span class="token comment">// 输出j = 0</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2019111822124178.png" alt="在这里插入图片描述"><br>
+使用引用形参可以避免拷贝操作，拷贝大的类类型对象或容器对象比较低效，另外有的类类型（如IO类型）根本就不支持拷贝操作，这时只能通过引用形参访问该类型的对象。</p>
+<blockquote>
+<p>除了内置类型、函数对象和标准库迭代器外，其他类型的参数建议以引用方式传递。</p>
+</blockquote>
+<p>如果函数无须改变引用形参的值，最好将其声明为常量引用。</p>
+<p>一个函数只能返回一个值，然而有时函数需要同时返回多个值，这个时候可以使用引用形参让函数返回额外信息。</p>
+<h4><a id="3const_212"></a>3）const形参和实参</h4>
+<blockquote>
+<p>关于 <code>const</code>，写了一个博客——<a href="https://tefuirnever.blog.csdn.net/article/details/103011514">【C++100问】深入理解理解顶层const和底层const</a>，如果有必要，可以写一个这个系列的文章。</p>
+</blockquote>
+<p>当形参有顶层 <code>const</code> 时，传递给它常量对象或非常量对象都是可以的。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">void</span> <span class="token function">fcn</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* fcn能够读取i，但是不能向i写值 */</span> <span class="token punctuation">}</span>
+</code></pre>
+<p>调用 <code>fcn</code> 函数时，既可以传入 <code>const int</code> 也可以传入 <code>int</code>。忽略掉形参的顶层 <code>const</code> 可能产生意想不到的结果：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">void</span> <span class="token function">fcn</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* fcn能够读取i，但是不能向i写值 */</span> <span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">fcn</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span> 	<span class="token comment">// 错误:重复定义了fcn(int)</span>
+</code></pre>
+<p>可以使用非常量对象初始化一个底层 <code>const</code> 形参，但是反过来不行。</p>
+<p>把函数不会改变的形参定义成普通引用会极大地限制函数所能接受的实参类型，同时也会给别人一种误导，即函数可以修改实参的值。此外，使用引用而非常量引用也会极大地限制函数所能接受的实参类型。</p>
+<h4><a id="4_233"></a>4）数组形参</h4>
+<p>数组的两个特殊性质对定义和使用作用在数组上的函数有影响，分别是：不允许拷贝数组以及使用数组时(通常)会将其转换成指针。</p>
+<ul>
+<li>因为不能拷贝数组，所以无法以值传递的方式使用数组参数，但是可以把形参写成类似数组的形式。</li>
+</ul>
+<pre><code class="prism language-c"><span class="token comment">// 尽管形式不同，但这三个print函数是等价的</span>
+<span class="token comment">// 每个函数都有一个const int*类型的形参</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 可以看出来，函数的意图是作用于一个数组</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 这里的维度表示我们期望数组含有多少元素，实际不一定</span>
+</code></pre>
+<ul>
+<li>因为数组会被转换成指针，所以当我们传递给函数一个数组时，实际上传递的是指向数组首元素的指针。</li>
+</ul>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> j<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span> 					<span class="token comment">// 正确：&amp;i的类型是int*</span>
+<span class="token function">print</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span> 					<span class="token comment">// 正确: j转换成int*并指向j[0]</span>
+</code></pre>
+<p>因为数组是以指针的形式传递给函数的，所以一开始函数并不知道数组的确切尺寸，调用者应该为此提供一些额外信息。管理指针形参有三种常用的技术：</p>
+<ul>
+<li>要求数组本身包含一个结束标记；</li>
+<li>传递指向数组首元素和尾后元素的指针；</li>
+<li>专门定义一个表示数组大小的形参。</li>
+</ul>
+<p>以数组作为形参的函数必须确保使用数组时不会越界。</p>
+<p>如果函数不需要对数组元素执行写操作，应该把数组形参定义成指向 <code>const</code> 的指针。只有当函数确实要改变元素值的时候，才把形参定义成指向非常量的指针。</p>
+<p>形参可以是数组的引用，但此时维度是形参类型的一部分，函数只能作用于指定大小的数组。</p>
+<pre><code class="prism language-cpp"><span class="token comment">//正确: 形参是数组的引用，维度是类型的一部分</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">&amp;</span>arr<span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span> elem <span class="token operator">:</span> arr<span class="token punctuation">)</span>
+		cout <span class="token operator">&lt;&lt;</span> elem <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// &amp;arr两端的括号必不可少:</span>
+<span class="token comment">// f(int &amp;arr[10]) 		// 错误:将arr声明成了引用的数组</span>
+<span class="token comment">// f(int (&amp;arr)[10]) 	// 正确:arr是具有10个整数的整型数组的引用</span>
+</code></pre>
+<p>将多维数组传递给函数时，真正传递的是指向数组首元素的指针，数组第二维（以及后面所有维度）的大小是数组类型的一部分，不能省略。</p>
+<pre><code class="prism language-c"><span class="token comment">// matrix指向数组的首元素，该数组的元素是由10个整数构成的数组</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>matrix<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> rowSize<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+
+<span class="token comment">// *matrix两端的括号必不可少:</span>
+<span class="token keyword">int</span> <span class="token operator">*</span>matrix<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 		<span class="token comment">// 10个指针构成的数组</span>
+<span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>matrix<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 		<span class="token comment">// 指向含有10个整数的数组的指针</span>
+
+<span class="token comment">// 等价定义</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span> matrix<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> rowSize<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="5main_292"></a>5）main：处理命令行选项</h4>
+<p>可以在命令行中向 <code>main</code> 函数传递参数，形式如下：</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/*...*/</span> <span class="token punctuation">}</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">/*...*/</span> <span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li>第一个形参 <em>argc</em> 表示数组中字符串的数量；</li>
+<li>第二个形参 <em>argv</em> 是一个数组，数组元素是指向C风格字符串的指针。</li>
+</ul>
+<p>当实参传递给 <code>main</code> 函数后，<em>argv</em> 的第一个元素指向程序的名字或者一个空字符串，接下来的元素依次传递命令行提供的实参，最后一个指针之后的元素值保证为0。</p>
+<blockquote>
+<p>当使用argv中的实参时，一定要记得可选的实参从argv[1]开始；argv[0]保存程序的名字，而非用户输入。</p>
+</blockquote>
+<p>在 <em>Visual Studio2013</em> 中可以设置 <code>main</code> 函数调试参数：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191119105027331.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4><a id="6_312"></a>6）含有可变形参的函数</h4>
+<p>C++11新标准提供了两种主要方法处理实参数量不定的函数：</p>
+<ul>
+<li>
+<p>如果实参类型相同，可以使用 <code>initializer_list</code> 标准库类型；</p>
+</li>
+<li>
+<p>如果实参类型不同，可以定义可变参数模板。</p>
+</li>
+<li>
+<p>C++还可以使用省略符形参传递可变数量的实参，但这种功能一般只用在与C函数交换的接口程序中。</p>
+</li>
+</ul>
+<p><code>initializer_list</code> 是一种标准库类型，定义在头文件 <em>initializer_list</em> 中，表示某种特定类型的值的数组。</p>
+<p><code>initializer_list</code> 提供的操作：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191119105654135.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly90ZWZ1aXJuZXZlci5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ul>
+<li>和 <code>vector</code> 一样，<code>initializer_list</code> 也是一种模板类型，定义对象时，必须说明列表中所含元素的类型</li>
+<li>和 <code>vector</code> 不一样的是，<code>initializer_list</code> 对象中的元素永远是常量值，无法改变</li>
+</ul>
+<p>使用如下的形式编写输出错误信息的函数，使其可以作用于可变数量的实参：</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">error_msg</span><span class="token punctuation">(</span>initializer_list<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> il<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span> beg <span class="token operator">=</span> il<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> beg <span class="token operator">!=</span> il<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>beg<span class="token punctuation">)</span>
+    	cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>beg <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span> <span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>拷贝或赋值一个 <code>initializer_list</code> 对象不会拷贝列表中的元素，拷贝后，原始列表和副本共享元素。<code>initializer_list</code> 对象中的元素永远是常量值。如果想向 <code>initializer_list</code> 形参传递一个值的序列，则必须把序列放在一对花括号内。</p>
+<pre><code class="prism language-c"><span class="token comment">// expected和actual是string对象</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>expected <span class="token operator">!=</span> actual<span class="token punctuation">)</span>
+    <span class="token function">error_msg</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"functionX"</span><span class="token punctuation">,</span> expected<span class="token punctuation">,</span> actual<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">else</span>
+    <span class="token function">error_msg</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">"functionX"</span><span class="token punctuation">,</span> <span class="token string">"okay"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>因为 <code>initializer_list</code> 包含 <code>begin</code> 和 <code>end</code> 成员，所以可以使用范围 <code>for</code> 循环处理其中的元素。</p>
+<p>省略符形参是为了便于C++程序访问某些特殊的C代码而设置的，这些代码使用了名为 <code>varargs</code> 的C标准库功能。通常，省略符形参不应该用于其他目的。</p>
+<blockquote>
+<p>省略符形参应该仅仅用于C和C++通用的类型，大多数类类型的对象在传递给省略符形参时都无法正确拷贝。</p>
+</blockquote>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">foo</span><span class="token punctuation">(</span>parm_list<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2><a id="3return_363"></a>3、返回类型和return语句</h2>
+<p><code>return</code> 语句有两种形式，作用是终止当前正在执行的函数并返回到调用该函数的地方。</p>
+<pre><code class="prism language-c"><span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span> expression<span class="token punctuation">;</span>
+</code></pre>
+<h4><a id="1_372"></a>1）无返回值函数</h4>
+<p>没有返回值的 <code>return</code> 语句只能用在返回类型是 <code>void</code> 的函数中。返回 <code>void</code> 的函数可以省略 <code>return</code> 语句，因为在这类函数的最后一条语句后面会隐式地执行 <code>return</code>。</p>
+<p>通常情况下，如果 <code>void</code> 函数想在其中间位置提前退出，可以使用 <code>return</code> 语句，<code>return</code> 的这种用法有点类似于用 <code>break</code> 语句退出循环。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">void</span> swap <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">&amp;</span>vl <span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>v2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">// 如果两个值是相等的，则不需要交换，直接退出</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>v1 <span class="token operator">==</span> v2<span class="token punctuation">)</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token comment">// 如果程序执行到了这里，说明还需要继续完成某些功能</span>
+	<span class="token keyword">int</span> tmp <span class="token operator">=</span> v2<span class="token punctuation">;</span>
+	v2 <span class="token operator">=</span> v1<span class="token punctuation">;</span>
+	v1 <span class="token operator">=</span> tmp<span class="token punctuation">;</span>
+	<span class="token comment">// 此处无须显式的return语句</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>一个返回类型是 <code>void</code> 的函数也能使用 <code>return</code> 语句的第二种形式，不过此时 <code>return</code> 语句的 <em>expression</em> 必须是另一个返回 <code>void</code> 的函数，强行令 <code>void</code> 函数返回其他类型的表达式将产生编译错误。</p>
+<h4><a id="2_393"></a>2）有返回值函数</h4>
+<p><code>return</code> 语句的第二种形式提供了函数的结果。只要函数的返回类型不是 <code>void</code>，该函数内的每条 <code>return</code> 语句就必须返回一个值，并且返回值的类型必须与函数的返回类型相同，或者能隐式地转换成函数的返回类型（<code>main</code> 函数例外）。</p>
+<ul>
+<li><code>return</code> 语句没有返回值是错误的，编译器能检测到这个错误。</li>
+<li>在含有 <code>return</code> 语句的循环后面应该也有一条 <code>return</code> 语句，否则程序就是错误的，但很多编译器无法发现此错误。</li>
+</ul>
+<p>函数返回一个值的方式和初始化一个变量或形参的方式完全一样：返回的值用于初始化调用点的一个临时量，该临时量就是函数调用的结果。如果函数返回引用类型，则该引用仅仅是它所引用对象的一个别名。</p>
+<pre><code class="prism language-c"><span class="token comment">// 严重错误: 这个函数试图返回局部对象的引用</span>
+<span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token function">manip</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    string ret<span class="token punctuation">;</span>
+    <span class="token comment">// 以某种方式改变一下ret</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ret<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> ret<span class="token punctuation">;</span>   		<span class="token comment">// 错误：返回局部对象的引用!</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> <span class="token string">"Empty"</span><span class="token punctuation">;</span>		<span class="token comment">// 错误："Empty"是一个局部临时量</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>函数不应该返回局部对象的指针或引用，因为一旦函数完成，局部对象将被释放，指针将指向一个不存在的对象。</p>
+<hr>
+<p>如果函数返回指针、引用或类的对象，则可以使用函数调用的结果访问结果对象的成员。</p>
+<p>调用一个返回引用的函数会得到左值，其他返回类型得到右值。</p>
+<p>C++11规定，函数可以返回用花括号包围的值的列表。同其他返回类型一样，列表也用于初始化表示函数调用结果的临时量。如果列表为空，临时量执行值初始化；否则，返回的值由函数的返回类型决定。</p>
+<ul>
+<li>
+<p>如果函数返回内置类型，则列表内最多包含一个值，且该值所占空间不应该大于目标类型的空间。</p>
+</li>
+<li>
+<p>如果函数返回类类型，由类本身定义初始值如何使用。</p>
+<pre><code class="prism language-c">vector<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// . . .</span>
+    <span class="token comment">// expected和actual是string对象</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>expected<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>  								<span class="token comment">// 返回一个vector对象</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>expected <span class="token operator">==</span> actual<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"functionX"</span><span class="token punctuation">,</span> <span class="token string">"okay"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>  <span class="token comment">// 返回列表初始化的vector对象</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span><span class="token string">"functionX"</span><span class="token punctuation">,</span> expected<span class="token punctuation">,</span> actual<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+<p>如果函数的返回类型不是 <code>void</code>，那么它必须返回一个值，除了，<code>main</code> 函数可以没有 <code>return</code> 语句直接结束。如果控制流到达了 <code>main</code> 函数的结尾处并且没有<code>return</code>语句，编译器会隐式地插入一条返回0的 <code>return</code> 语句。</p>
+<p><code>main</code> 函数的返回值可以看作是状态指示器。返回0表示执行成功，返回其他值表示执行失败，其中非0值的具体含义依机器而定。</p>
+<p>为了使 <code>main</code> 函数的返回值与机器无关，头文件 <em>cstdlib</em> 定义了 <code>EXIT_SUCCESS</code> 和 <code>EXIT_FAILURE</code> 这两个预处理变量，分别表示执行成功和失败。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>some_failure<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> EXIT_FAILURE<span class="token punctuation">;</span> <span class="token comment">// 定义在cstdlib头文件中</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> EXIT_SUCCESS<span class="token punctuation">;</span> <span class="token comment">// 定义在cstdlib头文件中</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>建议</strong> 使用预处理变量 <code>EXIT_SUCCESS</code> 和 <code>EXIT_FAILURE</code> 表示 <code>main</code> 函数的执行结果。</p>
+<p>如果一个函数调用了它自身，不管这种调用是直接的还是间接的，都称该函数为 <strong>递归函数（recursive function）</strong>。</p>
+<pre><code class="prism language-c"><span class="token comment">// 计算val!,即1 * 2 * 3 . . . * val</span>
+<span class="token keyword">int</span> <span class="token function">factorial</span><span class="token punctuation">(</span><span class="token keyword">int</span> val<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>val <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token function">factorial</span><span class="token punctuation">(</span>val<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> val<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在递归函数中，一定有某条路径是不包含递归调用的，否则函数会一直递归下去，直到程序栈空间耗尽为止。</p>
+<p>相对于循环迭代，递归的效率较低，但在某些情况下使用递归可以增加代码的可读性。</p>
+<ul>
+<li>循环迭代适合处理线性问题（如链表，每个节点有唯一前驱、唯一后继），</li>
+<li>而递归适合处理非线性问题（如树，每个节点的前驱、后继不唯一）。</li>
+</ul>
+<p><code>main</code>函数不能调用它自身。</p>
+<h4><a id="3_481"></a>3）返回数组指针</h4>
+<p>因为数组不能被拷贝，所以函数不能返回数组，但可以返回数组的指针或引用。</p>
+<p>返回数组指针的函数形式如下：</p>
+<pre><code class="prism language-c">Type <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">function</span><span class="token punctuation">(</span>parameter_list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span>dimension<span class="token punctuation">]</span>    
+</code></pre>
+<p>其中 <em>Type</em> 表示元素类型，<em>dimension</em> 表示数组大小，<em>(*function (parameter_list))</em> 两端的括号必须存在，如果没有这对括号，函数的返回类型将是指针的数组。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// func(int i)表示调用func函数时需要一个int类型的实参</span>
+<span class="token comment">// (*func(int i))意味着可以对函数调用的结果执行解引用操作</span>
+<span class="token comment">// (*func(int i))[10]表示解引用func的调用将得到一个大小是10的数组</span>
+<span class="token comment">// int(*func(int i))[10]表示数组中的元素是int类型</span>
+</code></pre>
+<p>C++11允许使用 <strong>尾置返回类型（trailing return type）</strong> 简化复杂函数声明。尾置返回类型跟在形参列表后面，并以一个 <code>-&gt;</code> 符号开头。为了表示函数真正的返回类型在形参列表之后，需要在本应出现返回类型的地方添加 <code>auto</code> 关键字。</p>
+<pre><code class="prism language-c"><span class="token comment">// func接受一个int类型的实参，返回一个指针，该指针指向含有10个整数的数组</span>
+<span class="token keyword">auto</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>任何函数的定义都能使用尾置返回类型，但是这种形式更适用于返回类型比较复杂的函数。</p>
+<p>如果我们知道函数返回的指针将指向哪个数组，就可以使用 <code>decltype</code> 关键字声明返回类型。但 <code>decltype</code> 并不会把数组类型转换成指针类型，所以还要在函数声明中添加一个 <code>*</code> 符号。</p>
+<pre><code class="prism language-c"><span class="token keyword">int</span> odd<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> even<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment">// 返回一个指针，该指针指向含有5个整数的数组</span>
+<span class="token function">decltype</span><span class="token punctuation">(</span>odd<span class="token punctuation">)</span> <span class="token operator">*</span><span class="token function">arrPtr</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>i <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token operator">&amp;</span>odd <span class="token punctuation">:</span> <span class="token operator">&amp;</span>even<span class="token punctuation">;</span>  <span class="token comment">// 返回一个指向数组的指针</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2><a id="4_523"></a>4、函数重载</h2>
+<p>同一作用域内的几个名字相同但形参列表不同的函数叫做 <strong>重载函数</strong>。</p>
+<pre><code class="prism language-cpp"><span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>cp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>beg<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">void</span> print <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> ia<span class="token punctuation">[</span><span class="token punctuation">)</span><span class="token punctuation">,</span> size_t ze<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>函数的名字仅仅是让编译器知道它调用的是哪个函数，而函数重载可在一定程度上减轻程序员起名字、记名字的负担。</p>
+<blockquote>
+<p><code>main</code> 函数不能重载。</p>
+</blockquote>
+<p>不允许两个函数除了返回类型以外的其他所有要素都相同。</p>
+<pre><code class="prism language-cpp">Record <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">bool</span> <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span class="token comment">// 错误：与上一个函数相比只有返回类型不同</span>
+</code></pre>
+<p>顶层 <code>const</code> 不影响传入函数的对象，一个拥有顶层 <code>const</code> 的形参无法和另一个没有顶层 <code>const</code> 的形参区分开来。</p>
+<pre><code class="prism language-c">Record <span class="token function">lookup</span><span class="token punctuation">(</span>Phone<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Phone<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 重复声明了Record lookup(Phone)</span>
+
+Record <span class="token function">lookup</span><span class="token punctuation">(</span>Phone<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span>Phone<span class="token operator">*</span> <span class="token keyword">const</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 重复声明了Record lookup(Phone*)</span>
+</code></pre>
+<p>如果形参是某种类型的指针或引用，则通过区分其指向的对象是常量还是非常量可以实现函数重载，此时的<code>const</code>是底层的。</p>
+<pre><code class="prism language-c"><span class="token comment">// 对于接受引用或指针的函数来说，对象是常量还是非常量对应的形参不同</span>
+<span class="token comment">// 定义了4个独立的重载函数</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span>Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment">// 函数作用于Account的引用</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 新函数，作用于常量引用</span>
+
+Record <span class="token function">lookup</span><span class="token punctuation">(</span>Account<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment">// 新函数，作用于指向Account的指针</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Account<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 新函数，作用于指向常量的指针</span>
+</code></pre>
+<p>当我们传递给重载函数一个非常量对象或者指向非常量对象的指针时，编译器会优先选用非常量版本的函数。</p>
+<p><code>const_cast</code> 可以用于函数的重载。</p>
+<p>当函数的实参是常量时，返回的结果仍然是常量的引用。</p>
+<pre><code class="prism language-c"><span class="token comment">// 比较两个string对象的长度，返回较短的那个引用</span>
+<span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token function">shorterString</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span>s1<span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span>s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> s1<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;=</span> s2<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> s1 <span class="token punctuation">:</span> s2<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>当函数的实参不是常量时，将得到普通引用。</p>
+<pre><code class="prism language-cpp">string <span class="token operator">&amp;</span><span class="token function">shorterString</span><span class="token punctuation">(</span>string <span class="token operator">&amp;</span>s1<span class="token punctuation">,</span> string <span class="token operator">&amp;</span>s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">auto</span> <span class="token operator">&amp;</span>r <span class="token operator">=</span> <span class="token function">shorterString</span><span class="token punctuation">(</span><span class="token keyword">const_cast</span><span class="token operator">&lt;</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">const_cast</span><span class="token operator">&lt;</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">const_cast</span><span class="token operator">&lt;</span>string<span class="token operator">&amp;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>函数匹配（function matching）</strong> 也叫做 <strong>重载确定（overload resolution）</strong>，是指编译器将函数调用与一组重载函数中的某一个进行关联的过程。</p>
+<p>编译器首先将调用的实参与重载集合中每一个函数的形参进行比较，然后根据比较的结果决定到底调用是哪个函数。</p>
+<p>调用重载函数时有三种可能的结果：</p>
+<ul>
+<li>编译器找到一个与实参 <strong>最佳匹配（best match）</strong> 的函数，并生成调用该函数的代码。</li>
+<li>编译器找不到任何一个函数与实参匹配，发出 <strong>无匹配（no match）</strong> 的错误信息。</li>
+<li>有一个以上的函数与实参匹配，但每一个都不是明显的最佳选择，此时编译器发出 <strong>二义性调用（ambiguous call）</strong> 的错误信息。</li>
+</ul>
+<h4><a id="1_601"></a>1）重载与作用域</h4>
+<blockquote>
+<p>一般来说，将函数声明直 于局部作用域内不是一个明智的选择。</p>
+</blockquote>
+<p>在不同的作用域中无法重载函数名。一旦在当前作用域内找到了所需的名字，编译器就会忽略掉外层作用域中的同名实体。</p>
+<pre><code class="prism language-c">string <span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">double</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 重载print函数</span>
+<span class="token keyword">void</span> <span class="token function">fooBar</span><span class="token punctuation">(</span><span class="token keyword">int</span> ival<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    bool read <span class="token operator">=</span> false<span class="token punctuation">;</span>  <span class="token comment">// 新作用域：隐藏了外层的read</span>
+    string s <span class="token operator">=</span> <span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 错误：read是一个布尔值，而非函数</span>
+    <span class="token comment">// 不好的习惯:通常来说，在局部作用域中声明函数不是一个好的选择</span>
+    <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 新作用域：隐藏了之前的print</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Value: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 错误：print(const string &amp;)被隐藏掉了</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>ival<span class="token punctuation">)</span><span class="token punctuation">;</span>    	<span class="token comment">// 正确：当前print(int)可见</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token number">3.14</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    	<span class="token comment">// 正确：调用print(int); print(doub1e)被隐藏掉了</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>在C++中，名字查找发生在类型检查之前。</p>
+</blockquote>
+<h2><a id="5_624"></a>5、特殊用途语言特性</h2>
+<ul>
+<li>默认实参</li>
+<li>内联函数</li>
+<li><code>constexpr</code> 函数</li>
+</ul>
+<h4><a id="1_630"></a>1）默认实参</h4>
+<p><strong>默认实参</strong> 作为形参的初始值出现在形参列表中。可以为一个或多个形参定义默认值，不过一旦某个形参被赋予了默认值，它后面的所有形参都必须有默认值。</p>
+<pre><code class="prism language-c"><span class="token keyword">typedef</span> string<span class="token punctuation">:</span><span class="token punctuation">:</span>size_type sz<span class="token punctuation">;</span>
+string <span class="token function">screen</span><span class="token punctuation">(</span>sz ht <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">,</span> sz wid <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token keyword">char</span> backgrnd <span class="token operator">=</span> <span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>调用含有默认实参的函数时，可以包含该实参，也可以省略该实参。</p>
+<p>如果想使用默认实参，只要在调用函数的时候省略该实参即可。</p>
+<p>虽然多次声明同一个函数是合法的，但是在给定的作用域中一个形参只能被赋予一次默认实参。函数的后续声明只能为之前那些没有默认值的形参添加默认实参，而且该形参右侧的所有形参必须都有默认值。</p>
+<pre><code class="prism language-c"><span class="token comment">// 表示高度和宽度的形参没有默认位</span>
+string <span class="token function">screen</span><span class="token punctuation">(</span>sz<span class="token punctuation">,</span> sz<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">=</span> <span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+string <span class="token function">screen</span><span class="token punctuation">(</span>sz<span class="token punctuation">,</span> sz<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">=</span> <span class="token string">'*'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      <span class="token comment">// 错误：重复声明</span>
+string <span class="token function">screen</span><span class="token punctuation">(</span>sz <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">,</span> sz <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 正确：添加默认实参</span>
+</code></pre>
+<p>默认实参只能出现在函数声明和定义其中一处。通常应该在函数声明中指定默认实参，并将声明放在合适的头文件中。</p>
+<p>局部变量不能作为函数的默认实参。</p>
+<p>用作默认实参的名字在函数声明所在的作用域内解析，但名字的求值过程发生在函数调用时。</p>
+<pre><code class="prism language-c"><span class="token comment">// wd、def和ht的声明必须出现在函数之外</span>
+sz wd <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> def <span class="token operator">=</span> <span class="token string">' '</span><span class="token punctuation">;</span>
+sz <span class="token function">ht</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+string <span class="token function">screen</span><span class="token punctuation">(</span>sz <span class="token operator">=</span> <span class="token function">ht</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> sz <span class="token operator">=</span> wd<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">=</span> def<span class="token punctuation">)</span><span class="token punctuation">;</span>
+string window <span class="token operator">=</span> <span class="token function">screen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 调用screen(ht(), 80,' ')</span>
+
+<span class="token keyword">void</span> <span class="token function">f2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    def <span class="token operator">=</span> <span class="token string">'*'</span><span class="token punctuation">;</span>      <span class="token comment">// 改变默认实参的值</span>
+    sz wd <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>    <span class="token comment">// 隐藏了外层定义的wd，但是没有改变默认值</span>
+    window <span class="token operator">=</span> <span class="token function">screen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 调用screen(ht(), 80, '*')</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="2constexpr_675"></a>2）内联函数和constexpr函数</h4>
+<p>内联函数会在每个调用点上“内联地”展开，省去函数调用所需的一系列工作。</p>
+<p>定义内联函数时需要在函数的返回类型前添加关键字 <code>inline</code>。</p>
+<pre><code class="prism language-c"><span class="token comment">// 内联版本：寻找两个string对象中较短的那个</span>
+<span class="token keyword">inline</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span>
+<span class="token function">shorterString</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span>s1<span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span>s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> s1<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;=</span> s2<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> s1 <span class="token punctuation">:</span> s2<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在函数声明和定义中都能使用关键字 <code>inline</code>，但是建议只在函数定义时使用。</p>
+<p>一般来说，内联机制适用于优化规模较小、流程直接、调用频繁的函数。内联函数中不允许有循环语句和 <code>switch</code> 语句，否则函数会被编译为普通函数。</p>
+<hr>
+<p><code>constexpr</code> 函数是指能用于常量表达式的函数。<code>constexpr</code> 函数的返回类型及所有形参的类型都得是字面值类型。</p>
+<p>另外C++11标准要求 <code>constexpr</code> 函数体中必须有且只有一条 <code>return</code> 语句，但是此限制在C++14标准中被删除。</p>
+<p><code>constexpr</code> 函数的返回值可以不是一个常量。</p>
+<pre><code class="prism language-c"><span class="token comment">// 如果arg是常量表达式，则scale(arg)也是常量表达式</span>
+constexpr size_t <span class="token function">scale</span><span class="token punctuation">(</span>size_t cnt<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span> 
+    <span class="token keyword">return</span> <span class="token function">new_sz</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> cnt<span class="token punctuation">;</span> 
+<span class="token punctuation">}</span>
+</code></pre>
+<p>当 <code>scale</code> 的实参是常量表达式时，它的返回值也是常量表达式；反之则不然：</p>
+<pre><code class="prism language-cpp"><span class="token keyword">int</span> arr<span class="token punctuation">[</span><span class="token function">scale</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  <span class="token comment">// 正确：scale(2)是常量表达式</span>
+<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>          <span class="token comment">// i不是常量表达式</span>
+<span class="token keyword">int</span> a2<span class="token punctuation">[</span><span class="token function">scale</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>   <span class="token comment">// 错误：scale(i)不是常量表达式</span>
+</code></pre>
+<p><code>constexpr</code> 函数不一定返回常量表达式。</p>
+<p>和其他函数不同，内联函数和 <code>constexpr</code> 函数可以在程序中多次定义。因为在编译过程中，编译器需要函数的定义来随时展开函数，仅有函数的声明是不够的。对于某个给定的内联函数或 <code>constexpr</code> 函数，它的多个定义必须完全一致。因此内联函数和 <code>constexpr</code> 函数通常定义在头文件中。</p>
+<h4><a id="3_722"></a>3）调试帮助</h4>
+<h5><a id="1_assert__723"></a>1_assert 预处理宏</h5>
+<p><code>assert</code> 是一种预处理宏。所谓预处理宏其实是一个预处理变量，它的行为有点类似于内联函数。</p>
+<pre><code class="prism language-cpp">assert <span class="token punctuation">(</span>expr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>首先对 <code>expr</code> 求值，如果表达式为假(即0)，<code>assert</code> 输出信息并终止程序的执行；如果<br>
+表达式为真(即非0)，<code>assert</code>什么也不做。</p>
+<h5><a id="2_NDE8UG__734"></a>2_NDE8UG 预处理变量</h5>
+<p><code>assert</code> 的行为依赖于于一个名为 <code>NDEBUG</code> 的预处理变量的状态。</p>
+<ul>
+<li>如果定义了 <code>NDEBUG</code>，则 <code>assert</code> 什么也不做；</li>
+<li>默认状态下没有定义 <code>NDEBUG</code>，此时 <code>assert</code> 将执行运行时检查。</li>
+</ul>
+<p>可以使用 <code>#define</code> 语句定义 <code>NDEBUG</code>，从而关闭调试状态。</p>
+<p>常用的几个对于程序调试很有用的名字：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">变量名称</th>
+<th align="center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><code>__func__</code></td>
+<td align="center">输出当前调试的函数的名称</td>
+</tr>
+<tr>
+<td align="center"><code>__FILE__</code></td>
+<td align="center">存放文件名的字符串字面值</td>
+</tr>
+<tr>
+<td align="center"><code>__LINE__</code></td>
+<td align="center">存放当前行号的整型字面值</td>
+</tr>
+<tr>
+<td align="center"><code>__TIME__</code></td>
+<td align="center">存放文件编译时间的字符串字面值</td>
+</tr>
+<tr>
+<td align="center"><code>__DATE__</code></td>
+<td align="center">存放文件编译日期的字符串字面值</td>
+</tr>
+</tbody>
+</table><h2><a id="6_751"></a>6、函数匹配</h2>
+<p>函数实参类型与形参类型越接近，它们匹配得越好。</p>
+<p>重载函数集中的函数称为 <strong>候选函数（candidate function）</strong>：</p>
+<ul>
+<li>一是与被调用的函数同名；</li>
+<li>二是其声明在调用点可见。</li>
+</ul>
+<p><strong>可行函数（viable function）</strong>：</p>
+<ul>
+<li>一是形参数量与函数调用所提供的实参数量相等；</li>
+<li>二是每个实参的类型与对应的形参类型相同，或者能转换成形参的类型。</li>
+</ul>
+<p>如果没找到可行函数，编译器讲报告无匹配函数的错误。</p>
+<p>调用重载函数时应该尽量避免强制类型转换。</p>
+<h4><a id="1_767"></a>1）实参类型转换</h4>
+<p>为了确定最佳匹配，编译器将~参类型到形参类型的转换戈 分成儿个等级 具体卡11<br>
+如下所示：</p>
+<ol>
+<li>精确匹配 包括以下情况：
+<ul>
+<li>实参类型和形参类型相同</li>
+<li>实参从数组类型或函数类型转换成对应的指针类型</li>
+<li>向实参添加顶层 <code>const</code> 或者从实参中删除顶层 <code>const</code></li>
+</ul>
+</li>
+<li>通过 <code>const</code> 转换实现的匹配</li>
+<li>通过类型提升实现的匹配</li>
+<li>通过算术类型转换或指针转换实现的匹配</li>
+<li>通过类类型转换实现的匹配</li>
+</ol>
+<p>所有算术类型转换的级别都一样。</p>
+<p>如果重载函数的区别在于它们的引用或指针类型的形参是否含有底层 <code>const</code>，或者指针类型是否指向 <code>const</code>，则调用发生时编译器通过实参是否是常量来决定函数的版本。</p>
+<pre><code class="prism language-c">Record <span class="token function">lookup</span><span class="token punctuation">(</span>Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    	<span class="token comment">// 函数的参数是Account的引用</span>
+Record <span class="token function">lookup</span><span class="token punctuation">(</span><span class="token keyword">const</span> Account<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 函数的参数是一个常量引用</span>
+<span class="token keyword">const</span> Account a<span class="token punctuation">;</span>
+Account b<span class="token punctuation">;</span>
+<span class="token function">lookup</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>  					<span class="token comment">// 调用lookup(const Account&amp;)</span>
+<span class="token function">lookup</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>  					<span class="token comment">// 调用lookup(Account&amp;)</span>
+</code></pre>
+<h2><a id="7_793"></a>7、函数指针</h2>
+<p>要想声明一个可以指向某种函数的指针，只需要用指针替换函数名称即可。</p>
+<pre><code class="prism language-c"><span class="token comment">// 比较两个string对象的长度</span>
+bool <span class="token function">lengthCompare</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// pf指向一个函数，该函数的参数是两个const string的引用，返回值是bool类型</span>
+bool <span class="token punctuation">(</span><span class="token operator">*</span>pf<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// uninitialized</span>
+</code></pre>
+<blockquote>
+<p><code>*pf</code> 两端的括号必不可少！！！如果不写这对括号，则 <code>pf</code> 是一个返回值为 <code>bool</code> 指针的函数：</p>
+<pre><code class="prism language-cpp"><span class="token comment">// 声明一个名为pf的函数，该函数返回bool*</span>
+<span class="token keyword">bool</span> <span class="token operator">*</span><span class="token function">pf</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</blockquote>
+<p>可以直接使用指向函数的指针来调用函数，无须提前解引用指针。</p>
+<pre><code class="prism language-c">pf <span class="token operator">=</span> lengthCompare<span class="token punctuation">;</span> <span class="token comment">// pf指向名为lengthCompare的函数</span>
+pf <span class="token operator">=</span> <span class="token operator">&amp;</span>lengthCompare<span class="token punctuation">;</span> <span class="token comment">// 等价的赋位语句:取地址符是可选的</span>
+
+bool b1 <span class="token operator">=</span> <span class="token function">pf</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"goodbye"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>       		<span class="token comment">// 调用lengthCompare函数</span>
+bool b2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>pf<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"goodbye"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    		<span class="token comment">// 一个等价的调用</span>
+bool b3 <span class="token operator">=</span> <span class="token function">lengthCompare</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"goodbye"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 另一个等价的调用</span>
+</code></pre>
+<p>对于重载函数，上下文必须清晰地界定到底应该选用了哪个函数，编译器通过指针类型决定函数版本，指针类型必须与重载函数中的某一个精确匹配。</p>
+<pre><code class="prism language-c"><span class="token keyword">void</span> <span class="token function">ff</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">ff</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>pf1<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token operator">=</span> ff<span class="token punctuation">;</span> <span class="token comment">// pf1指向ff(unsigned)</span>
+
+<span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>pf2<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span> <span class="token operator">=</span> ff<span class="token punctuation">;</span> 		<span class="token comment">// 错误：没有任何一个ff与该形参列表匹配</span>
+<span class="token keyword">double</span> <span class="token punctuation">(</span><span class="token operator">*</span>pf3<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">=</span> ff<span class="token punctuation">;</span> 	<span class="token comment">// 错误：ff和pf3的返回类型不匹配</span>
+</code></pre>
+<p>可以把函数的形参定义成指向函数的指针。调用时允许直接把函数名当作实参使用，它会自动转换成指针。</p>
+<pre><code class="prism language-c"><span class="token comment">// 第三个形参是函数类型，它会自动地转换成指向函数的指针</span>
+<span class="token keyword">void</span> <span class="token function">useBigger</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span>s1<span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span>s2<span class="token punctuation">,</span> bool <span class="token function">pf</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 等价的声明：显式地将形参定义成指向函数的指针</span>
+<span class="token keyword">void</span> <span class="token function">useBigger</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span>s1<span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span>s2<span class="token punctuation">,</span> bool <span class="token punctuation">(</span><span class="token operator">*</span>pf<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> string <span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 自动将函数lengthCompare转换成指向该函数的指针</span>
+<span class="token function">useBigger</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s2<span class="token punctuation">,</span> lengthCompare<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>关键字 <code>decltype</code> 作用于函数时，返回的是函数类型，而不是函数指针类型。</p>
+<p>函数可以返回指向函数的指针。但返回类型不会像函数类型的形参一样自动地转换成指针，必须显式地将其指定为指针类型，即加上 <code>*</code>。</p>
+<h2><a id="_848"></a>参考文章</h2>
+<ul>
+<li>《C++ Primer》</li>
+</ul>
+</div>
+</body>
+
+</html>
