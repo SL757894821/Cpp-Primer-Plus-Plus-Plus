@@ -2,3 +2,4 @@
 - [《C++ Primer》习题参考答案：第4章 - 优先级和关系运算符](https://tefuirnever.blog.csdn.net/article/details/103007520)
 - [《C++ Primer》习题参考答案：第5章 - 循环、分支、跳转和异常处理语句](https://tefuirnever.blog.csdn.net/article/details/103671585)
 - [《C++ Primer》习题参考答案：第6章 - C++模块设计——函数](https://blog.csdn.net/TeFuirnever/article/details/103671594)
+- [《C++ Primer》习题参考答案：第7章 - 对象和类](https://blog.csdn.net/TeFuirnever/article/details/103671604)
