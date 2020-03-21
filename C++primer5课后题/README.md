@@ -3,3 +3,4 @@
 - [《C++ Primer》习题参考答案：第5章 - 循环、分支、跳转和异常处理语句](https://tefuirnever.blog.csdn.net/article/details/103671585)
 - [《C++ Primer》习题参考答案：第6章 - C++模块设计——函数](https://blog.csdn.net/TeFuirnever/article/details/103671594)
 - [《C++ Primer》习题参考答案：第7章 - 对象和类](https://blog.csdn.net/TeFuirnever/article/details/103671604)
+- [《C++ Primer》习题参考答案：第8章 - 标准 IO 库](https://blog.csdn.net/TeFuirnever/article/details/103731619)
